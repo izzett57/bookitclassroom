@@ -135,6 +135,45 @@ button p {
     color: #fff;
 }
 
+.custom-btn-noanim {
+    border-radius: 36px;
+    background-color: #DA7422;
+    color: #fff;
+    height: 50px;
+}
+
+.custom-btn-noanim:hover {
+    background-color: rgba(218, 116, 34, 0.9);
+    color: #fff;
+    transition: 0.5s;
+}
+
+.custom-btn-noanim:hover:after {
+    transition: 0.5s;
+}
+
+.custom-btn-noanim:active:focus {
+    background-color: rgba(218, 116, 34, 0.8);
+    color: #fff;
+}
+
+.custom-btn-inline {
+    color: #DA7422;
+}
+
+.custom-btn-inline:hover {
+    color: rgba(218, 116, 34, 0.9);
+    transition: 0.5s;
+}
+
+.custom-btn-inline:hover:after {
+    transition: 0.5s;
+}
+
+.custom-btn-inline:active:focus {
+    color: rgba(218, 116, 34, 0.8);
+}
+
 .form-control::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
     color: #272937;
     opacity: 0.35; /* Firefox */
