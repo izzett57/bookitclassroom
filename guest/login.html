@@ -194,8 +194,8 @@
 
         <!-- Main content start -->
         <div class="container bg-white rounded-3 vh-100 d-flex flex-column justify-content-center">
-            <div class="row">
-                <div class="col d-flex flex-column align-items-center justify-content-center">
+            <div class="row align-items-center justify-content-evenly">
+                <div class="col-auto d-flex align-items-center justify-content-center">
                     <!-- Text start -->
                     <div>
                         <div class="heading1"><p>Sign In</p></div>
@@ -203,26 +203,19 @@
                     </div>
                     <!-- Text end -->
                 </div>
-                <div class="col d-flex flex-column align-items-center justify-content-center">
-                    <!-- View map button start -->
-                    <button type="button" class="btn custom-btn btn-lg d-flex align-items-center justify-content-between mb-3" style="border-radius: 36px;">
-                        <p class="dongle-regular mt-2" style="font-size: 3rem; flex-grow: 1;">View Map</p>
-                        <span class="bg-light d-flex rounded-5 align-items-center justify-content-center" style="font-size: 1.5rem;">
-                            <i class="bi bi-pin-map-fill primary"></i>
-                        </span>
-                    </button>
+                <div class="col-auto d-flex flex-column align-items-center justify-content-center">
+                    <!-- Sign in form start -->
                     <form>
-                        <input type="email" placeholder="Email">
+                        <div>
+                            <label class="form-label inter-regular" for="email" style="letter-spacing: 4px; color: #272937;">EMAIL</label><br>
+                            <input class="form-control" id="email"  type="email" placeholder="Email"><br>
+                        </div>
+                        <div>
+                            <label class="form-label inter-regular" for="password" style="letter-spacing: 4px; color: #272937">PASSWORD</label><br>
+                            <input class="form-control" id="password" type="password" placeholder="Password">
+                        </div>
                     </form>
-                    <!-- View map button end -->
-                    <!-- Login button start -->
-                    <button type="button" class="btn custom-btn btn-lg d-flex align-items-center justify-content-between" style="border-radius: 36px;">
-                        <p class="dongle-regular mt-2" style="font-size: 3rem; flex-grow: 1;">Login</p>
-                        <span class="bg-light d-flex rounded-5 align-items-center justify-content-center" style="font-size: 1.5rem;">
-                            <i class="bi bi-box-arrow-in-right primary"></i>
-                        </span>
-                    </button>
-                    <!-- Login button end -->
+                    <!-- Sign in form end -->
                 </div>
             </div>
         </div>
