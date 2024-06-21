@@ -148,6 +148,11 @@
                 color: #fff;
             }
 
+            .form-control::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+                color: #272937;
+                opacity: 0.35; /* Firefox */
+            }
+
         </style>        
 
         <title>BookItClassroom</title>
@@ -194,28 +199,59 @@
 
         <!-- Main content start -->
         <div class="container bg-white rounded-3 vh-100 d-flex flex-column justify-content-center">
-            <div class="row align-items-center justify-content-evenly">
-                <div class="col-auto d-flex align-items-center justify-content-center">
+            <div class="row justify-content-evenly">
+                <div class="col d-flex justify-content-center align-items-center">
                     <!-- Text start -->
                     <div>
+                        <!-- Heading -->
                         <div class="heading1"><p>Sign In</p></div>
+                        <!-- Subheading -->
                         <div class="subheading1"><p>Please enter your credentials.</p></div>
                     </div>
                     <!-- Text end -->
                 </div>
-                <div class="col-auto d-flex flex-column align-items-center justify-content-center">
+                <div class="col d-flex flex-column">
+                    <div class="container w-75">
                     <!-- Sign in form start -->
-                    <form>
-                        <div>
-                            <label class="form-label inter-regular" for="email" style="letter-spacing: 4px; color: #272937;">EMAIL</label><br>
-                            <input class="form-control" id="email"  type="email" placeholder="Email"><br>
-                        </div>
-                        <div>
-                            <label class="form-label inter-regular" for="password" style="letter-spacing: 4px; color: #272937">PASSWORD</label><br>
-                            <input class="form-control" id="password" type="password" placeholder="Password">
-                        </div>
-                    </form>
-                    <!-- Sign in form end -->
+                        <form class="row">
+                            <!-- Email input start -->
+                            <div>
+                                <label class="form-label inter-regular pt-2" for="email" style="letter-spacing: 4px; color: #272937;">EMAIL</label><br>
+                                <input class="form-control" id="email"  type="email" placeholder="email"><br>
+                            </div>
+                            <!-- Email input end -->
+                            <!-- Password input start -->
+                            <div>
+                                <label class="form-label inter-regular" for="password" style="letter-spacing: 4px; color: #272937;">PASSWORD</label><br>
+                                <input class="form-control" id="password" type="password" placeholder="password">
+                            </div>
+                            <!-- Password input end -->
+                            <!-- Forgot password start -->
+                            <div class="pt-1">
+                            <a href="#" class="inter-regular" style="text-decoration: none; font-size: 0.9rem; color: rgba(218, 116, 34, 0.75);">Forgot your password?</a>
+                            </div>
+                            <!-- Forgot password end -->
+                        </form>
+                    <!-- Sign in form end --> 
+                    <div class="row">
+                    <!-- Spacing start -->
+                    <div class="col">
+                    </div>
+                    <!-- Spacing end -->
+                    <!-- Buttons start -->
+                    <div class="col d-flex justify-content-end align-items-center">
+                        <!-- Register button start -->
+                        <a href="#" class="dongle-regular me-3 mt-2 primary" style="text-decoration: none; font-size: 2rem">register</a>
+                        <!-- Register button end -->
+                        <!-- Login button start -->
+                        <button type="button" class="btn btn-lg d-flex align-items-center justify-content-between" style="border-radius: 36px; background-color: #DA7422; color: #fff; height: 50px;">
+                            <p class="dongle-regular mt-2" style="font-size: 3rem; flex-grow: 1;">Login</p>
+                        </button>
+                        <!-- Login button end -->
+                    </div>
+                    <!-- Buttons end -->
+                    </div>
+                    </div>
                 </div>
             </div>
         </div>
