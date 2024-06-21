@@ -139,30 +139,6 @@ button p {
     color: #fff;
 }
 
-.custom-btn-home {
-    width:300px;
-    border-radius: 36px;
-    background-color: #DA7422;
-    color: #fff;
-    transition: 0.5s;
-}
-
-.custom-btn-home:hover {
-    background-color: rgba(218, 116, 34, 0.9);
-    color: #fff;
-    width: 310px;
-    transition: 0.5s;
-}
-
-.custom-btn-home:hover:after {
-    transition: 0.5s;
-}
-
-.custom-btn-home:active:focus {
-    background-color: rgba(218, 116, 34, 0.8);
-    color: #fff;
-}
-
 .custom-btn-noanim {
     border-radius: 36px;
     background-color: #DA7422;
