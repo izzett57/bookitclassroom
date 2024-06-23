@@ -1,14 +1,22 @@
 <?php
 session_start();
 
-if ($_SERVER['REQUEST_METHOD'] == "POST") {
-    $_SESSION['Fname'] = $_POST['Fname'];
-	$_SESSION['Lname'] = $_POST['Lname'];
-    header("Location: registration-email.php");
-    die;
+if (isset($_POST['next'])) {
+    // Create new session variable any put inside key and values from POST array
+    foreach ($_POST as $key => $value) {
+        $_SESSION['INFO'][$key] = $value;
+}
+
+    $keys = array_keys($_SESSION['INFO']);
+
+    if (in_array('next', $keys)) {
+        unset($_SESSION['INFO']['next']);
+    }
+
+    // redirect to registration-email.php
+    header('Location: registration-email.php');
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -66,7 +74,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
             </div>
         </nav>
         <!-- Nav bar end -->
-
+        <form action="registration-password.php" method="POST">
         <!-- Main content start -->
         <div class="container main-content bg-white rounded-3 d-flex flex-column justify-content-center">
             <div class="row justify-content-evenly">
@@ -86,17 +94,16 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                         <form class="row">
                             <!-- First name input start -->
                             <div class="col">
-                                <label class="form-label inter-regular" for="firstName" style="letter-spacing: 4px; color: #272937;">FIRST NAME</label><br>
-                                <input class="form-control" id="Fname"  type="text" placeholder="first name"><br>
+                                <label class="form-label inter-regular" for="" style="letter-spacing: 4px; color: #272937;">FIRST NAME</label><br>
+                                <input class="form-control" type="text" name="fname"><br>
                             </div>
                             <!-- First name input end -->
                             <!-- Last name input start -->
                             <div class="col">
-                                <label class="form-label inter-regular" for="lastName" style="letter-spacing: 4px; color: #272937;">LAST NAME</label><br>
-                                <input class="form-control" id="Lname" type="text" placeholder="last name">
+                                <label class="form-label inter-regular" for="" style="letter-spacing: 4px; color: #272937;">LAST NAME</label><br>
+                                <input class="form-control" type="text" name="lname"><br>
                             </div>
                             <!-- Last name input end -->
-                        </form>
                     <!-- Register name form end --> 
                     <div class="row pt-4">
                     <!-- Spacing start -->
@@ -109,9 +116,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                         <a class="dongle-regular custom-btn-inline me-3 mt-2 primary" href="login.php" style="text-decoration: none; font-size: 2rem">back</a>
                         <!-- Back button end -->
                         <!-- Next button start -->
-                        <button type="button" class="btn btn-lg custom-btn-noanim d-flex align-items-center justify-content-between">
+                        <input type="submit" class="btn btn-lg custom-btn-noanim d-flex align-items-center justify-content-between">
                             <p class="dongle-regular mt-2" style="font-size: 3rem; flex-grow: 1;"><a href="registration-email.php" style="text-decoration: none; color:#fff;">Next</a></p>
-                        </button>
                         <!-- Next button end -->
                     </div>
                     <!-- Buttons end -->
@@ -121,7 +127,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
             </div>
         </div>
         <!-- Main content end -->
-
+</form>
         <!-- Footer -->
         <footer class="bg-white pt-4 pb-2 mt-5">
             <div class="container-fluid ps-4">

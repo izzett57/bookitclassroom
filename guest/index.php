@@ -46,8 +46,8 @@ session_start();
                         </button>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end p-2">
-                      <li><a class="dropdown-item inter-regular" href="register-name.php">Register</a></li>
-                      <li><a class="dropdown-item inter-regular" href="signin.php">Sign In</a></li>
+                      <li><a class="dropdown-item inter-regular" href="registration-name.php">Register</a></li>
+                      <li><a class="dropdown-item inter-regular" href="login.php">Sign In</a></li>
                     </ul>
                 </li>
                 <!-- Profile button end -->
@@ -79,7 +79,7 @@ session_start();
                     <!-- View map button end -->
                     <!-- Login button -->
                     <button type="button" class="btn custom-btn btn-lg d-flex align-items-center justify-content-between" style="border-radius: 36px;">
-                        <p class="dongle-regular mt-2" style="font-size: 3rem; flex-grow: 1;">Login</p>
+                        <p class="dongle-regular mt-2" style="font-size: 3rem; flex-grow: 1;"><a href="login.php" style="text-decoration: none; color:#fff;">Login</p>
                         <span class="bg-light d-flex rounded-5 align-items-center justify-content-center" style="font-size: 1.5rem;">
                             <i class="bi bi-box-arrow-in-right primary"></i>
                         </span>

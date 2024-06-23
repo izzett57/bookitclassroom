@@ -1,16 +1,23 @@
 <?php
 session_start();
+echo "<pre>";
+print_r($_SESSION);
+echo "</pre>";
+echo "<pre>POST Data:";
+print_r($_POST);
+echo "</pre>";
+
+echo "<pre>Session Data:";
+print_r($_SESSION);
+echo "</pre>";
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $_SESSION['password'] = $_POST['password'];
     $_SESSION['confirm_password'] = $_POST['confirm_password'];
-    
-    // Redirect to the final registration handler
     header("Location: registration-complete.php");
     die;
 }
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -69,7 +76,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
             </div>
         </nav>
         <!-- Nav bar end -->
-
+        <form action="registration-password.php" method="POST">
         <!-- Main content start -->
         <div class="container main-content bg-white rounded-3 d-flex flex-column justify-content-center">
             <div class="row justify-content-evenly">
@@ -112,8 +119,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                         <a class="dongle-regular custom-btn-inline me-3 mt-2 primary" href="registration-email.php" style="text-decoration: none; font-size: 2rem">back</a>
                         <!-- Back button end -->
                         <!-- Next button start -->
-                        <button type="button" class="btn btn-lg custom-btn-noanim d-flex align-items-center justify-content-between">
-                            <p class="dongle-regular mt-2" style="font-size: 3rem; flex-grow: 1;"><form method="POST" action="registration-complete.php"><a href="registration-complete.php" style="text-decoration: none; color:#fff;">Next</a></p>
+                        <button type="submit" class="btn btn-lg custom-btn-noanim d-flex align-items-center justify-content-between">
+                            <p class="dongle-regular mt-2" style="font-size: 3rem; flex-grow: 1;">Next</p>
                         </button>
                         <!-- Next button end -->
                     </div>
@@ -124,7 +131,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
             </div>
         </div>
         <!-- Main content end -->
-
+</form>
         <!-- Footer -->
         <footer class="bg-white pt-4 pb-2 mt-5">
             <div class="container-fluid ps-4">

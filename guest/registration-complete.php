@@ -4,24 +4,18 @@ include("connection.php");
 include("functions.php");
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
-    // Retrieve data from session
-    $FName = $_SESSION['FName'];
-    $LName = $_SESSION['LName'];
-    $email = $_SESSION['email'];
-    $password = $_SESSION['password'];
-    $confirm_password = $_SESSION['confirm_password'];
+    $FName = isset($_SESSION['FName']) ? $_SESSION['FName'] : null;
+    $LName = isset($_SESSION['LName']) ? $_SESSION['LName'] : null;
+    $email = isset($_SESSION['email']) ? $_SESSION['email'] : null;
+    $password = isset($_SESSION['password']) ? $_SESSION['password'] : null;
+    $confirm_password = isset($_SESSION['confirm_password']) ? $_SESSION['confirm_password'] : null;
 
-    // Validate data
-    if (!empty($user_name) && !empty($email) && !empty($password) && !empty($confirm_password) && $password === $confirm_password) {
-        // Hash the password
+    if (!empty($FName) && !empty($LName) && !empty($email) && !empty($password) && !empty($confirm_password) && $password === $confirm_password) {
         $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-
-        // Insert into the database using prepared statements
-        $query = "INSERT INTO users (user_name, email, password) VALUES (?, ?, ?)";
+        $query = "INSERT INTO users (FName, LName, email, password) VALUES (?, ?, ?, ?)";
         if ($stmt = $con->prepare($query)) {
-            $stmt->bind_param("sss", $user_name, $email, $hashed_password);
+            $stmt->bind_param("ssss", $FName, $LName, $email, $hashed_password);
             if ($stmt->execute()) {
-                // Registration successful, redirect to login page
                 header("Location: login.php");
                 die;
             } else {
@@ -84,8 +78,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                         </button>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end p-2">
-                      <li><a class="dropdown-item inter-regular" href="#">Register</a></li>
-                      <li><a class="dropdown-item inter-regular" href="#">Sign In</a></li>
+                      <li><a class="dropdown-item inter-regular" href="registration-name.php">Register</a></li>
+                      <li><a class="dropdown-item inter-regular" href="login.php">Sign In</a></li>
                     </ul>
                 </li>
                 <!-- Profile button end -->

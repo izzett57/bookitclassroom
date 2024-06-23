@@ -1,10 +1,20 @@
 <?php
 session_start();
 
-if ($_SERVER['REQUEST_METHOD'] == "POST") {
-    $_SESSION['email'] = $_POST['email'];
-    header("Location: registration-password.php");
-    die;
+if (isset($_POST['next'])) {
+    // Create new session variable any put inside key and values from POST array
+    foreach ($_POST as $key => $value) {
+        $_SESSION['INFO'][$key] = $value;
+}
+
+    $keys = array_keys($_SESSION['INFO']);
+
+    if (in_array('next', $keys)) {
+        unset($_SESSION['INFO']['next']);
+    }
+
+    // redirect to registration-password.php
+    header('Location: registration-password.php');
 }
 ?>
 
@@ -66,7 +76,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
             </div>
         </nav>
         <!-- Nav bar end -->
-
+        <form action="registration-password.php" method="POST">
         <!-- Main content start -->
         <div class="container main-content bg-white rounded-3 d-flex flex-column justify-content-center">
             <div class="row justify-content-evenly">
@@ -86,8 +96,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                         <form class="row">
                             <!-- Email input start -->
                             <div class="col">
-                                <label class="form-label inter-regular" for="email" style="letter-spacing: 4px; color: #272937;">EMAIL</label><br>
-                                <input class="form-control" id="email"  type="text" placeholder="email"><br>
+                                <label class="form-label inter-regular" for="" style="letter-spacing: 4px; color: #272937;">EMAIL</label><br>
+                                <input class="form-control"  type="text" name="email"><br>
                             </div>
                             <!-- Email input end -->
                         </form>
@@ -103,7 +113,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                         <a class="dongle-regular custom-btn-inline me-3 mt-2 primary" href="registration-name.php" style="text-decoration: none; font-size: 2rem">back</a>
                         <!-- Back button end -->
                         <!-- Next button start -->
-                        <button type="button" class="btn btn-lg custom-btn-noanim d-flex align-items-center justify-content-between">
+                        <button type="submit" class="btn btn-lg custom-btn-noanim d-flex align-items-center justify-content-between">
                             <p class="dongle-regular mt-2" style="font-size: 3rem; flex-grow: 1;"><a href="registration-password.php" style="text-decoration: none; color:#fff;">Next</a></p>
                         </button>
                         <!-- Next button end -->
@@ -115,7 +125,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
             </div>
         </div>
         <!-- Main content end -->
-
+</form>
         <!-- Footer -->
         <footer class="bg-white pt-4 pb-2 mt-5">
             <div class="container-fluid ps-4">
