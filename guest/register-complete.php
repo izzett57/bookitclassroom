@@ -1,3 +1,26 @@
+<?php
+    session_start();
+
+    if (isset($_SESSION['INFO'])) {
+        extract($_SESSION['INFO']);
+
+        $conn = mysqli_connect('localhost', 'root', '', 'bookitclassroom');
+
+        $sql = mysqli_query($conn, "INSERT INTO users (FName, LName, email, password) VALUES ('$fname','$lname','$email', '$password')");
+
+        if ($sql) {
+            unset($_SESSION['INFO']);
+
+            echo 'Data has been saved successfully!';
+
+            echo '<a href="login.php">Go back</a>';
+        }else{
+            echo mysqli_error($conn);
+        }
+    }
+    ?>
+
+
 <!DOCTYPE html>
 <html lang="en">
     <head>

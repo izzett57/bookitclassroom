@@ -1,3 +1,25 @@
+<?php
+
+session_start();
+
+if (isset($_POST['next'])) {
+    foreach ($_POST as $key => $value) 
+    {
+        $_SESSION['INFO'][$key] = $value;
+    }
+
+
+$keys = array_keys($_SESSION['INFO']);
+
+if (in_array('next', $keys)) {
+    unset($_SESSION['INFO']['next']);
+}
+
+header('Location: register-email.php');
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -73,17 +95,19 @@
                 <div class="col d-flex flex-column">
                     <div class="container w-75">
                         <!-- Register name form start -->
-                        <form class="row">
+                        <form class="row" action="" method="POST">
                             <!-- First name input start -->
                             <div class="col">
                                 <label class="form-label inter-regular" for="firstName" style="letter-spacing: 4px; color: #272937;">FIRST NAME</label><br>
-                                <input class="form-control" id="firstName"  type="text" placeholder="first name"><br>
+                                <input class="form-control" type="text" name="fname" value="<?= isset($SESSION['INFO']['fname'])
+            ? $_SESSION['INFO']['fname'] : '' ?>"><br>
                             </div>
                             <!-- First name input end -->
                             <!-- Last name input start -->
                             <div class="col">
                                 <label class="form-label inter-regular" for="lastName" style="letter-spacing: 4px; color: #272937;">LAST NAME</label><br>
-                                <input class="form-control" id="lastName" type="text" placeholder="last name">
+                                <input class="form-control" type="text" name="lname" value="<?= isset($SESSION['INFO']['lname'])
+            ? $_SESSION['INFO']['lname'] : '' ?>"><br>
                             </div>
                             <!-- Last name input end -->
                             <div class="row pt-4">
@@ -97,7 +121,7 @@
                                     <a onclick="history.back()" class="dongle-regular custom-btn-inline me-3 mt-2 primary" href="#" style="text-decoration: none; font-size: 2rem">back</a>
                                     <!-- Back button end -->
                                     <!-- Next button start -->
-                                    <button type="submit" class="btn btn-lg custom-btn-noanim d-flex align-items-center justify-content-between" name="#" value="#">
+                                    <button type="submit" class="btn btn-lg custom-btn-noanim d-flex align-items-center justify-content-between" name="next" value="next">
                                         <p class="dongle-regular mt-2" style="font-size: 3rem; flex-grow: 1;">Next</p>
                                     </button>
                                     <!-- Next button end -->
