@@ -11,8 +11,10 @@
         <!-- Import Bootstrap end -->
 
         <!-- Import CSS file(s) start -->
-        <link rel="stylesheet" href="../assets/css/guest.css">
-        <!-- Import CSS file(s) end --> 
+        <link rel="stylesheet" href="../assets/css/global.css">
+        <link rel="stylesheet" href="../assets/css/font-sizing.css">
+        <link rel="stylesheet" href="../assets/css/google-fonts.css">
+        <!-- Import CSS file(s) end -->
 
         <title>BookItClassroom</title>
     </head>
