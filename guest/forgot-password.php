@@ -86,7 +86,7 @@
                                 <!-- Buttons start -->
                                 <div class="col d-flex justify-content-end align-items-center">
                                     <!-- Back button start -->
-                                    <a onclick="history.back()" class="dongle-regular custom-btn-inline me-3 mt-2 primary" style="text-decoration: none; font-size: 2rem">back</a>
+                                    <a onclick="history.back()" class="dongle-regular custom-btn-inline me-3 mt-2 primary" style="text-decoration: none; font-size: 2rem; cursor: pointer;">back</a>
                                     <!-- Back button end -->
                                     <!-- Next button start -->
                                     <button type="button" class="btn btn-lg custom-btn-noanim d-flex align-items-center justify-content-between">
