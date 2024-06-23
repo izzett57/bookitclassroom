@@ -23,7 +23,7 @@
         <nav class="navbar navbar-expand-lg bg-transparent px-5 py-4">
             <div class="container-fluid">
                 <!-- Logo start-->
-                <a class="navbar-brand" href="./index.php">
+                <a class="navbar-brand" href="index.php">
                     <img src="../assets/logo.png" class="img-fluid" width="316" height="51">
                 </a>
                 <!-- Logo end -->
@@ -38,8 +38,8 @@
                         </button>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end p-2">
-                        <li><a class="dropdown-item inter-regular" href="./register-name.php">Register</a></li>
-                        <li><a class="dropdown-item inter-regular" href="./login.php">Sign In</a></li>
+                        <li><a class="dropdown-item inter-regular" href="register-name.php">Register</a></li>
+                        <li><a class="dropdown-item inter-regular" href="login.php">Sign In</a></li>
                     </ul>
                 </li>
                 <!-- Profile button end -->
@@ -62,7 +62,7 @@
                 </div>
                 <div class="col d-flex flex-column align-items-center justify-content-center">
                     <!-- View map button start -->
-                    <button onclick="location.href='./#'" type="button" class="btn custom-btn btn-lg d-flex align-items-center justify-content-between mb-3" style="border-radius: 36px;">
+                    <button onclick="location.href='#'" type="button" class="btn custom-btn btn-lg d-flex align-items-center justify-content-between mb-3" style="border-radius: 36px;">
                         <p class="dongle-regular mt-2" style="font-size: 3rem; flex-grow: 1;">View Map</p>
                         <span class="bg-light d-flex rounded-5 align-items-center justify-content-center" style="font-size: 1.5rem;">
                             <i class="bi bi-pin-map-fill primary"></i>
@@ -70,7 +70,7 @@
                     </button>
                     <!-- View map button end -->
                     <!-- Login button -->
-                    <button onclick="location.href='./login.php'" type="button" class="btn custom-btn btn-lg d-flex align-items-center justify-content-between" style="border-radius: 36px;">
+                    <button onclick="location.href='login.php'" type="button" class="btn custom-btn btn-lg d-flex align-items-center justify-content-between" style="border-radius: 36px;">
                         <p class="dongle-regular mt-2" style="font-size: 3rem; flex-grow: 1;">Login</p>
                         <span class="bg-light d-flex rounded-5 align-items-center justify-content-center" style="font-size: 1.5rem;">
                             <i class="bi bi-box-arrow-in-right primary"></i>

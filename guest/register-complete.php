@@ -24,7 +24,7 @@
             <div class="container-fluid">
                 <div class="d-flex align-items-center">
                     <!-- Logo start -->
-                    <a class="navbar-brand" href="./index.php">
+                    <a class="navbar-brand" href="index.php">
                         <img src="../assets/logo.png" class="img-fluid" width="316" height="51">
                     </a>
                     <!-- Logo end -->
@@ -40,8 +40,8 @@
                         </button>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end p-2">
-                        <li><a class="dropdown-item inter-regular" href="./register-name.php">Register</a></li>
-                        <li><a class="dropdown-item inter-regular" href="./login.php">Sign In</a></li>
+                        <li><a class="dropdown-item inter-regular" href="register-name.php">Register</a></li>
+                        <li><a class="dropdown-item inter-regular" href="login.php">Sign In</a></li>
                     </ul>
                 </li>
                 <!-- Profile button end -->

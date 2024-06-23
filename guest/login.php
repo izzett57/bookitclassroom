@@ -31,7 +31,7 @@
                     </button>
                     <!-- Back button end -->
                     <!-- Logo start -->
-                    <a class="navbar-brand" href="./index.php">
+                    <a class="navbar-brand" href="index.php">
                         <img src="../assets/logo.png" class="img-fluid" width="316" height="51">
                     </a>
                     <!-- Logo end -->
@@ -47,8 +47,8 @@
                         </button>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end p-2">
-                        <li><a class="dropdown-item inter-regular" href="./register-name.php">Register</a></li>
-                        <li><a class="dropdown-item inter-regular" href="./login.php">Sign In</a></li>
+                        <li><a class="dropdown-item inter-regular" href="register-name.php">Register</a></li>
+                        <li><a class="dropdown-item inter-regular" href="login.php">Sign In</a></li>
                     </ul>
                 </li>
                 <!-- Profile button end -->
@@ -87,7 +87,7 @@
                             <!-- Password input end -->
                             <!-- Forgot password start -->
                             <div>
-                            <a class="inter-regular" href="./forgot-password.php" style="text-decoration: none; font-size: 0.9rem; color: rgba(218, 116, 34, 0.75);">Forgot your password?</a>
+                            <a class="inter-regular" href="forgot-password.php" style="text-decoration: none; font-size: 0.9rem; color: rgba(218, 116, 34, 0.75);">Forgot your password?</a>
                             </div>
                             <!-- Forgot password end -->
                             <div class="row pt-4">
@@ -98,7 +98,7 @@
                                 <!-- Buttons start -->
                                 <div class="col d-flex justify-content-end align-items-center">
                                     <!-- Register button start -->
-                                    <a class="dongle-regular custom-btn-inline me-3 mt-2 primary" href="./register-name.php" style="text-decoration: none; font-size: 2rem">register</a>
+                                    <a class="dongle-regular custom-btn-inline me-3 mt-2 primary" href="register-name.php" style="text-decoration: none; font-size: 2rem">register</a>
                                     <!-- Register button end -->
                                     <!-- Login button start -->
                                     <button type="button" class="btn btn-lg custom-btn-noanim d-flex align-items-center justify-content-between" value="#">
