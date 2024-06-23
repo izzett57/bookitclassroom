@@ -1,16 +1,39 @@
 <?php
 session_start();
+include("connection.php");
+include("functions.php");
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
-    $_SESSION['password'] = $_POST['password'];
-    $_SESSION['confirm_password'] = $_POST['confirm_password'];
-    
-    // Redirect to the final registration handler
-    header("Location: register_final.php");
-    die;
+    // Retrieve data from session
+    $FName = $_SESSION['FName'];
+    $LName = $_SESSION['LName'];
+    $email = $_SESSION['email'];
+    $password = $_SESSION['password'];
+    $confirm_password = $_SESSION['confirm_password'];
+
+    // Validate data
+    if (!empty($user_name) && !empty($email) && !empty($password) && !empty($confirm_password) && $password === $confirm_password) {
+        // Hash the password
+        $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+
+        // Insert into the database using prepared statements
+        $query = "INSERT INTO users (user_name, email, password) VALUES (?, ?, ?)";
+        if ($stmt = $con->prepare($query)) {
+            $stmt->bind_param("sss", $user_name, $email, $hashed_password);
+            if ($stmt->execute()) {
+                // Registration successful, redirect to login page
+                header("Location: login.php");
+                die;
+            } else {
+                echo "Error: " . $stmt->error;
+            }
+            $stmt->close();
+        }
+    } else {
+        echo "Please fill in all fields and ensure passwords match.";
+    }
 }
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -26,7 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
         <!-- Import CSS file start -->
         <link rel="stylesheet" href="../assets/css/guest.css">
-        <!-- Import CSS file end --> 
+        <!-- Import CSS file end -->
 
         <title>BookItClassroom</title>
     </head>
@@ -73,52 +96,34 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         <!-- Main content start -->
         <div class="container main-content bg-white rounded-3 d-flex flex-column justify-content-center">
             <div class="row justify-content-evenly">
-                <div class="col d-flex justify-content-center align-items-center">
+                <div class="col-8 d-flex justify-content-center align-items-center">
                     <!-- Text start -->
                     <div>
                         <!-- Heading -->
-                        <div class="heading1"><p>Register</p></div>
+                        <div class="heading1"><p>Register Complete!</p></div>
                         <!-- Subheading -->
-                        <div class="subheading1"><p>Please enter your password.</p></div>
+                        <div class="subheading1"><p>Would you like to log in?</p></div>
                     </div>
                     <!-- Text end -->
                 </div>
-                <div class="col d-flex flex-column">
-                    <div class="container w-75">
-                    <!-- Register password form start -->
-                        <form class="row">
-                            <!-- Password input start -->
-                            <div>
-                                <label class="form-label inter-regular pt-2" for="password" style="letter-spacing: 4px; color: #272937;">PASSWORD</label><br>
-                                <input class="form-control" id="password"  type="password" placeholder="password"><br>
+                <div class="col d-flex">
+                    <div class="container d-flex justify-content-center align-items-center text-center">
+                    <!-- Register form start -->
+                        <div class="row">
+                            <!-- Buttons start -->
+                            <div class="col">
+                                <!-- Yes button start -->
+                                <button type="button" class="btn btn-lg custom-btn-noanim d-flex align-items-center">
+                                    <p class="dongle-regular mt-2" style="font-size: 3rem; flex-grow: 1;"><a href="login.php" style="text-decoration: none; color:#fff;">Yes</a></p>
+                                </button>
+                                <!-- Yes button end -->
+                                <!-- No button start -->
+                                    <a class="dongle-regular custom-btn-inline primary" href="index.php" style="text-decoration: none; font-size: 2rem">no</a>
+                                <!-- No button end -->
                             </div>
-                            <!-- Password input end -->
-                            <!-- Confirm password input start -->
-                            <div>
-                                <label class="form-label inter-regular" for="confirmPassword" style="letter-spacing: 4px; color: #272937;">CONFIRM PASSWORD</label><br>
-                                <input class="form-control" id="confirmPassword" type="password" placeholder="confirm password">
-                            </div>
-                            <!-- Confirm password input end -->
-                        </form>
-                    <!-- Register password form end --> 
-                    <div class="row pt-4">
-                    <!-- Spacing start -->
-                    <div class="col">
-                    </div>
-                    <!-- Spacing end -->
-                    <!-- Buttons start -->
-                    <div class="col d-flex justify-content-end align-items-center">
-                        <!-- Back button start -->
-                        <a class="dongle-regular custom-btn-inline me-3 mt-2 primary" href="#" style="text-decoration: none; font-size: 2rem">back</a>
-                        <!-- Back button end -->
-                        <!-- Next button start -->
-                        <button type="button" class="btn btn-lg custom-btn-noanim d-flex align-items-center justify-content-between">
-                            <p class="dongle-regular mt-2" style="font-size: 3rem; flex-grow: 1;">Next</p>
-                        </button>
-                        <!-- Next button end -->
-                    </div>
-                    <!-- Buttons end -->
-                    </div>
+                            <!-- Buttons end -->
+                        </div>
+                    <!-- Register form end --> 
                     </div>
                 </div>
             </div>

@@ -95,7 +95,7 @@ session_start();
                         </button>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end p-2">
-                      <li><a class="dropdown-item inter-regular" href="signup-name.php">Register</a></li>
+                      <li><a class="dropdown-item inter-regular" href="registration-name.php">Register</a></li>
                       <li><a class="dropdown-item inter-regular" href="login.php">Sign In</a></li>
                     </ul>
                 </li>
@@ -148,7 +148,7 @@ session_start();
                     <!-- Buttons start -->
                     <div class="col d-flex justify-content-end align-items-center">
                         <!-- Register button start -->
-                        <a class="dongle-regular custom-btn-inline me-3 mt-2 primary" href="signup-name.php" style="text-decoration: none; font-size: 2rem">register</a>
+                        <a class="dongle-regular custom-btn-inline me-3 mt-2 primary" href="registration-name.php" style="text-decoration: none; font-size: 2rem">register</a>
                         <!-- Register button end -->
                         <!-- Login button start -->
                         <button type="button" class="btn btn-lg custom-btn-noanim d-flex align-items-center justify-content-between">

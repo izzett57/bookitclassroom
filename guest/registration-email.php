@@ -3,7 +3,7 @@ session_start();
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $_SESSION['email'] = $_POST['email'];
-    header("Location: signup-password.php");
+    header("Location: registration-password.php");
     die;
 }
 ?>
@@ -58,7 +58,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                         </button>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end p-2">
-                      <li><a class="dropdown-item inter-regular" href="signup-name.php">Register</a></li>
+                      <li><a class="dropdown-item inter-regular" href="registration-name.php">Register</a></li>
                       <li><a class="dropdown-item inter-regular" href="login.php">Sign In</a></li>
                     </ul>
                 </li>
@@ -100,11 +100,11 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                     <!-- Buttons start -->
                     <div class="col d-flex justify-content-end align-items-center">
                         <!-- Back button start -->
-                        <a class="dongle-regular custom-btn-inline me-3 mt-2 primary" href="signup-name.php" style="text-decoration: none; font-size: 2rem">back</a>
+                        <a class="dongle-regular custom-btn-inline me-3 mt-2 primary" href="registration-name.php" style="text-decoration: none; font-size: 2rem">back</a>
                         <!-- Back button end -->
                         <!-- Next button start -->
                         <button type="button" class="btn btn-lg custom-btn-noanim d-flex align-items-center justify-content-between">
-                            <p class="dongle-regular mt-2" style="font-size: 3rem; flex-grow: 1;"><a href="signup-password.php" style="text-decoration: none; color:#fff;">Next</a></p>
+                            <p class="dongle-regular mt-2" style="font-size: 3rem; flex-grow: 1;"><a href="registration-password.php" style="text-decoration: none; color:#fff;">Next</a></p>
                         </button>
                         <!-- Next button end -->
                     </div>
