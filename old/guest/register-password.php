@@ -16,7 +16,7 @@
         <link rel="stylesheet" href="../assets/css/google-fonts.css">
         <!-- Import CSS file(s) end -->
 
-        <title>BookItClassroom - Register - Email</title>
+        <title>BookItClassroom - Register - Password</title>
         <link rel="icon" type="image/x-icon" href="favicon.ico">
     </head>
     <body>
@@ -66,40 +66,46 @@
                         <!-- Heading -->
                         <div class="heading1"><p>Register</p></div>
                         <!-- Subheading -->
-                        <div class="subheading1"><p>Please enter your email.</p></div>
+                        <div class="subheading1"><p>Please enter your password.</p></div>
                     </div>
                     <!-- Text end -->
                 </div>
                 <div class="col d-flex flex-column">
                     <div class="container w-75">
-                        <!-- Register email form start -->
+                        <!-- Register password form start -->
                         <form class="row">
-                            <!-- Email input start -->
-                            <div class="col">
-                                <label class="form-label inter-regular" for="email" style="letter-spacing: 4px; color: #272937;">EMAIL</label><br>
-                                <input class="form-control" id="email"  type="text" placeholder="email"><br>
+                            <!-- Password input start -->
+                            <div>
+                                <label class="form-label inter-regular pt-2" for="password" style="letter-spacing: 4px; color: #272937;">PASSWORD</label><br>
+                                <input class="form-control" id="password"  type="password" placeholder="password"><br>
                             </div>
-                            <!-- Email input end -->
-                            <div class="row pt-4">
-                                <!-- Spacing start -->
-                                <div class="col">
-                                </div>
-                                <!-- Spacing end -->
-                                <!-- Buttons start -->
-                                <div class="col d-flex justify-content-end align-items-center">
-                                    <!-- Back button start -->
-                                    <a onclick="history.back()" class="dongle-regular custom-btn-inline me-3 mt-2 primary" href="#" style="text-decoration: none; font-size: 2rem">back</a>
-                                    <!-- Back button end -->
-                                    <!-- Next button start -->
-                                    <button type="submit" class="btn btn-lg custom-btn-noanim d-flex align-items-center justify-content-between" name="#" value="#">
-                                        <p class="dongle-regular mt-2" style="font-size: 3rem; flex-grow: 1;">Next</p>
-                                    </button>
-                                    <!-- Next button end -->
-                                </div>
-                                <!-- Buttons end -->
+                            <!-- Password input end -->
+                            <!-- Confirm password input start -->
+                            <div>
+                                <label class="form-label inter-regular" for="confirmPassword" style="letter-spacing: 4px; color: #272937;">CONFIRM PASSWORD</label><br>
+                                <input class="form-control" id="confirmPassword" type="password" placeholder="confirm password">
                             </div>
+                            <!-- Confirm password input end -->
                         </form>
-                        <!-- Register email form end --> 
+                        <!-- Register password form end --> 
+                        <div class="row pt-4">
+                            <!-- Spacing start -->
+                            <div class="col">
+                            </div>
+                            <!-- Spacing end -->
+                            <!-- Buttons start -->
+                            <div class="col d-flex justify-content-end align-items-center">
+                                <!-- Back button start -->
+                                <a onclick="history.back()" class="dongle-regular custom-btn-inline me-3 mt-2 primary" href="#" style="text-decoration: none; font-size: 2rem">back</a>
+                                <!-- Back button end -->
+                                <!-- Next button start -->
+                                <button type="submit" class="btn btn-lg custom-btn-noanim d-flex align-items-center justify-content-between" name="#" value="#">
+                                    <p class="dongle-regular mt-2" style="font-size: 3rem; flex-grow: 1;">Next</p>
+                                </button>
+                                <!-- Next button end -->
+                            </div>
+                            <!-- Buttons end -->
+                        </div>
                     </div>
                 </div>
             </div>

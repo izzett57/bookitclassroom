@@ -39,8 +39,8 @@
                         </button>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end p-2">
-                        <li><a class="dropdown-item inter-regular" href="register-name.php">Register</a></li>
-                        <li><a class="dropdown-item inter-regular" href="login.php">Sign In</a></li>
+                      <li><a class="dropdown-item inter-regular" href="#">Profile</a></li>
+                      <li><a class="dropdown-item inter-regular" href="#">Sign Out</a></li>
                     </ul>
                 </li>
                 <!-- Profile button end -->
@@ -55,7 +55,7 @@
                     <!-- Text start -->
                     <div>
                         <!-- Heading -->
-                        <div class="heading1"><p>Welcome, Guest!</p></div>
+                        <div class="heading1"><p>Welcome, User!</p></div>
                         <!-- Subheading -->
                         <div class="subheading1"><p>What would you like to do today?</p></div>
                     </div>
@@ -63,21 +63,29 @@
                 </div>
                 <div class="col d-flex flex-column align-items-center justify-content-center">
                     <!-- View map button start -->
-                    <button onclick="location.href='#'" type="button" class="btn custom-btn btn-lg d-flex align-items-center justify-content-between mb-3" style="border-radius: 36px;">
+                    <button onclick="location.href='./#'" type="button" class="btn custom-btn btn-lg d-flex align-items-center justify-content-between mb-3" style="border-radius: 36px;">
                         <p class="dongle-regular mt-2" style="font-size: 3rem; flex-grow: 1;">View Map</p>
                         <span class="bg-light d-flex rounded-5 align-items-center justify-content-center" style="font-size: 1.5rem;">
                             <i class="bi bi-pin-map-fill primary"></i>
                         </span>
                     </button>
                     <!-- View map button end -->
-                    <!-- Login button -->
-                    <button onclick="location.href='login.php'" type="button" class="btn custom-btn btn-lg d-flex align-items-center justify-content-between" style="border-radius: 36px;">
-                        <p class="dongle-regular mt-2" style="font-size: 3rem; flex-grow: 1;">Login</p>
+                    <!-- Reserve button -->
+                    <button onclick="location.href='./reserve.php'" type="button" class="btn custom-btn btn-lg d-flex align-items-center justify-content-between mb-3" style="border-radius: 36px;">
+                        <p class="dongle-regular mt-2" style="font-size: 3rem; flex-grow: 1;">Reserve</p>
                         <span class="bg-light d-flex rounded-5 align-items-center justify-content-center" style="font-size: 1.5rem;">
-                            <i class="bi bi-box-arrow-in-right primary"></i>
+                            <i class="bi bi-bookmarks-fill primary"></i>
                         </span>
                     </button>
-                    <!-- Login button end -->
+                    <!-- Reserve button end -->
+                     <!-- Timetable button -->
+                    <button onclick="location.href='./#'" type="button" class="btn custom-btn btn-lg d-flex align-items-center justify-content-between" style="border-radius: 36px;">
+                        <p class="dongle-regular mt-2" style="font-size: 3rem; flex-grow: 1;">Timetable</p>
+                        <span class="bg-light d-flex rounded-5 align-items-center justify-content-center" style="font-size: 1.5rem;">
+                            <i class="bi bi-calendar3 primary"></i>
+                        </span>
+                    </button>
+                    <!-- Timetable button end -->
                 </div>
             </div>
         </div>

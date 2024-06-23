@@ -1,24 +1,3 @@
-<?php
-
-session_start();
-
-if (isset($_POST['submit'])) {
-    foreach ($_POST as $key => $value) 
-    {
-        $_SESSION['INFO'][$key] = $value;
-    }
-
-$keys = array_keys($_SESSION['INFO']);
-
-if (in_array('submit', $keys)) {
-    unset($_SESSION['INFO']['submit']);
-}
-
-header('Location: register-complete.php');
-}
-
-?>
-
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -26,16 +5,19 @@ header('Location: register-complete.php');
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         
         <!-- Import Bootstrap start -->
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+        <?php 
+            include('../assets/import-bootstrap.php');
+        ?>
         <!-- Import Bootstrap end -->
 
-        <!-- Import CSS file start -->
-        <link rel="stylesheet" href="../assets/css/guest.css">
-        <!-- Import CSS file end --> 
+        <!-- Import CSS file(s) start -->
+        <link rel="stylesheet" href="../assets/css/global.css">
+        <link rel="stylesheet" href="../assets/css/font-sizing.css">
+        <link rel="stylesheet" href="../assets/css/google-fonts.css">
+        <!-- Import CSS file(s) end -->
 
-        <title>BookItClassroom</title>
+        <title>BookItClassroom - Register - Password</title>
+        <link rel="icon" type="image/x-icon" href="favicon.ico">
     </head>
     <body>
         <!-- Nav bar start -->
@@ -43,16 +25,14 @@ header('Location: register-complete.php');
             <div class="container-fluid">
                 <div class="d-flex align-items-center">
                     <!-- Back button start -->
-                    <a class="me-3" href="#" role="button">
-                        <button type="button" class="btn btn-light btn-circle">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="38" height="38" fill="currentColor" class="bi bi-arrow-left-circle-fill primary" viewBox="0 0 16 16">
-                                <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0m3.5 7.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5z"/>
-                              </svg>
-                        </button>
-                    </a>
+                    <button onclick="history.back()" type="button" class="btn btn-light btn-circle me-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="38" height="38" fill="currentColor" class="bi bi-arrow-left-circle-fill primary" viewBox="0 0 16 16">
+                            <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0m3.5 7.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5z"/>
+                            </svg>
+                    </button>
                     <!-- Back button end -->
                     <!-- Logo start -->
-                    <a class="navbar-brand" href="#">
+                    <a class="navbar-brand" href="index.php">
                         <img src="../assets/logo.png" class="img-fluid" width="316" height="51">
                     </a>
                     <!-- Logo end -->
@@ -68,15 +48,15 @@ header('Location: register-complete.php');
                         </button>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end p-2">
-                      <li><a class="dropdown-item inter-regular" href="registration-name.php">Register</a></li>
-                      <li><a class="dropdown-item inter-regular" href="#">Sign In</a></li>
+                        <li><a class="dropdown-item inter-regular" href="register-name.php">Register</a></li>
+                        <li><a class="dropdown-item inter-regular" href="login.php">Sign In</a></li>
                     </ul>
                 </li>
                 <!-- Profile button end -->
             </div>
         </nav>
         <!-- Nav bar end -->
-        <form action="registration-password.php" method="POST">
+
         <!-- Main content start -->
         <div class="container main-content bg-white rounded-3 d-flex flex-column justify-content-center">
             <div class="row justify-content-evenly">
@@ -93,19 +73,17 @@ header('Location: register-complete.php');
                 <div class="col d-flex flex-column">
                     <div class="container w-75">
                         <!-- Register password form start -->
-                        <form class="row" action="" method="POST">
+                        <form class="row">
                             <!-- Password input start -->
                             <div>
-                                <label class="form-label inter-regular pt-2" for="" style="letter-spacing: 4px; color: #272937;">PASSWORD</label><br>
-                                <input class="form-control" type="password" name="password" value="<?= isset($SESSION['INFO']['password'])
-            ? $_SESSION['INFO']['password'] : '' ?>"><br>
+                                <label class="form-label inter-regular pt-2" for="password" style="letter-spacing: 4px; color: #272937;">PASSWORD</label><br>
+                                <input class="form-control" id="password"  type="password" placeholder="password"><br>
                             </div>
                             <!-- Password input end -->
                             <!-- Confirm password input start -->
                             <div>
-                                <label class="form-label inter-regular" for="" style="letter-spacing: 4px; color: #272937;">CONFIRM PASSWORD</label><br>
-                                <input class="form-control" type="password" name="confirmpassword" value="<?= isset($SESSION['INFO']['confirmpassword'])
-            ? $_SESSION['INFO']['confirmpassword'] : '' ?>"><br>
+                                <label class="form-label inter-regular" for="confirmPassword" style="letter-spacing: 4px; color: #272937;">CONFIRM PASSWORD</label><br>
+                                <input class="form-control" id="confirmPassword" type="password" placeholder="confirm password">
                             </div>
                             <!-- Confirm password input end -->
                         </form>
@@ -121,8 +99,8 @@ header('Location: register-complete.php');
                                 <a onclick="history.back()" class="dongle-regular custom-btn-inline me-3 mt-2 primary" href="#" style="text-decoration: none; font-size: 2rem">back</a>
                                 <!-- Back button end -->
                                 <!-- Next button start -->
-                                <button type="submit" class="btn btn-lg custom-btn-noanim d-flex align-items-center justify-content-between" name="submit" value="submit">
-                                    <p class="dongle-regular mt-2" style="font-size: 3rem; flex-grow: 1;">Submit</p>
+                                <button type="submit" class="btn btn-lg custom-btn-noanim d-flex align-items-center justify-content-between" name="#" value="#">
+                                    <p class="dongle-regular mt-2" style="font-size: 3rem; flex-grow: 1;">Next</p>
                                 </button>
                                 <!-- Next button end -->
                             </div>
@@ -133,16 +111,10 @@ header('Location: register-complete.php');
             </div>
         </div>
         <!-- Main content end -->
-</form>
         <!-- Footer -->
-        <footer class="bg-white pt-4 pb-2 mt-5">
-            <div class="container-fluid ps-4">
-                <a href="#">
-                    <img src="../assets/logo.png" class="img-fluid" width="206" height="33">
-                </a>
-                <p class="dongle-regular" style="font-size: 1.5rem; color: #A4A4A4;">Designed by Izzett. Co-Developed with Bo Xiang.</p>
-            </div>
-        </footer>
+        <?php 
+            include('../assets/footer.php');
+        ?>
         <!-- Footer end -->
     </body>
 </html>

@@ -16,7 +16,7 @@
         <link rel="stylesheet" href="../assets/css/google-fonts.css">
         <!-- Import CSS file(s) end -->
 
-        <title>BookItClassroom - Register - Email</title>
+        <title>BookItClassroom - Forgot Password</title>
         <link rel="icon" type="image/x-icon" href="favicon.ico">
     </head>
     <body>
@@ -60,19 +60,17 @@
         <!-- Main content start -->
         <div class="container main-content bg-white rounded-3 d-flex flex-column justify-content-center">
             <div class="row justify-content-evenly">
-                <div class="col d-flex justify-content-center align-items-center">
                     <!-- Text start -->
-                    <div>
+                    <div class="row mb-5 text-center">
                         <!-- Heading -->
-                        <div class="heading1"><p>Register</p></div>
+                        <span class="heading1" style="padding-bottom: 15px;">Forgotten your password?</span>
                         <!-- Subheading -->
-                        <div class="subheading1"><p>Please enter your email.</p></div>
+                        <span class="subheading1" style="padding-right: 400px;">Please enter your email.</span>
                     </div>
                     <!-- Text end -->
-                </div>
-                <div class="col d-flex flex-column">
-                    <div class="container w-75">
-                        <!-- Register email form start -->
+                <div class="row-auto d-flex flex-column">
+                    <div class="container" style="width: 35%;">
+                        <!-- Forgot password form start -->
                         <form class="row">
                             <!-- Email input start -->
                             <div class="col">
@@ -88,10 +86,10 @@
                                 <!-- Buttons start -->
                                 <div class="col d-flex justify-content-end align-items-center">
                                     <!-- Back button start -->
-                                    <a onclick="history.back()" class="dongle-regular custom-btn-inline me-3 mt-2 primary" href="#" style="text-decoration: none; font-size: 2rem">back</a>
+                                    <a onclick="history.back()" class="dongle-regular custom-btn-inline me-3 mt-2 primary" style="text-decoration: none; font-size: 2rem">back</a>
                                     <!-- Back button end -->
                                     <!-- Next button start -->
-                                    <button type="submit" class="btn btn-lg custom-btn-noanim d-flex align-items-center justify-content-between" name="#" value="#">
+                                    <button type="button" class="btn btn-lg custom-btn-noanim d-flex align-items-center justify-content-between">
                                         <p class="dongle-regular mt-2" style="font-size: 3rem; flex-grow: 1;">Next</p>
                                     </button>
                                     <!-- Next button end -->
@@ -99,7 +97,7 @@
                                 <!-- Buttons end -->
                             </div>
                         </form>
-                        <!-- Register email form end --> 
+                        <!-- Forgot password form end --> 
                     </div>
                 </div>
             </div>
