@@ -99,7 +99,7 @@ error_reporting(E_ALL);
                         <form class="row" action="" method="POST">
                             <!-- Password input start -->
                             <div>
-                                <label class="form-label inter-regular pt-2" for="" style="letter-spacing: 4px; color: #272937;">PASSWORD</label><br>
+                                <label class="form-label inter-regular pt-2" for="password" style="letter-spacing: 4px; color: #272937;">PASSWORD</label><br>
                                 <input class="form-control" type="password" name="password" value="<?= isset($SESSION['INFO']['password'])
             ? $_SESSION['INFO']['password'] : '' ?>"><br>
                             </div>
