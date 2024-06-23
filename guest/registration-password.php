@@ -1,22 +1,22 @@
 <?php
+
 session_start();
-echo "<pre>";
-print_r($_SESSION);
-echo "</pre>";
-echo "<pre>POST Data:";
-print_r($_POST);
-echo "</pre>";
 
-echo "<pre>Session Data:";
-print_r($_SESSION);
-echo "</pre>";
+if (isset($_POST['submit'])) {
+    foreach ($_POST as $key => $value) 
+    {
+        $_SESSION['INFO'][$key] = $value;
+    }
 
-if ($_SERVER['REQUEST_METHOD'] == "POST") {
-    $_SESSION['password'] = $_POST['password'];
-    $_SESSION['confirm_password'] = $_POST['confirm_password'];
-    header("Location: registration-complete.php");
-    die;
+$keys = array_keys($_SESSION['INFO']);
+
+if (in_array('submit', $keys)) {
+    unset($_SESSION['INFO']['submit']);
 }
+
+header('Location: register-complete.php');
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -92,40 +92,42 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                 </div>
                 <div class="col d-flex flex-column">
                     <div class="container w-75">
-                    <!-- Register password form start -->
-                        <form class="row">
+                        <!-- Register password form start -->
+                        <form class="row" action="" method="POST">
                             <!-- Password input start -->
                             <div>
-                                <label class="form-label inter-regular pt-2" for="password" style="letter-spacing: 4px; color: #272937;">PASSWORD</label><br>
-                                <input class="form-control" id="password"  type="password" placeholder="password"><br>
+                                <label class="form-label inter-regular pt-2" for="" style="letter-spacing: 4px; color: #272937;">PASSWORD</label><br>
+                                <input class="form-control" type="password" name="password" value="<?= isset($SESSION['INFO']['password'])
+            ? $_SESSION['INFO']['password'] : '' ?>"><br>
                             </div>
                             <!-- Password input end -->
                             <!-- Confirm password input start -->
                             <div>
-                                <label class="form-label inter-regular" for="confirmPassword" style="letter-spacing: 4px; color: #272937;">CONFIRM PASSWORD</label><br>
-                                <input class="form-control" id="confirmPassword" type="password" placeholder="confirm password">
+                                <label class="form-label inter-regular" for="" style="letter-spacing: 4px; color: #272937;">CONFIRM PASSWORD</label><br>
+                                <input class="form-control" type="password" name="confirmpassword" value="<?= isset($SESSION['INFO']['confirmpassword'])
+            ? $_SESSION['INFO']['confirmpassword'] : '' ?>"><br>
                             </div>
                             <!-- Confirm password input end -->
                         </form>
-                    <!-- Register password form end --> 
-                    <div class="row pt-4">
-                    <!-- Spacing start -->
-                    <div class="col">
-                    </div>
-                    <!-- Spacing end -->
-                    <!-- Buttons start -->
-                    <div class="col d-flex justify-content-end align-items-center">
-                        <!-- Back button start -->
-                        <a class="dongle-regular custom-btn-inline me-3 mt-2 primary" href="registration-email.php" style="text-decoration: none; font-size: 2rem">back</a>
-                        <!-- Back button end -->
-                        <!-- Next button start -->
-                        <button type="submit" class="btn btn-lg custom-btn-noanim d-flex align-items-center justify-content-between">
-                            <p class="dongle-regular mt-2" style="font-size: 3rem; flex-grow: 1;">Next</p>
-                        </button>
-                        <!-- Next button end -->
-                    </div>
-                    <!-- Buttons end -->
-                    </div>
+                        <!-- Register password form end --> 
+                        <div class="row pt-4">
+                            <!-- Spacing start -->
+                            <div class="col">
+                            </div>
+                            <!-- Spacing end -->
+                            <!-- Buttons start -->
+                            <div class="col d-flex justify-content-end align-items-center">
+                                <!-- Back button start -->
+                                <a onclick="history.back()" class="dongle-regular custom-btn-inline me-3 mt-2 primary" href="#" style="text-decoration: none; font-size: 2rem">back</a>
+                                <!-- Back button end -->
+                                <!-- Next button start -->
+                                <button type="submit" class="btn btn-lg custom-btn-noanim d-flex align-items-center justify-content-between" name="submit" value="submit">
+                                    <p class="dongle-regular mt-2" style="font-size: 3rem; flex-grow: 1;">Submit</p>
+                                </button>
+                                <!-- Next button end -->
+                            </div>
+                            <!-- Buttons end -->
+                        </div>
                     </div>
                 </div>
             </div>
