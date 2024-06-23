@@ -22,7 +22,7 @@
             <div class="container-fluid">
                 <div class="d-flex align-items-center">
                     <!-- Logo start -->
-                    <a class="navbar-brand" href="#">
+                    <a class="navbar-brand" href="./index.php">
                         <img src="../assets/logo.png" class="img-fluid" width="316" height="51">
                     </a>
                     <!-- Logo end -->
@@ -38,8 +38,8 @@
                         </button>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end p-2">
-                      <li><a class="dropdown-item inter-regular" href="#">Register</a></li>
-                      <li><a class="dropdown-item inter-regular" href="#">Sign In</a></li>
+                        <li><a class="dropdown-item inter-regular" href="./register-name.php">Register</a></li>
+                        <li><a class="dropdown-item inter-regular" href="./login.php">Sign In</a></li>
                     </ul>
                 </li>
                 <!-- Profile button end -->
@@ -83,16 +83,10 @@
             </div>
         </div>
         <!-- Main content end -->
-
         <!-- Footer -->
-        <footer class="bg-white pt-4 pb-2 mt-5">
-            <div class="container-fluid ps-4">
-                <a href="#">
-                    <img src="../assets/logo.png" class="img-fluid" width="206" height="33">
-                </a>
-                <p class="dongle-regular" style="font-size: 1.5rem; color: #A4A4A4;">Designed by Izzett. Co-Developed with Bo Xiang.</p>
-            </div>
-        </footer>
+        <?php 
+            include('../assets/footer.php');
+        ?>
         <!-- Footer end -->
     </body>
 </html>

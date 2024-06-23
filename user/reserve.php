@@ -22,16 +22,14 @@
             <div class="container-fluid">
                 <div class="d-flex align-items-center">
                     <!-- Back button start -->
-                    <a class="me-3" href="#" role="button">
-                        <button type="button" class="btn btn-light btn-circle">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="38" height="38" fill="currentColor" class="bi bi-arrow-left-circle-fill primary" viewBox="0 0 16 16">
-                                <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0m3.5 7.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5z"/>
+                    <button onclick="history.back()" type="button" class="btn btn-light btn-circle me-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="38" height="38" fill="currentColor" class="bi bi-arrow-left-circle-fill primary" viewBox="0 0 16 16">
+                            <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0m3.5 7.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5z"/>
                             </svg>
-                        </button>
-                    </a>
+                    </button>
                     <!-- Back button end -->
-                    <!-- Logo start -->
-                    <a class="navbar-brand" href="#">
+                    <!-- Logo start-->
+                    <a class="navbar-brand" href="./index.php">
                         <img src="../assets/logo.png" class="img-fluid" width="316" height="51">
                     </a>
                     <!-- Logo end -->
@@ -47,8 +45,8 @@
                         </button>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end p-2">
-                    <li><a class="dropdown-item inter-regular" href="#">Register</a></li>
-                    <li><a class="dropdown-item inter-regular" href="#">Sign In</a></li>
+                        <li><a class="dropdown-item inter-regular" href="./#">Profile</a></li>
+                        <li><a class="dropdown-item inter-regular" href="./#">Sign Out</a></li>
                     </ul>
                 </li>
                 <!-- Profile button end -->
@@ -71,34 +69,29 @@
                 </div>
                 <div class="col d-flex flex-column align-items-center justify-content-center">
                     <!-- View map button start -->
-                    <button type="button" class="btn custom-btn btn-lg d-flex align-items-center justify-content-between mb-3" style="border-radius: 36px;">
+                    <button onclick="location.href='./#'" type="button" class="btn custom-btn btn-lg d-flex align-items-center justify-content-between mb-3" style="border-radius: 36px;">
                         <p class="dongle-regular mt-2" style="font-size: 3rem; flex-grow: 1;">Map</p>
                         <span class="bg-light d-flex rounded-5 align-items-center justify-content-center" style="font-size: 1.5rem;">
                             <i class="bi bi-pin-map-fill primary"></i>
                         </span>
                     </button>
                     <!-- View map button end -->
-                    <!-- Reserve button -->
-                    <button type="button" class="btn custom-btn btn-lg d-flex align-items-center justify-content-between mb-" style="border-radius: 36px;">
-                        <p class="dongle-regular mt-2" style="font-size: 3rem; flex-grow: 1;">Reserve</p>
+                    <!-- Timetable button -->
+                    <button onclick="location.href='./#'" type="button" class="btn custom-btn btn-lg d-flex align-items-center justify-content-between mb-" style="border-radius: 36px;">
+                        <p class="dongle-regular mt-2" style="font-size: 3rem; flex-grow: 1;">Timetable</p>
                         <span class="bg-light d-flex rounded-5 align-items-center justify-content-center" style="font-size: 1.5rem;">
-                            <i class="bi bi-bookmarks-fill primary"></i>
+                            <i class="bi bi-calendar3 primary"></i>
                         </span>
                     </button>
-                    <!-- Reserve button end -->
+                    <!-- Timetable button end -->
                 </div>
             </div>
         </div>
         <!-- Main content end -->
         <!-- Footer -->
-        <footer class="bg-white pt-4 pb-2 mt-5">
-            <div class="container-fluid ps-4">
-                <a href="#">
-                    <img src="../assets/logo.png" class="img-fluid" width="206" height="33">
-                </a>
-                <p class="dongle-regular" style="font-size: 1.5rem; color: #A4A4A4;">Designed by Izzett. Co-Developed with Bo Xiang.</p>
-            </div>
-        </footer>
+        <?php 
+            include('../assets/footer.php');
+        ?>
         <!-- Footer end -->
     </body>
 </html>
