@@ -111,26 +111,26 @@ error_reporting(E_ALL);
             ? $_SESSION['INFO']['confirmpassword'] : '' ?>"><br>
                             </div>
                             <!-- Confirm password input end -->
+                            <div class="row pt-4">
+                                <!-- Spacing start -->
+                                <div class="col">
+                                </div>
+                                <!-- Spacing end -->
+                                <!-- Buttons start -->
+                                <div class="col d-flex justify-content-end align-items-center">
+                                    <!-- Back button start -->
+                                    <a onclick="history.back()" class="dongle-regular custom-btn-inline me-3 mt-2 primary" href="#" style="text-decoration: none; font-size: 2rem">back</a>
+                                    <!-- Back button end -->
+                                    <!-- Next button start -->
+                                    <button type="submit" class="btn btn-lg custom-btn-noanim d-flex align-items-center justify-content-between" name="submit" value="submit">
+                                        <p class="dongle-regular mt-2" style="font-size: 3rem; flex-grow: 1;">Submit</p>
+                                    </button>
+                                    <!-- Next button end -->
+                                </div>
+                                <!-- Buttons end -->
+                            </div>
                         </form>
                         <!-- Register password form end --> 
-                        <div class="row pt-4">
-                            <!-- Spacing start -->
-                            <div class="col">
-                            </div>
-                            <!-- Spacing end -->
-                            <!-- Buttons start -->
-                            <div class="col d-flex justify-content-end align-items-center">
-                                <!-- Back button start -->
-                                <a onclick="history.back()" class="dongle-regular custom-btn-inline me-3 mt-2 primary" href="#" style="text-decoration: none; font-size: 2rem">back</a>
-                                <!-- Back button end -->
-                                <!-- Next button start -->
-                                <button type="submit" class="btn btn-lg custom-btn-noanim d-flex align-items-center justify-content-between" name="submit" value="submit">
-                                    <p class="dongle-regular mt-2" style="font-size: 3rem; flex-grow: 1;">Submit</p>
-                                </button>
-                                <!-- Next button end -->
-                            </div>
-                            <!-- Buttons end -->
-                        </div>
                     </div>
                 </div>
             </div>
