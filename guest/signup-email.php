@@ -104,7 +104,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                         <!-- Back button end -->
                         <!-- Next button start -->
                         <button type="button" class="btn btn-lg custom-btn-noanim d-flex align-items-center justify-content-between">
-                            <p class="dongle-regular mt-2" style="font-size: 3rem; flex-grow: 1;"><a href="signup-signup-password.php" style="text-decoration: none; color:#fff;">Next</a></p>
+                            <p class="dongle-regular mt-2" style="font-size: 3rem; flex-grow: 1;"><a href="signup-password.php" style="text-decoration: none; color:#fff;">Next</a></p>
                         </button>
                         <!-- Next button end -->
                     </div>
