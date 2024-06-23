@@ -9,7 +9,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     header("Location: register_final.php");
     die;
 }
-
+?>
 
 
 <!DOCTYPE html>
