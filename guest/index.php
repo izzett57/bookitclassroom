@@ -1,24 +1,3 @@
-<?php
-
-session_start();
-
-if (isset($_POST['next'])) {
-    foreach ($_POST as $key => $value) 
-    {
-        $_SESSION['INFO'][$key] = $value;
-    }
-
-
-$keys = array_keys($_SESSION['INFO']);
-
-if (in_array('next', $keys)) {
-    unset($_SESSION['INFO']['next']);
-}
-
-header('Location: register-email.php');
-}
-
-?>
 
 <!DOCTYPE html>
 <html lang="en">
