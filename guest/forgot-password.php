@@ -98,6 +98,51 @@
                             </div>
                         </form>
                         <!-- Forgot password form end --> 
+
+                        <?php
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['reset_password'])) {
+            $userEmail = $_POST['email'];
+
+            // Database configuration
+            $host = 'localhost';
+            $dbname = 'bookitclassroom';
+            $username = 'root';
+            $password = '';
+
+            try {
+                // Connect to the database
+                $pdo = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
+                $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+                // SQL query to find the user by email
+                $sql = "SELECT password FROM users WHERE email = :email";
+
+                // Prepare statement
+                $stmt = $pdo->prepare($sql);
+
+                // Bind the email parameter
+                $stmt->bindParam(':email', $userEmail);
+
+                // Execute the query
+                $stmt->execute();
+
+                // Fetch the result
+                $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+                if ($user) {
+                    // Found user, but remember, showing passwords like this is not secure!
+                    echo "Password found! Your password is: " . $user['password'] . ". Please change it immediately.";
+                } else {
+                    echo "No user found with that email address.";
+                }
+            } catch(PDOException $e) {
+                echo "Connection failed: " . $e->getMessage();
+            }
+            header('Location: forgot-password-complete.php');
+            // Close the connection
+            $pdo = null;
+        }
+        ?>
                     </div>
                 </div>
             </div>

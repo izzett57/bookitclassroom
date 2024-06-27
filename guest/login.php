@@ -1,40 +1,58 @@
 <?php
+session_start(); // Start a new session or resume the existing one
 // Database configuration
 $host = 'localhost';
 $dbname = 'bookitclassroom';
 $username = 'root';
 $password = '';
 
-try {
-    // Connect to the database
-    $pdo = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
-    // Set the PDO error mode to exception
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+// Check if the form is submitted
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Assuming you have a form where 'email' and 'password' are input names
+    $userEmail = $_POST['email'];
+    $userPassword = $_POST['password'];
 
-    // SQL query
-    $sql = "SELECT * FROM users";
-    
-    // Prepare statement
-    $stmt = $pdo->prepare($sql);
-    
-    // Execute the query
-    $stmt->execute();
-    
-    // Fetch the results
-    $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    
-    // Display the results
-    foreach ($results as $row) {
-        echo $row['your_column_name'] . "<br>";
+    try {
+        // Connect to the database
+        $pdo = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
+        // Set the PDO error mode to exception
+        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+        // SQL query to find the user by email
+        $sql = "SELECT * FROM users WHERE email = :email";
+        
+        // Prepare statement
+        $stmt = $pdo->prepare($sql);
+        
+        // Bind the email parameter
+        $stmt->bindParam(':email', $userEmail);
+        
+        // Execute the query
+        $stmt->execute();
+        
+        // Fetch the result
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+        
+        // Verify if a user was found and the password is correct
+        if ($user && password_verify($userPassword, $user['password'])) {
+            // Login successful: Set session variables
+            $_SESSION['user_id'] = $user['id'];
+            $_SESSION['user_email'] = $user['email'];
+            // Redirect to a protected page
+            header('Location: ../user/index.php');
+            exit;
+        } else {
+            // Login failed: Display an error message or redirect to the login page
+            echo "Invalid email or password.";
+        }
+    } catch(PDOException $e) {
+        echo "Connection failed: " . $e->getMessage();
     }
-} catch(PDOException $e) {
-    echo "Connection failed: " . $e->getMessage();
+
+    // Close the connection
+    $pdo = null;
 }
-
-// Close the connection
-$pdo = null;
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
     <head>
