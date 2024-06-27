@@ -1,3 +1,40 @@
+<?php
+// Database configuration
+$host = 'localhost';
+$dbname = 'bookitclassroom';
+$username = 'root';
+$password = '';
+
+try {
+    // Connect to the database
+    $pdo = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
+    // Set the PDO error mode to exception
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    // SQL query
+    $sql = "SELECT * FROM users";
+    
+    // Prepare statement
+    $stmt = $pdo->prepare($sql);
+    
+    // Execute the query
+    $stmt->execute();
+    
+    // Fetch the results
+    $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    
+    // Display the results
+    foreach ($results as $row) {
+        echo $row['your_column_name'] . "<br>";
+    }
+} catch(PDOException $e) {
+    echo "Connection failed: " . $e->getMessage();
+}
+
+// Close the connection
+$pdo = null;
+?>
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -102,7 +139,7 @@
                                     <a class="dongle-regular custom-btn-inline me-3 mt-2 primary" href="register-name.php" style="text-decoration: none; font-size: 2rem">register</a>
                                     <!-- Register button end -->
                                     <!-- Login button start -->
-                                    <button type="button" class="btn btn-lg custom-btn-noanim d-flex align-items-center justify-content-between" value="#">
+                                    <button type="button" class="btn btn-lg custom-btn-noanim d-flex align-items-center justify-content-between" value="../user/index.php">
                                         <p class="dongle-regular mt-2" style="font-size: 3rem; flex-grow: 1;">Login</p>
                                     </button>
                                     <!-- Login button end -->

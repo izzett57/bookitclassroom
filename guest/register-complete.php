@@ -10,10 +10,6 @@
 
         if ($sql) {
             unset($_SESSION['INFO']);
-
-            echo 'Data has been saved successfully!';
-
-            echo '<a href="login.php">Go back</a>';
         }else{
             echo mysqli_error($conn);
         }
