@@ -89,7 +89,7 @@
                             <!-- Buttons start -->
                             <div class="col">
                                 <!-- Yes button start -->
-                                <button type="button" class="btn btn-lg custom-btn-noanim d-flex align-items-center" href="login.php">
+                                <button onclick="location.href='login.php'" type="button"  class="btn btn-lg custom-btn-noanim d-flex align-items-center">
                                     <p class="dongle-regular mt-2" style="font-size: 3rem; flex-grow: 1;">Yes</p>
                                 </button>
                                 <!-- Yes button end -->
