@@ -49,7 +49,7 @@
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end p-2">
                         <li><a class="dropdown-item inter-regular" href="#">Profile</a></li>
-                        <li><a class="dropdown-item inter-regular" href="#">Sign Out</a></li>
+                        <li><a class="dropdown-item inter-regular" href="logout.php">Sign Out</a></li>
                     </ul>
                 </li>
                 <!-- Profile button end -->
@@ -72,7 +72,7 @@
                 </div>
                 <div class="col d-flex flex-column align-items-center justify-content-center">
                     <!-- View map button start -->
-                    <button onclick="location.href='./#'" type="button" class="btn custom-btn btn-lg d-flex align-items-center justify-content-between mb-3" style="border-radius: 36px;">
+                    <button onclick="location.href='#'" type="button" class="btn custom-btn btn-lg d-flex align-items-center justify-content-between mb-3" style="border-radius: 36px;">
                         <p class="dongle-regular mt-2" style="font-size: 3rem; flex-grow: 1;">Map</p>
                         <span class="bg-light d-flex rounded-5 align-items-center justify-content-center" style="font-size: 1.5rem;">
                             <i class="bi bi-pin-map-fill primary"></i>
@@ -80,7 +80,7 @@
                     </button>
                     <!-- View map button end -->
                     <!-- Timetable button -->
-                    <button onclick="location.href='./#'" type="button" class="btn custom-btn btn-lg d-flex align-items-center justify-content-between mb-" style="border-radius: 36px;">
+                    <button onclick="location.href='#'" type="button" class="btn custom-btn btn-lg d-flex align-items-center justify-content-between mb-" style="border-radius: 36px;">
                         <p class="dongle-regular mt-2" style="font-size: 3rem; flex-grow: 1;">Timetable</p>
                         <span class="bg-light d-flex rounded-5 align-items-center justify-content-center" style="font-size: 1.5rem;">
                             <i class="bi bi-calendar3 primary"></i>
