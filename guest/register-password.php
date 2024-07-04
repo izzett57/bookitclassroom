@@ -21,7 +21,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $errorMessage = "Passwords do not match.";
     } else {
         // Passwords match and meet the validation criteria, proceed with form processing
-        $_SESSION['INFO']['password'] = $password;
+
+        // Hash the password before storing it
+        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+        $_SESSION['INFO']['password'] = $hashedPassword;
 
         // Redirect to the next page
         header('Location: register-complete.php');
