@@ -2,41 +2,30 @@
 
 session_start();
 
-if (isset($_POST['submit'])) {
-    foreach ($_POST as $key => $value) 
-    {
-        $_SESSION['INFO'][$key] = $value;
-    }
+$errorMessage = ''; // Initialize an error message variable
 
-$keys = array_keys($_SESSION['INFO']);
-
-if (in_array('submit', $keys)) {
-    unset($_SESSION['INFO']['submit']);
-}
-
-ini_set('display_errors', 1);
-error_reporting(E_ALL);
-} 
-// Initialize an error message variable
-$errorMessage = '';
-
-// Check if the form is submitted
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Extract posted form data
     $password = $_POST['password'];
     $confirmPassword = $_POST['confirmpassword'];
 
-    // Check if passwords match
-    if ($password === $confirmPassword) {
-        // Passwords match, proceed with your form processing
+    // Basic password validation
+    if (empty($password)) {
+        $errorMessage = "Password is required.";
+    } elseif (strlen($password) < 8) {
+        $errorMessage = "Password must be at least 8 characters long.";
+    } elseif (!preg_match('/[A-Za-z]/', $password) || !preg_match('/[0-9]/', $password)) {
+        $errorMessage = "Password must contain both letters and numbers.";
+    } elseif ($password !== $confirmPassword) {
+        // Check if passwords match
+        $errorMessage = "Passwords do not match.";
+    } else {
+        // Passwords match and meet the validation criteria, proceed with form processing
         $_SESSION['INFO']['password'] = $password;
 
         // Redirect to the next page
         header('Location: register-complete.php');
         exit;
-    } else {
-        // Passwords don't match, set an error message
-        $errorMessage = "Passwords do not match.";
     }
 }
 
@@ -132,6 +121,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             ? $_SESSION['INFO']['confirmpassword'] : '' ?>"><br>
                             </div>
                             <!-- Confirm password input end -->
+                             <!-- Error message start -->
+                            <?php if (!empty($errorMessage)): ?>
+            <div style="color: red;"><?= $errorMessage; ?></div>
+        <?php endif; ?>
+                            <!-- Error message end -->
                             <div class="row pt-4">
                                 <!-- Spacing start -->
                                 <div class="col">
@@ -152,11 +146,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             </div>
                         </form>
                         <!-- Register password form end --> 
-                        <?php if (!empty($errorMessage)): ?>
-        <div class="alert alert-danger" role="alert">
-        <?= $errorMessage ?>
-        </div>
-        <?php endif; ?>
                     </div>
                 </div>
             </div>

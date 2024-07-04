@@ -2,20 +2,29 @@
 
 session_start();
 
+$errors = []; // Initialize an array to hold error messages
+
 if (isset($_POST['next'])) {
-    foreach ($_POST as $key => $value) 
-    {
-        $_SESSION['INFO'][$key] = $value;
+    // Validate email
+    if (filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
+        foreach ($_POST as $key => $value) {
+            $_SESSION['INFO'][$key] = $value;
+        }
+    } else {
+        $errors['email'] = "Invalid email format";
     }
 
+    $keys = array_keys($_SESSION['INFO']);
 
-$keys = array_keys($_SESSION['INFO']);
+    if (in_array('next', $keys)) {
+        unset($_SESSION['INFO']['next']);
+    }
 
-if (in_array('next', $keys)) {
-    unset($_SESSION['INFO']['next']);
-}
-
-header('Location: register-password.php');
+    // Redirect only if there are no errors
+    if (empty($errors)) {
+        header('Location: register-password.php');
+        exit();
+    }
 }
 
 ?>
@@ -101,6 +110,11 @@ header('Location: register-password.php');
                                 <label class="form-label inter-regular" for="email" style="letter-spacing: 4px; color: #272937;">EMAIL</label><br>
                                 <input class="form-control" type="text" name="email" value="<?= isset($SESSION['INFO']['email'])
             ? $_SESSION['INFO']['email'] : '' ?>"><br>
+                        <!-- Error message start -->
+                            <?php if (!empty($errors['email'])): ?>
+                    <div style="color: red;"><?= $errors['email']; ?></div>
+                <?php endif; ?>
+                        <!-- Error message end -->
                             </div>
                             <!-- Email input end -->
                             <div class="row pt-4">

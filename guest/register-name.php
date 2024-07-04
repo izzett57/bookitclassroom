@@ -1,23 +1,45 @@
 <?php
+session_start(); // Ensure session_start() is called at the beginning
 
-session_start();
+// Initialize an array to hold error messages
+$errors = [];
 
-if (isset($_POST['next'])) {
-    foreach ($_POST as $key => $value) 
-    {
-        $_SESSION['INFO'][$key] = $value;
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $fname = $_POST['fname'];
+    $lname = $_POST['lname'];
+
+    // Basic validation for first_name
+    if (empty($fname)) {
+        $errors['fname'] = 'First name is required.';
+    } else if (!preg_match("/^[a-zA-Z-' ]*$/", $fname)) {
+        $errors['fname'] = 'Only letters and white space allowed in first name.';
     }
 
+    // Basic validation for last_name
+    if (empty($lname)) {
+        $errors['lname'] = 'Last name is required.';
+    } else if (!preg_match("/^[a-zA-Z-' ]*$/", $lname)) {
+        $errors['lname'] = 'Only letters and white space allowed in last name.';
+    }
 
-$keys = array_keys($_SESSION['INFO']);
+    // Check if there are any errors
+    if (count($errors) == 0) {
+        // Store POST data in session if no errors
+        foreach ($_POST as $key => $value) {
+            $_SESSION['INFO'][$key] = $value;
+        }
 
-if (in_array('next', $keys)) {
-    unset($_SESSION['INFO']['next']);
+        // Remove 'next' from session INFO if present
+        if (isset($_SESSION['INFO']['next'])) {
+            unset($_SESSION['INFO']['next']);
+        }
+
+        // Redirect if no errors
+        header('Location: register-email.php');
+        exit(); // Ensure no further code is executed after redirection
+    }
+    // If there are errors, they are now in $errors array and can be displayed to the user
 }
-
-header('Location: register-email.php');
-}
-
 ?>
 
 <!DOCTYPE html>
@@ -101,6 +123,10 @@ header('Location: register-email.php');
                                 <label class="form-label inter-regular" for="firstName" style="letter-spacing: 4px; color: #272937;">FIRST NAME</label><br>
                                 <input class="form-control" type="text" name="fname" value="<?= isset($SESSION['INFO']['fname'])
             ? $_SESSION['INFO']['fname'] : '' ?>"><br>
+            <!--error message starts here for first name-->
+                    <?php if (isset($errors['fname'])): ?>
+            <div class="error"><?php echo $errors['fname']; ?></div>
+        <?php endif; ?>
                             </div>
                             <!-- First name input end -->
                             <!-- Last name input start -->
@@ -108,6 +134,10 @@ header('Location: register-email.php');
                                 <label class="form-label inter-regular" for="lastName" style="letter-spacing: 4px; color: #272937;">LAST NAME</label><br>
                                 <input class="form-control" type="text" name="lname" value="<?= isset($SESSION['INFO']['lname'])
             ? $_SESSION['INFO']['lname'] : '' ?>"><br>
+                    <?php if (isset($errors['lname'])): ?>
+            <div class="error"><?php echo $errors['lname']; ?></div>
+        <?php endif; ?>
+
                             </div>
                             <!-- Last name input end -->
                             <div class="row pt-4">
