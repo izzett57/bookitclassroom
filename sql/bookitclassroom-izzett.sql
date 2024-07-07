@@ -72,6 +72,6 @@ FROM CLASSROOM;
 INSERT INTO BOOKING (Booking_Date, Timetable_ID, Classroom) VALUES 
 ('$bookingdate', '$timetableid', '$classroom');
 
-UPDATE TIMETABLE
+UPDATE TIMETABLE -- Update timetable to show which classroom it is booked at
 SET Assigned_Class = '$classroom'
 WHERE TIMETABLE.id = '$timetableid';
