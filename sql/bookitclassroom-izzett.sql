@@ -1,4 +1,5 @@
 -- DDL
+-- Creation start
 -- Initialize Database
 CREATE DATABASE bookitclassroom;
 
@@ -24,8 +25,8 @@ CREATE TABLE CLASSROOM (
     PRIMARY KEY(CName)
 );
 
--- Create TIMETABLE Table
-CREATE TABLE TIMETABLE (
+-- Create ENTRY Table
+CREATE TABLE ENTRY (
     ID int(20) NOT NULL AUTO_INCREMENT,
     User_ID int(20),
     EName varchar(200) NOT NULL,
@@ -42,12 +43,13 @@ CREATE TABLE TIMETABLE (
 CREATE TABLE BOOKING (
     ID int(20) NOT NULL AUTO_INCREMENT,
     Booking_Date DATE NOT NULL,
-    Timetable_ID int(20) NOT NULL,
+    Entry_ID int(20) NOT NULL,
     Classroom varchar(200) NOT NULL,
-    FOREIGN KEY (Timetable_ID) REFERENCES TIMETABLE(ID),
+    FOREIGN KEY (Entry_ID) REFERENCES ENTRY(ID),
     FOREIGN KEY (Classroom) REFERENCES CLASSROOM(CName),
     PRIMARY KEY(ID)
 );
+-- Creation End
 
 -- Example of Insert Statements
 INSERT INTO USER (FName, LName, Email, Password) VALUES 
@@ -56,22 +58,39 @@ INSERT INTO USER (FName, LName, Email, Password) VALUES
 INSERT INTO CLASSROOM (CName, Floor) VALUES 
 ('A1', 1);
 
-INSERT INTO TIMETABLE (User_ID, EName, Day, Time_Start, Time_End) VALUES 
+INSERT INTO ENTRY (User_ID, EName, Day, Time_Start, Time_End) VALUES 
 ('$userid', '$ename', '$day', '$time_start', '$time_end');
 
-INSERT INTO BOOKING (Booking_Date, Timetable_ID, Classroom) VALUES 
-('$bookingdate', '$timetableid', '$classroom');
+INSERT INTO BOOKING (Booking_Date, Entry_ID, Classroom) VALUES 
+('$bookingdate', '$entryid', '$classroom');
 
 
 -- DML
+-- UI
 -- How to count the amount of floors
 SELECT COUNT(DISTINCT Floor) AS No_Of_Floors
 FROM CLASSROOM;
 
--- In the event of an event is booked
-INSERT INTO BOOKING (Booking_Date, Timetable_ID, Classroom) VALUES 
-('$bookingdate', '$timetableid', '$classroom');
+-- Booking
+-- Booking an event
+INSERT INTO BOOKING (Booking_Date, Entry_ID, Classroom) VALUES 
+('$bookingdate', '$entryid', '$classroom');
 
-UPDATE TIMETABLE -- Update timetable to show which classroom it is booked at
+UPDATE ENTRY -- Update ENTRY to show which classroom it is booked at
 SET Assigned_Class = '$classroom'
-WHERE TIMETABLE.id = '$timetableid';
+WHERE ID = '$entryid';
+
+-- User controls
+-- Deleting an entry in ENTRY
+DELETE FROM ENTRY
+WHERE ID = '$entryid';
+
+-- Admin controls
+-- Updating a user type
+UPDATE USER
+SET User_Type = '$usertype'
+WHERE USER.id = '$userid';
+
+-- Deleting a booking
+DELETE FROM BOOKING
+WHERE ID = '$bookingid';
