@@ -6,7 +6,7 @@
 
         $conn = mysqli_connect('localhost', 'root', '', 'bookitclassroom');
 
-        $sql = mysqli_query($conn, "INSERT INTO users (FName, LName, email, password) VALUES ('$fname','$lname','$email', '$password')");
+        $sql = mysqli_query($conn, "INSERT INTO user (FName, LName, Email, Password) VALUES ('$fname','$lname','$email', '$password')");
 
         if ($sql) {
             unset($_SESSION['INFO']);
