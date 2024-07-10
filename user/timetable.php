@@ -105,13 +105,9 @@
                         <td>A1</td>
                         <!-- Action start -->
                         <td class="d-flex justify-content-evenly">
-                        <a class="custom-btn-inline" href="edit-entry.php" style="text-decoration: none;">
-                            Edit
-                            <i class="bi bi-pencil-fill"></i>    
-                        </a>
-                        <a class="custom-btn-inline" href="reserve-event.php" style="text-decoration: none;">
-                            Reserve
-                            <i class="bi bi-bookmark-plus-fill"></i>
+                        <a class="custom-btn-inline" href="#" style="text-decoration: none;">
+                            Unreserve
+                            <i class="bi bi-bookmark-dash-fill"></i>    
                         </a>
                         <!-- Action end -->
                         </svg>
@@ -122,7 +118,7 @@
                         <td>Subject 2</td>
                         <td>Monday</td>
                         <td>16:00 - 17:00</td>
-                        <td>A1</td>
+                        <td>-</td>
                         <!-- Action start -->
                         <td class="d-flex justify-content-evenly">
                         <a class="custom-btn-inline" href="edit-entry.php" style="text-decoration: none;">
@@ -143,13 +139,9 @@
                         <td>B2</td>
                         <!-- Action start -->
                         <td class="d-flex justify-content-evenly">
-                        <a class="custom-btn-inline" href="edit-entry.php" style="text-decoration: none;">
-                            Edit
-                            <i class="bi bi-pencil-fill"></i>    
-                        </a>
-                        <a class="custom-btn-inline" href="reserve-event.php" style="text-decoration: none;">
-                            Reserve
-                            <i class="bi bi-bookmark-plus-fill"></i>
+                        <a class="custom-btn-inline" href="#" style="text-decoration: none;">
+                            Unreserve
+                            <i class="bi bi-bookmark-dash-fill"></i>    
                         </a>
                         <!-- Action end -->
                         </tr>
@@ -158,7 +150,7 @@
                         <td>Subject 4</td>
                         <td>Wednesday</td>
                         <td>12:00 - 15:00</td>
-                        <td>B2</td>
+                        <td>-</td>
                         <!-- Action start -->
                         <td class="d-flex justify-content-evenly">
                         <a class="custom-btn-inline" href="edit-entry.php" style="text-decoration: none;">
