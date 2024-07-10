@@ -97,7 +97,7 @@
                                 <!-- Buttons end -->
                             </div>
                         </form>
-                        <!-- Forgot password form end --> 
+                        <!-- Forgot password form end -->
                     </div>
                 </div>
             </div>
