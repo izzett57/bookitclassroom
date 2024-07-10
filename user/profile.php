@@ -64,7 +64,7 @@
                     <!-- Text start -->
                     <div>
                         <!-- Heading -->
-                        <div class="heading1 ms-3"><p>Profile</p></div>
+                        <div class="heading1 ms-5"><p>Profile</p></div>
                     </div>
                     <!-- Text end -->
                 </div>

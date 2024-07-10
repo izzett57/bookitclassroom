@@ -77,7 +77,7 @@
                     <!-- Text start -->
                     <div>
                         <!-- Heading -->
-                        <div class="heading1 ms-3 mt-4">Edit User Profile</div>
+                        <div class="heading1 ms-5 mt-4">Edit User Profile</div>
                     </div>
                     <!-- Text end -->
                 </div>
