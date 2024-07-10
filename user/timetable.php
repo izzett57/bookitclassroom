@@ -72,7 +72,7 @@
                     <div class="col d-flex justify-content-center">
                         <div class="pt-3">
                         <!-- New entry button start -->
-                        <button onclick="location.href='new-entry.php'" type="button" class="btn custom-btn btn-lg d-flex align-items-center justify-content-between mb-3" style="border-radius: 36px;">
+                        <button onclick="location.href='new-entry-name.php'" type="button" class="btn custom-btn btn-lg d-flex align-items-center justify-content-between mb-3" style="border-radius: 36px;">
                             <p class="dongle-regular mt-2" style="font-size: 3rem; flex-grow: 1;">New Entry</p>
                             <span class="bg-light d-flex rounded-5 align-items-center justify-content-center" style="font-size: 1.5rem;">
                                 <i class="bi bi-plus-circle-fill primary"></i>
