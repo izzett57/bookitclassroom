@@ -155,3 +155,7 @@ button p {
     color: #272937;
     opacity: 0.35; /* Firefox */
 }
+
+tbody:nth-child(1) {
+    color: red;
+}
