@@ -16,7 +16,7 @@
         <link rel="stylesheet" href="../assets/css/google-fonts.css">
         <!-- Import CSS file(s) end --> 
 
-        <title>BookItClassroom - Edit Profile</title>
+        <title>BookItClassroom - Edit User Profile</title>
         <link rel="icon" type="image/x-icon" href="favicon.ico">
 
         <script>
@@ -77,7 +77,7 @@
                     <!-- Text start -->
                     <div>
                         <!-- Heading -->
-                        <div class="heading1 ms-3 mt-4">Edit Profile</div>
+                        <div class="heading1 ms-3 mt-4">Edit User Profile</div>
                     </div>
                     <!-- Text end -->
                 </div>
@@ -132,6 +132,20 @@
                                     <input class="form-control" id="confirmPassword" type="password" placeholder="confirm password">
                             </div>
                             <!-- Confirm password end -->
+                            <!-- Occupation start -->
+                            <label class="form-label inter-regular pt-3" style="letter-spacing: 4px; color: #272937; text-transform: uppercase;">Occupation</label><br>
+                            <div class="dropend">
+                                <button class="btn btn-light oc-dropdown inter-regular" type="button" id="dropdownMenu1" data-toggle="dropdown" data-bs-toggle="dropdown" aria-expanded="false" style="background-color: #FFF; color: #272937; border: 1px solid #dee2e6; width: 15rem;">
+                                    Dropdown button
+                                </button>
+                                <ul class="dropdown-menu p-2" aria-labelledby="dropdownMenu1">
+                                    <li><a class="dropdown-item" onclick="setOccupation(this)" href="#">Admin</a></li>
+                                    <li><a class="dropdown-item" onclick="setOccupation(this)" href="#">Lecturer</a></li>
+                                    <li><a class="dropdown-item" onclick="setOccupation(this)" href="#">Student Club Leader</a></li>
+                                    <li><a class="dropdown-item" onclick="setOccupation(this)" href="#">Member</a></li>
+                                </ul>
+                            </div>
+                            <!-- Occupation end -->
                             <!-- Done button start -->
                             <div class="d-flex justify-content-end pt-3">
                                 <button type="submit" name="#" value="#" class="btn btn-lg custom-btn-noanim d-flex align-items-center justify-content-between">
