@@ -92,11 +92,11 @@
                     <div class="container justify-content-center">
                         <!-- Name start -->
                         <div class="row">
-                            <div class="col">
+                            <div class="col pt-3">
                                 <p class="inter-regular" style="letter-spacing: 4px; color: #272937;">First Name</p>
                                 <p class="subheading1" style="margin: 0px 0px 0px -2px;">First name</p>
                             </div>
-                            <div class="col">
+                            <div class="col pt-3">
                                 <p class="inter-regular" style="letter-spacing: 4px; color: #272937;">Last Name</p>
                                 <p class="subheading1" style="margin: 0px 0px 0px -2px;">Last name</p>
                             </div>
