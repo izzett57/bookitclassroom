@@ -92,26 +92,26 @@
                     <div class="container justify-content-center">
                         <!-- Name start -->
                         <div class="row">
-                            <div class="col pt-3">
+                            <div class="col">
                                 <p class="inter-regular" style="letter-spacing: 4px; color: #272937;">First Name</p>
-                                <p class="inter-regular">First name</p>
+                                <p class="subheading1" style="margin: 0px 0px 0px -2px;">First name</p>
                             </div>
-                            <div class="col pt-3">
+                            <div class="col">
                                 <p class="inter-regular" style="letter-spacing: 4px; color: #272937;">Last Name</p>
-                                <p class="inter-regular">Last name</p>
+                                <p class="subheading1" style="margin: 0px 0px 0px -2px;">Last name</p>
                             </div>
                         </div>
                         <!-- Name end -->
                         <!-- Email start -->
-                        <div class="pt-3">
+                        <div class="pt-5">
                             <p class="inter-regular" style="letter-spacing: 4px; color: #272937;">Email</p>
-                            <p class="inter-regular">Email</p>
+                            <p class="subheading1" style="margin: 0px 0px 0px -2px;">Email</p>
                         </div>
                         <!-- Email end -->
                         <!-- Occupation start -->
-                        <div class="pt-3">
+                        <div class="pt-5">
                             <p class="inter-regular" style="letter-spacing: 4px; color: #272937;">Occupation</p>
-                            <p class="inter-regular">Occupation</p>
+                            <p class="subheading1" style="margin: 0px 0px 0px -2px;">Occupation</p>
                         </div>
                         <!-- Occupation end -->
                     </div>
