@@ -151,24 +151,6 @@ button p {
     color: rgba(218, 116, 34, 0.8);
 }
 
-.custom-btn-occupation {
-    background-color: #DA7422;
-    color: #FFF;
-}
-
-.custom-btn-occupation:hover {
-    color: rgba(218, 116, 34, 0.9);
-    transition: 0.5s;
-}
-
-.custom-btn-occupation:hover:after {
-    transition: 0.5s;
-}
-
-.custom-btn-occupation:active:focus {
-    color: rgba(218, 116, 34, 0.8);
-}
-
 .form-control::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
     color: #272937;
     opacity: 0.35; /* Firefox */
