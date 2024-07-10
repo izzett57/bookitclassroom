@@ -175,7 +175,7 @@
                     </tbody>
                 </table>
                 </div>
-                <!-- Table end -->
+                <!-- Table data end -->
             </div>
         </div>
         <!-- Main content end -->
