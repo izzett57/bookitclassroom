@@ -94,7 +94,7 @@
                                     <!-- Back button end -->
                                     <!-- Next button start -->
                                     <button type="submit" name="#" value="#" class="btn btn-lg custom-btn-noanim d-flex align-items-center justify-content-between">
-                                        <p class="dongle-regular mt-2" style="font-size: 3rem; flex-grow: 1;">Next</p>
+                                        <p class="dongle-regular mt-2" style="font-size: 3rem; flex-grow: 1;">Reset</p>
                                     </button>
                                     <!-- Next button end -->
                                 </div>
