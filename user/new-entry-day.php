@@ -75,17 +75,16 @@
                         <!-- CSS start (todo) -->
                         <style>
                             /* The container */
-                            .container {
+                            .dayContainer {
                             display: block;
                             position: relative;
                             padding-left: 35px;
                             margin-bottom: 12px;
-                            cursor: pointer;
                             font-size: 22px;
                             }
 
                             /* Hide the browser's default radio button */
-                            .container input {
+                            .dayContainer input {
                             position: absolute;
                             opacity: 0;
                             cursor: pointer;
@@ -103,12 +102,13 @@
                             }
 
                             /* On mouse-over, add a grey background color */
-                            .container:hover input ~ .checkmark {
+                            .dayContainer:hover input ~ .checkmark {
                             background-color: #ccc;
+                            cursor: pointer;
                             }
 
                             /* When the radio button is checked, add a blue background */
-                            .container input:checked ~ .checkmark {
+                            .dayContainer input:checked ~ .checkmark {
                             background-color: #2196F3;
                             }
 
@@ -120,12 +120,12 @@
                             }
 
                             /* Show the indicator (dot/circle) when checked */
-                            .container input:checked ~ .checkmark:after {
+                            .dayContainer input:checked ~ .checkmark:after {
                             display: block;
                             }
 
                             /* Style the indicator (dot/circle) */
-                            .container .checkmark:after {
+                            .dayContainer .checkmark:after {
                                 top: 9px;
                                 left: 9px;
                                 width: 8px;
@@ -135,10 +135,51 @@
                             }
                         </style>
                         <!-- CSS end -->
-                        <form class="row">
-                            <input type="radio" id="html" name="fav_language" value="HTML">
-                            <input type="radio" id="css" name="fav_language" value="CSS">
-                            <input type="radio" id="javascript" name="fav_language" value="JavaScript">
+                        <form>
+                            <div class="row row-cols-5">
+                                <div class="col">
+                                <label class="dayContainer">
+                                <input type="radio" name="day" value="Monday">
+                                <span class="checkmark"></span>
+                                </label>
+                                </div>
+                                <div class="col">
+                                <label class="dayContainer">
+                                <input type="radio" name="day" value="Tuesday">
+                                <span class="checkmark"></span>
+                                </label>
+                                </div>
+                                <div class="col">
+                                <label class="dayContainer">
+                                <input type="radio" name="day" value="Wednesday">
+                                <span class="checkmark"></span>
+                                </label>
+                                </div>
+                                <div class="col">
+                                <label class="dayContainer">
+                                <input type="radio" name="day" value="Thursday">
+                                <span class="checkmark"></span>
+                                </label>
+                                </div>
+                                <div class="col">
+                                <label class="dayContainer">
+                                <input type="radio" name="day" value="Friday">
+                                <span class="checkmark"></span>
+                                </label>
+                                </div>
+                            </div>
+                            <!-- Buttons start -->
+                                <div class="col d-flex justify-content-end align-items-center mt-5">
+                                    <!-- Back button start -->
+                                    <a onclick="history.back()" class="dongle-regular custom-btn-inline me-3 mt-2 primary" style="text-decoration: none; font-size: 2rem; cursor: pointer;">back</a>
+                                    <!-- Back button end -->
+                                    <!-- Next button start -->
+                                    <button type="submit" class="btn btn-lg custom-btn-noanim d-flex align-items-center justify-content-between">
+                                        <p class="dongle-regular mt-2" style="font-size: 3rem; flex-grow: 1;">Next</p>
+                                    </button>
+                                    <!-- Next button end -->
+                                </div>
+                                <!-- Buttons end -->
                         </form>
                         <!-- Event day form end -->
                     </div>
