@@ -87,7 +87,7 @@
                                     <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
                                 </svg>
                             </div>
-                            <a onclick="history.back()" class="dongle-regular custom-btn-inline me-3 mt-2 primary" href="#" style="text-decoration: none; font-size: 2rem">edit</a>
+                            <a onclick="href='#'" class="dongle-regular custom-btn-inline me-3 mt-2 primary" href="#" style="text-decoration: none; font-size: 2rem">edit</a>
                         </div>
                     </div>
                     <!-- Picture end -->
@@ -123,11 +123,6 @@
                                     <input class="form-control" id="confirmPassword" type="password" placeholder="confirm password">
                             </div>
                             <!-- Confirm password end -->
-                            <!-- Done button start -->
-                            <div class="d-flex justify-content-end" style="background-color:pink;">
-                                <a onclick="href='#'" class="dongle-regular custom-btn-inline me-3 mt-2 primary" href="#" style="text-decoration: none; font-size: 2rem">done</a>
-                            </div>
-                            <!-- Done button end -->
                             <!-- Occupation start -->
                             <div style="background-color:pink;">
                                     <label class="form-label inter-regular" for="User_Type" style="letter-spacing: 4px; color: #272937; text-transform: uppercase;">Occupation</label><br>
@@ -146,6 +141,11 @@
                                     </div>
                             </div>
                             <!-- Occupation end -->
+                            <!-- Done button start -->
+                            <div class="d-flex justify-content-end" style="background-color:pink;">
+                                <a onclick="href='#'" class="dongle-regular custom-btn-inline me-3 mt-2 primary" href="#" style="text-decoration: none; font-size: 2rem">done</a>
+                            </div>
+                            <!-- Done button end -->
                         </div>
                     </div>
                     <!-- Data field end -->
