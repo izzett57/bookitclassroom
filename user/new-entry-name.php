@@ -71,7 +71,7 @@
                 </div>
                 <div class="row-auto d-flex flex-column">
                     <div class="container" style="height: 45vh; width: 35%; align-content: center;">
-                        <!-- Forgot password form start -->
+                        <!-- Event name form start -->
                         <form class="row">
                             <!-- Email input start -->
                             <div class="col">
@@ -98,7 +98,7 @@
                                 <!-- Buttons end -->
                             </div>
                         </form>
-                        <!-- Forgot password form end -->
+                        <!-- Event name form end -->
                     </div>
                 </div>
             </div>
