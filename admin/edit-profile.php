@@ -19,8 +19,18 @@
         <title>BookItClassroom - Edit Profile</title>
         <link rel="icon" type="image/x-icon" href="favicon.ico">
 
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-        <script src="../assets/js/my.js"></script>
+        <script>
+            function setOccupation(item) {
+                // Get the text from the clicked item
+                var itemText = item.textContent || item.innerText;
+
+                // Find the dropdown button. Assuming it's the immediate parent's previous sibling
+                var dropdownButton = item.closest('.dropend').querySelector('.dropdown-toggle');
+
+                // Set the dropdown button's text to the selected item's text
+                dropdownButton.textContent = itemText;
+            }
+        </script>
     </head>
     <body>
         <!-- Nav bar start -->
@@ -124,21 +134,17 @@
                             </div>
                             <!-- Confirm password end -->
                             <!-- Occupation start -->
-                            <div style="background-color:pink;">
-                                    <label class="form-label inter-regular" for="User_Type" style="letter-spacing: 4px; color: #272937; text-transform: uppercase;">Occupation</label><br>
-                                    <div class="bs-example">
-                                        <ul class="nav nav-pills" role="tablist">
-                                            <li role="presentation" class="dropdown"> <a href="#" class="dropdown-toggle" id="drop4" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> Dropdown <span class="caret"></span> </a>
-                                            <ul class="dropdown-menu" id="menu1" aria-labelledby="drop4">
-                                                <li><a href="#">Action</a></li>
-                                                <li><a href="#">Another action</a></li>
-                                                <li><a href="#">Something else here</a></li>
-                                                <li role="separator" class="divider"></li>
-                                                <li><a href="#">Separated link</a></li>
-                                            </ul>
-                                            </li>
-                                        </ul>
-                                    </div>
+                            <label class="form-label inter-regular" style="letter-spacing: 4px; color: #272937; text-transform: uppercase;">Occupation</label><br>
+                            <div class="dropend">
+                                <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Dropdown button
+                                </button>
+                                <ul class="dropdown-menu p-2" aria-labelledby="dropdownMenu1">
+                                    <li><a class="dropdown-item" onclick="setOccupation(this)" href="#">Admin</a></li>
+                                    <li><a class="dropdown-item" onclick="setOccupation(this)" href="#">Lecturer</a></li>
+                                    <li><a class="dropdown-item" onclick="setOccupation(this)" href="#">Student Club Leader</a></li>
+                                    <li><a class="dropdown-item" onclick="setOccupation(this)" href="#">Member</a></li>
+                                </ul>
                             </div>
                             <!-- Occupation end -->
                             <!-- Done button start -->

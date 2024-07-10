@@ -39,6 +39,12 @@ body {
     color: #DA7422;
 }
 
+.dropdown-menu > li > button:hover {
+    background-image: none;
+    background-color: rgba(218, 116, 34, 0.1);
+    color: #DA7422;
+}
+
 footer a:link {
     color: #A4A4A4;
 }
@@ -142,6 +148,24 @@ button p {
 }
 
 .custom-btn-inline:active:focus {
+    color: rgba(218, 116, 34, 0.8);
+}
+
+.custom-btn-occupation {
+    background-color: #DA7422;
+    color: #FFF;
+}
+
+.custom-btn-occupation:hover {
+    color: rgba(218, 116, 34, 0.9);
+    transition: 0.5s;
+}
+
+.custom-btn-occupation:hover:after {
+    transition: 0.5s;
+}
+
+.custom-btn-occupation:active:focus {
     color: rgba(218, 116, 34, 0.8);
 }
 
