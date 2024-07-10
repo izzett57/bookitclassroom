@@ -119,8 +119,8 @@
                             <!-- Password end -->
                             <!-- Confirm password start -->
                             <div style="background-color:pink;">
-                                    <label class="form-label inter-regular" for="confirmpassword" style="letter-spacing: 4px; color: #272937; text-transform: uppercase;">Confirm Password</label><br>
-                                    <input class="form-control" id="confirmpassword" type="password" placeholder="confirm password">
+                                    <label class="form-label inter-regular" for="confirmPassword" style="letter-spacing: 4px; color: #272937; text-transform: uppercase;">Confirm Password</label><br>
+                                    <input class="form-control" id="confirmPassword" type="password" placeholder="confirm password">
                             </div>
                             <!-- Confirm password end -->
                             <!-- Occupation start -->
