@@ -83,7 +83,7 @@
                 </div>
                 <!-- Cancel button start -->
                 <div class="d-flex justify-content-end">
-                    <a onclick="history.back()" class="dongle-regular custom-btn-inline me-3 mt-2 primary" href="#" style="text-decoration: none; font-size: 2rem">cancel</a>
+                    <a onclick="href='profile.php'" class="dongle-regular custom-btn-inline me-3 mt-2 primary" style="text-decoration: none; font-size: 2rem; cursor: pointer;">cancel</a>
                 </div>
                 <!-- Cancel button end -->
                 <!-- Profile start -->
@@ -97,7 +97,7 @@
                                     <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
                                 </svg>
                             </div>
-                            <a onclick="href='#'" class="dongle-regular custom-btn-inline mt-2 primary" href="#" style="text-decoration: none; font-size: 2rem">edit</a>
+                            <a onclick="href='#'" class="dongle-regular custom-btn-inline primary" style="text-decoration: none; font-size: 2rem; cursor: pointer;">edit</a>
                         </div>
                     </div>
                     <!-- Picture end -->
