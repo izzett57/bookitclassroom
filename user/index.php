@@ -39,8 +39,8 @@
                         </button>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end p-2">
-                      <li><a class="dropdown-item inter-regular" href="#">Profile</a></li>
-                      <li><a class="dropdown-item inter-regular" href="#">Sign Out</a></li>
+                        <li><a class="dropdown-item inter-regular" href="profile.php">Profile</a></li>
+                        <li><a class="dropdown-item inter-regular" href="#">Sign Out</a></li>
                     </ul>
                 </li>
                 <!-- Profile button end -->
