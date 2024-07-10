@@ -120,6 +120,11 @@
                                     <input class="form-control" id="confirmpassword" type="password" placeholder="confirm password">
                             </div>
                             <!-- Confirm password end -->
+                            <!-- Done button start -->
+                            <div class="d-flex justify-content-end" style="background-color:pink;">
+                                <a onclick="href='#'" class="dongle-regular custom-btn-inline me-3 mt-2 primary" href="#" style="text-decoration: none; font-size: 2rem">done</a>
+                            </div>
+                            <!-- Done button end -->
                         </div>
                     </div>
                     <!-- Data field end -->
