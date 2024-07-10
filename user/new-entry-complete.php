@@ -70,12 +70,12 @@
                             <!-- Buttons start -->
                             <div class="col">
                                 <!-- Yes button start -->
-                                <button type="button" class="btn btn-lg custom-btn-noanim d-flex align-items-center" href="index.php">
+                                <button onclick="location.href='#'" type="button" class="btn btn-lg custom-btn-noanim d-flex align-items-center" href="index.php">
                                     <p class="dongle-regular mt-2" style="font-size: 3rem; flex-grow: 1;">Yes</p>
                                 </button>
                                 <!-- Yes button end -->
                                 <!-- No button start -->
-                                    <a onclick="href='timetable.php'" class="dongle-regular custom-btn-inline primary" style="text-decoration: none; font-size: 2rem; cursor: pointer;">no</a>
+                                    <a onclick="location.href='timetable.php'" class="dongle-regular custom-btn-inline primary" style="text-decoration: none; font-size: 2rem; cursor: pointer;">no</a>
                                 <!-- No button end -->
                             </div>
                             <!-- Buttons end -->

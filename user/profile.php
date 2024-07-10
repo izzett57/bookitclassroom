@@ -70,7 +70,7 @@
                 </div>
                 <!-- Edit button start -->
                 <div class="d-flex justify-content-end">
-                    <a onclick="href='edit-profile.php'" class="dongle-regular custom-btn-inline me-3 mt-2 primary" style="text-decoration: none; font-size: 2rem; cursor: pointer;">edit</a>
+                    <a onclick="location.href='edit-profile.php'" class="dongle-regular custom-btn-inline me-3 mt-2 primary" style="text-decoration: none; font-size: 2rem; cursor: pointer;">edit</a>
                 </div>
                 <!-- Edit button end -->
                 <!-- Profile start -->
