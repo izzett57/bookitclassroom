@@ -82,7 +82,7 @@
                         </div>
                     </div>
                 </div>
-                <!-- Profile start -->
+                <!-- Table data start -->
                 <div class="row">
                 <table class="table table-striped table-hover text-center inter-regular">
                     <thead>
@@ -175,7 +175,7 @@
                     </tbody>
                 </table>
                 </div>
-                <!-- Profile end -->
+                <!-- Table end -->
             </div>
         </div>
         <!-- Main content end -->
