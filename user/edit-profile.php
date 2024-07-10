@@ -18,6 +18,19 @@
 
         <title>BookItClassroom - Edit Profile</title>
         <link rel="icon" type="image/x-icon" href="favicon.ico">
+
+        <script>
+            function setOccupation(item) {
+                // Get the text from the clicked item
+                var itemText = item.textContent || item.innerText;
+
+                // Find the dropdown button. Assuming it's the immediate parent's previous sibling
+                var dropdownButton = item.closest('.dropend').querySelector('.oc-dropdown');
+
+                // Set the dropdown button's text to the selected item's text
+                dropdownButton.textContent = itemText;
+            }
+        </script>
     </head>
     <body>
         <!-- Nav bar start -->
@@ -60,24 +73,24 @@
         <!-- Main content start -->
         <div class="container main-content bg-white rounded-3 d-flex flex-column justify-content-center">
             <div class="container">
-                <div class="d-flex justify-content-start" style="background-color: red;">
+                <div class="d-flex justify-content-start align-items-center">
                     <!-- Text start -->
                     <div>
                         <!-- Heading -->
-                        <div class="heading1 ms-3"><p>Edit Profile</p></div>
+                        <div class="heading1 ms-3 mt-4">Edit Profile</div>
                     </div>
                     <!-- Text end -->
                 </div>
                 <!-- Cancel button start -->
-                <div class="d-flex justify-content-end" style="background-color: orange;">
+                <div class="d-flex justify-content-end">
                     <a onclick="history.back()" class="dongle-regular custom-btn-inline me-3 mt-2 primary" href="#" style="text-decoration: none; font-size: 2rem">cancel</a>
                 </div>
                 <!-- Cancel button end -->
                 <!-- Profile start -->
-                <div class="col d-flex justify-content-center align-items-center" style="background-color:yellow;">
+                <div class="col d-flex justify-content-center align-items-center">
                     <!-- Picture start -->
-                    <div class="container d-flex justify-content-center text-center py-3" style="background-color:green;">
-                        <div class="row d-flex justify-content-center pt-3">
+                    <div class="container d-flex justify-content-center text-center py-3">
+                        <div class="row d-flex justify-content-center">
                             <div class="d-flex justify-content-center align-items-center" style="background-color: white; width: 260px; height: 260px; border-radius: 250px;">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="250px" height="250px" fill="currentColor" class="bi bi-person-circle primary" viewBox="0 0 16 16">
                                     <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
@@ -88,47 +101,47 @@
                         </div>
                     </div>
                     <!-- Picture end -->
-                    <!-- Details start -->
                     <!-- Data field start -->
-                    <div class="container justify-content-center" style="background-color:blue;">
+                    <form class="container">
                         <div class="row">
-                            <div class="col" style="background-color:lightblue;">
+                            <div class="col pt-3">
                                 <label class="form-label inter-regular" for="firstName" style="letter-spacing: 4px; color: #272937; text-transform: uppercase;">First Name</label><br>
                                 <input class="form-control" id="firstName" type="text" placeholder="first name">
                             </div>
-                            <div class="col" style="background-color:lightgreen;">
+                            <div class="col pt-3">
                                 <label class="form-label inter-regular" for="lastName" style="letter-spacing: 4px; color: #272937; text-transform: uppercase;">Last Name</label><br>
                                 <input class="form-control" id="lastName" type="text" placeholder="last name">
                             </div>
                         </div>
                         <div class="row">
                             <!-- Email start -->
-                            <div style="background-color:purple;">
+                            <div class="pt-3">
                                     <label class="form-label inter-regular" for="email" style="letter-spacing: 4px; color: #272937; text-transform: uppercase;">Email</label><br>
                                     <input class="form-control" id="email" type="text" placeholder="email">
                             </div>
                             <!-- Email end -->
                             <!-- Password start -->
-                            <div style="background-color:pink;">
+                            <div class="pt-3">
                                     <label class="form-label inter-regular" for="password" style="letter-spacing: 4px; color: #272937; text-transform: uppercase;">Password</label><br>
                                     <input class="form-control" id="password" type="password" placeholder="password">
                             </div>
                             <!-- Password end -->
                             <!-- Confirm password start -->
-                            <div style="background-color:pink;">
-                                    <label class="form-label inter-regular" for="confirmpassword" style="letter-spacing: 4px; color: #272937; text-transform: uppercase;">Confirm Password</label><br>
-                                    <input class="form-control" id="confirmpassword" type="password" placeholder="confirm password">
+                            <div class="pt-3">
+                                    <label class="form-label inter-regular" for="confirmPassword" style="letter-spacing: 4px; color: #272937; text-transform: uppercase;">Confirm Password</label><br>
+                                    <input class="form-control" id="confirmPassword" type="password" placeholder="confirm password">
                             </div>
                             <!-- Confirm password end -->
                             <!-- Done button start -->
-                            <div class="d-flex justify-content-end" style="background-color:pink;">
-                                <a onclick="href='#'" class="dongle-regular custom-btn-inline me-3 mt-2 primary" href="#" style="text-decoration: none; font-size: 2rem">done</a>
+                            <div class="d-flex justify-content-end pt-3">
+                                <button type="submit" name="#" value="#" class="btn btn-lg custom-btn-noanim d-flex align-items-center justify-content-between">
+                                    <p class="dongle-regular mt-2" style="font-size: 3rem; flex-grow: 1;">Done</p>
+                                </button>
                             </div>
                             <!-- Done button end -->
                         </div>
-                    </div>
+                    </form>
                     <!-- Data field end -->
-                    <!-- Details end -->
                 </div>
                 <!-- Profile end -->
             </div>
