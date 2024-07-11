@@ -139,31 +139,31 @@
                             <div class="row row-cols-5">
                                 <div class="col">
                                 <label class="dayContainer">
-                                <input type="radio" name="day" value="Monday">
+                                <input type="radio" name="day" value="MONDAY">
                                 <span class="checkmark"></span>
                                 </label>
                                 </div>
                                 <div class="col">
                                 <label class="dayContainer">
-                                <input type="radio" name="day" value="Tuesday">
+                                <input type="radio" name="day" value="TUESDAY">
                                 <span class="checkmark"></span>
                                 </label>
                                 </div>
                                 <div class="col">
                                 <label class="dayContainer">
-                                <input type="radio" name="day" value="Wednesday">
+                                <input type="radio" name="day" value="WEDNESDAY">
                                 <span class="checkmark"></span>
                                 </label>
                                 </div>
                                 <div class="col">
                                 <label class="dayContainer">
-                                <input type="radio" name="day" value="Thursday">
+                                <input type="radio" name="day" value="THURSDAY">
                                 <span class="checkmark"></span>
                                 </label>
                                 </div>
                                 <div class="col">
                                 <label class="dayContainer">
-                                <input type="radio" name="day" value="Friday">
+                                <input type="radio" name="day" value="FRIDAY">
                                 <span class="checkmark"></span>
                                 </label>
                                 </div>
