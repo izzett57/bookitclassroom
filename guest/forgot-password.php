@@ -75,7 +75,7 @@
                             <!-- Email input start -->
                             <div class="col">
                                 <label class="form-label inter-regular" for="Email" style="letter-spacing: 4px; color: #272937;">EMAIL</label><br>
-                                <input class="form-control" id="Email"  type="text" placeholder="email"><br>
+                                <input class="form-control" id="Email" name="Email" type="text" placeholder="email"><br>
                             </div>
                             <!-- Email input end -->
                             <div class="row pt-4">
@@ -89,7 +89,7 @@
                                     <a onclick="history.back()" class="dongle-regular custom-btn-inline me-3 mt-2 primary" style="text-decoration: none; font-size: 2rem; cursor: pointer;">back</a>
                                     <!-- Back button end -->
                                     <!-- Next button start -->
-                                    <button onclick="location.href='send-password-reset.php'" type="submit" class="btn btn-lg custom-btn-noanim d-flex align-items-center justify-content-between">
+                                    <button href='send-password-reset.php'" type="submit" class="btn btn-lg custom-btn-noanim d-flex align-items-center justify-content-between">
                                         <p class="dongle-regular mt-2" style="font-size: 3rem; flex-grow: 1;">Next</p>
                                     </button>
                                     <!-- Next button end -->

@@ -1,14 +1,18 @@
 <?php
 
-$host= "localhost";
-$username= "root";
+$host = "localhost";
+$dbname = "bookitclassroom";
+$username = "root";
 $password = "";
-$db_name = "bookitclassroom";
 
-$conn = mysqli_connect($host, $username, $password, $db_name);
-
-if (mysqli_connect_errno()){
-	echo "Failed to connect to MySQL: " . mysqli_connect_error();
-	die();
+$mysqli = new mysqli(hostname: $host,
+                     username: $username,
+                     password: $password,
+                     database: $dbname);
+                     
+if ($mysqli->connect_errno) {
+    die("Connection error: " . $mysqli->connect_error);
 }
+
+return $mysqli;
 ?>

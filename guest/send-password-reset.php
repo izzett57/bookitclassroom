@@ -59,5 +59,5 @@ if ($mysqli->affected_rows) {
 
 }
 
-echo "Message sent, please check your inbox.";
+header("Location: forgot-password-complete.php");
 ?>

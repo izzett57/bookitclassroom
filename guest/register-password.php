@@ -126,7 +126,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <!-- Confirm password input end -->
                              <!-- Error message start -->
                             <?php if (!empty($errorMessage)): ?>
-            <div style="color: red;"><?= $errorMessage; ?></div>
+            <div style="color: red;"><?= $errorMessage; ?>
+        </div>
         <?php endif; ?>
                             <!-- Error message end -->
                             <div class="row pt-4">
