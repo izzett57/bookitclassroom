@@ -109,11 +109,11 @@ $conn->close();
                         <div class="row">
                             <div class="col pt-3">
                                 <p class="inter-regular" style="letter-spacing: 4px; color: #272937;text-transform: uppercase;">First Name</p>
-                                <p class="subheading1" style="margin: 0px 0px 0px -2px;"><?php echo htmlspecialchars($user['FName']); ?></p>
+                                <p class="subheading1" style="margin: 0px 0px 0px -2px; text-transform: capitalize;"><?php echo htmlspecialchars($user['FName']); ?></p>
                             </div>
                             <div class="col pt-3">
                                 <p class="inter-regular" style="letter-spacing: 4px; color: #272937;text-transform: uppercase;">Last Name</p>
-                                <p class="subheading1" style="margin: 0px 0px 0px -2px;"><?php echo htmlspecialchars($user['LName']); ?></p>
+                                <p class="subheading1" style="margin: 0px 0px 0px -2px; text-transform: capitalize;"><?php echo htmlspecialchars($user['LName']); ?></p>
                             </div>
                         </div>
                         <!-- Name end -->
@@ -126,7 +126,7 @@ $conn->close();
                         <!-- Occupation start -->
                         <div class="pt-5">
                             <p class="inter-regular" style="letter-spacing: 4px; color: #272937;text-transform: uppercase;">Occupation</p>
-                            <p class="subheading1" style="margin: 0px 0px 0px -2px;"><?php echo htmlspecialchars($user['User_Type']); ?></p>
+                            <p class="subheading1" style="margin: 0px 0px 0px -2px; text-transform: capitalize;"><?php echo htmlspecialchars($user['User_Type']); ?></p>
                         </div>
                         <!-- Occupation end -->
                     </div>
