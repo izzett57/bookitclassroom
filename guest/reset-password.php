@@ -74,12 +74,12 @@
                         <form class="row">
                             <!-- Email input start -->
                             <div class="col">
-                                <label class="form-label inter-regular" for="password" style="letter-spacing: 4px; color: #272937; text-transform: uppercase;">Password</label><br>
-                                <input class="form-control" id="password"  type="password" placeholder="password"><br>
+                                <label class="form-label inter-regular" for="Password" style="letter-spacing: 4px; color: #272937; text-transform: uppercase;">Password</label><br>
+                                <input class="form-control" id="Password" name="Password" type="Password" placeholder="password"><br>
                             </div>
                             <div class="col">
                                 <label class="form-label inter-regular" for="confirmPassword" style="letter-spacing: 4px; color: #272937; text-transform: uppercase;">Confirm Password</label><br>
-                                <input class="form-control" id="confirmPassword"  type="password" placeholder="confirm password"><br>
+                                <input class="form-control" id="confirmPassword" name="confirmPassword" type="password" placeholder="confirm password"><br>
                             </div>
                             <!-- Email input end -->
                             <div class="row pt-4">

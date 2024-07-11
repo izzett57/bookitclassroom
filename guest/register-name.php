@@ -77,13 +77,13 @@
                             <!-- First name input start -->
                             <div class="col">
                                 <label class="form-label inter-regular" for="firstName" style="letter-spacing: 4px; color: #272937;">FIRST NAME</label><br>
-                                <input class="form-control" id="firstName"  type="text" placeholder="first name"><br>
+                                <input class="form-control" id="firstName" name="firstName" type="text" placeholder="first name"><br>
                             </div>
                             <!-- First name input end -->
                             <!-- Last name input start -->
                             <div class="col">
                                 <label class="form-label inter-regular" for="lastName" style="letter-spacing: 4px; color: #272937;">LAST NAME</label><br>
-                                <input class="form-control" id="lastName" type="text" placeholder="last name">
+                                <input class="form-control" id="lastName" name="lastName" type="text" placeholder="last name">
                             </div>
                             <!-- Last name input end -->
                             <div class="row pt-4">

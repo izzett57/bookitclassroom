@@ -77,13 +77,13 @@
                             <!-- Email input start -->
                             <div>
                                 <label class="form-label inter-regular pt-2" for="email" style="letter-spacing: 4px; color: #272937;">EMAIL</label><br>
-                                <input class="form-control" id="email"  type="email" placeholder="email"><br>
+                                <input class="form-control" id="email" name="Email" type="email" placeholder="email"><br>
                             </div>
                             <!-- Email input end -->
                             <!-- Password input start -->
                             <div>
                                 <label class="form-label inter-regular" for="password" style="letter-spacing: 4px; color: #272937;">PASSWORD</label><br>
-                                <input class="form-control" id="password" type="password" placeholder="password">
+                                <input class="form-control" id="password" name="password" type="password" placeholder="password">
                             </div>
                             <!-- Password input end -->
                             <!-- Forgot password start -->

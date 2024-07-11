@@ -76,8 +76,8 @@
                         <form class="row">
                             <!-- Email input start -->
                             <div class="col">
-                                <label class="form-label inter-regular" for="email" style="letter-spacing: 4px; color: #272937;">EMAIL</label><br>
-                                <input class="form-control" id="email"  type="text" placeholder="email"><br>
+                                <label class="form-label inter-regular" for="Email" style="letter-spacing: 4px; color: #272937;">EMAIL</label><br>
+                                <input class="form-control" id="Email" name="Email" type="text" placeholder="email"><br>
                             </div>
                             <!-- Email input end -->
                             <div class="row pt-4">

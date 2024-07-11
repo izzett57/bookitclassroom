@@ -76,14 +76,14 @@
                         <form class="row">
                             <!-- Password input start -->
                             <div>
-                                <label class="form-label inter-regular pt-2" for="password" style="letter-spacing: 4px; color: #272937;">PASSWORD</label><br>
-                                <input class="form-control" id="password"  type="password" placeholder="password"><br>
+                                <label class="form-label inter-regular pt-2" for="Password" style="letter-spacing: 4px; color: #272937;">PASSWORD</label><br>
+                                <input class="form-control" id="Password" name="Password" type="password" placeholder="password"><br>
                             </div>
                             <!-- Password input end -->
                             <!-- Confirm password input start -->
                             <div>
                                 <label class="form-label inter-regular" for="confirmPassword" style="letter-spacing: 4px; color: #272937;">CONFIRM PASSWORD</label><br>
-                                <input class="form-control" id="confirmPassword" type="password" placeholder="confirm password">
+                                <input class="form-control" id="confirmPassword" name="confirmPassword" type="password" placeholder="confirm password">
                             </div>
                             <!-- Confirm password input end -->
                         </form>

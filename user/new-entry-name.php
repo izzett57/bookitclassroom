@@ -76,7 +76,7 @@
                             <!-- Email input start -->
                             <div class="col">
                                 <label class="form-label inter-regular" for="event" style="letter-spacing: 4px; color: #272937;">Subject/Event Name</label><br>
-                                <input class="form-control" id="event"  type="text" placeholder="subject/event name"><br>
+                                <input class="form-control" id="event" name="event" type="text" placeholder="subject/event name"><br>
                             </div>
                             <!-- Email input end -->
                             <div class="row pt-4">
