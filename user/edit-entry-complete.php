@@ -16,7 +16,7 @@
         <link rel="stylesheet" href="../assets/css/google-fonts.css">
         <!-- Import CSS file(s) end -->
 
-        <title>Reserve - BookItClassroom</title>
+        <title>Edit Entry Complete! - BookItClassroom</title>
         <link rel="icon" type="image/x-icon" href="favicon.ico">
     </head>
     <body>
@@ -24,14 +24,7 @@
         <nav class="navbar bg-transparent px-5 py-4">
             <div class="container-fluid">
                 <div class="d-flex align-items-center">
-                    <!-- Back button start -->
-                    <button onclick="history.back()" type="button" class="btn btn-light btn-circle me-3">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="38" height="38" fill="currentColor" class="bi bi-arrow-left-circle-fill primary" viewBox="0 0 16 16">
-                            <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0m3.5 7.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5z"/>
-                            </svg>
-                    </button>
-                    <!-- Back button end -->
-                    <!-- Logo start-->
+                    <!-- Logo start -->
                     <a class="navbar-brand" href="index.php">
                         <img src="../assets/logo.png" class="img-fluid" width="316" height="51">
                     </a>
@@ -44,7 +37,7 @@
                             <svg xmlns="http://www.w3.org/2000/svg" width="38" height="38" fill="currentColor" class="bi bi-person-circle primary" viewBox="0 0 16 16">
                                 <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
                                 <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
-                            </svg>
+                              </svg>
                         </button>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end p-2">
@@ -60,33 +53,35 @@
         <!-- Main content start -->
         <div class="container main-content bg-white rounded-3 d-flex flex-column justify-content-center">
             <div class="row justify-content-evenly">
-                <div class="col-7 d-flex justify-content-center align-items-center">
+                <div class="col-8 d-flex justify-content-center align-items-center">
                     <!-- Text start -->
                     <div>
                         <!-- Heading -->
-                        <div class="heading1"><p>Reserve Class</p></div>
+                        <div class="heading1" style="font-size: 5rem;"><p>Entry Edited!</p></div>
                         <!-- Subheading -->
-                        <div class="subheading1"><p>How would you like to reserve?</p></div>
+                        <div class="subheading1"><p>Would you like to reserve the class/event now?</p></div>
                     </div>
                     <!-- Text end -->
                 </div>
-                <div class="col d-flex flex-column align-items-center justify-content-center">
-                    <!-- View map button start -->
-                    <button onclick="location.href='#'" type="button" class="btn custom-btn btn-lg d-flex align-items-center justify-content-between mb-3" style="border-radius: 36px;">
-                        <p class="dongle-regular mt-2" style="font-size: 3rem; flex-grow: 1;">Map</p>
-                        <span class="bg-light d-flex rounded-5 align-items-center justify-content-center" style="font-size: 1.5rem;">
-                            <i class="bi bi-pin-map-fill primary"></i>
-                        </span>
-                    </button>
-                    <!-- View map button end -->
-                    <!-- Timetable button -->
-                    <button onclick="location.href='timetable.php'" type="button" class="btn custom-btn btn-lg d-flex align-items-center justify-content-between mb-" style="border-radius: 36px;">
-                        <p class="dongle-regular mt-2" style="font-size: 3rem; flex-grow: 1;">Timetable</p>
-                        <span class="bg-light d-flex rounded-5 align-items-center justify-content-center" style="font-size: 1.5rem;">
-                            <i class="bi bi-calendar3 primary"></i>
-                        </span>
-                    </button>
-                    <!-- Timetable button end -->
+                <div class="col d-flex">
+                    <div class="container d-flex justify-content-center align-items-center text-center">
+                        <!-- Register form start -->
+                        <div class="row">
+                            <!-- Buttons start -->
+                            <div class="col">
+                                <!-- Yes button start -->
+                                <button onclick="location.href='#'" type="button" class="btn btn-lg custom-btn-noanim d-flex align-items-center" href="#">
+                                    <p class="dongle-regular mt-2" style="font-size: 3rem; flex-grow: 1;">Yes</p>
+                                </button>
+                                <!-- Yes button end -->
+                                <!-- No button start -->
+                                    <a onclick="location.href='timetable.php'" class="dongle-regular custom-btn-inline primary" style="text-decoration: none; font-size: 2rem; cursor: pointer;">no</a>
+                                <!-- No button end -->
+                            </div>
+                            <!-- Buttons end -->
+                        </div>
+                        <!-- Register form end --> 
+                    </div>
                 </div>
             </div>
         </div>
