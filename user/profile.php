@@ -9,6 +9,19 @@ $stmt->execute();
 $result = $stmt->get_result();
 $user = $result->fetch_assoc();
 
+// Determine user role for display
+$userRole = ''; // Initialize variable to hold the user role for display
+if ($user['User_Type'] === 'MEMBER') {
+    $userRole = 'Member';
+} elseif ($user['User_Type'] === 'ADMIN') {
+    $userRole = 'Admin';
+} elseif ($user['User_Type'] === 'LECTURER') {
+    $userRole = 'Lecturer';
+} elseif ($user['User_Type'] === 'CLUB_LEADER') {
+    $userRole = 'Student Club Leader';
+}
+
+
 $stmt->close();
 $conn->close();
 ?>
@@ -126,7 +139,7 @@ $conn->close();
                         <!-- Occupation start -->
                         <div class="pt-5">
                             <p class="inter-regular" style="letter-spacing: 4px; color: #272937;text-transform: uppercase;">Occupation</p>
-                            <p class="subheading1" style="margin: 0px 0px 0px -2px; text-transform: capitalize;"><?php echo htmlspecialchars($user['User_Type']); ?></p>
+                            <p class="subheading1" style="margin: 0px 0px 0px -2px; text-transform: capitalize;"><?php echo htmlspecialchars($userRole); ?></p>
                         </div>
                         <!-- Occupation end -->
                     </div>
