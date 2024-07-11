@@ -62,7 +62,7 @@
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end p-2">
                         <li><a class="dropdown-item inter-regular" href="profile.php">Profile</a></li>
-                        <li><a class="dropdown-item inter-regular" href="#">Sign Out</a></li>
+                        <li><a class="dropdown-item inter-regular" href="logout.php">Sign Out</a></li>
                     </ul>
                 </li>
                 <!-- Profile button end -->
@@ -106,30 +106,30 @@
                         <div class="row">
                             <div class="col pt-3">
                                 <label class="form-label inter-regular" for="firstName" style="letter-spacing: 4px; color: #272937; text-transform: uppercase;">First Name</label><br>
-                                <input class="form-control" id="firstName" type="text" placeholder="first name">
+                                <input class="form-control" id="firstName" name="firstName" type="text" placeholder="first name">
                             </div>
                             <div class="col pt-3">
                                 <label class="form-label inter-regular" for="lastName" style="letter-spacing: 4px; color: #272937; text-transform: uppercase;">Last Name</label><br>
-                                <input class="form-control" id="lastName" type="text" placeholder="last name">
+                                <input class="form-control" id="lastName" name="lastName" type="text" placeholder="last name">
                             </div>
                         </div>
                         <div class="row">
                             <!-- Email start -->
                             <div class="pt-3">
-                                    <label class="form-label inter-regular" for="email" style="letter-spacing: 4px; color: #272937; text-transform: uppercase;">Email</label><br>
-                                    <input class="form-control" id="email" type="text" placeholder="email">
+                                    <label class="form-label inter-regular" for="Email" style="letter-spacing: 4px; color: #272937; text-transform: uppercase;">Email</label><br>
+                                    <input class="form-control" id="Email" name="Email" type="text" placeholder="email">
                             </div>
                             <!-- Email end -->
                             <!-- Password start -->
                             <div class="pt-3">
-                                    <label class="form-label inter-regular" for="password" style="letter-spacing: 4px; color: #272937; text-transform: uppercase;">Password</label><br>
-                                    <input class="form-control" id="password" type="password" placeholder="password">
+                                    <label class="form-label inter-regular" for="Password" style="letter-spacing: 4px; color: #272937; text-transform: uppercase;">Password</label><br>
+                                    <input class="form-control" id="Password" name="Password" type="Password" placeholder="password">
                             </div>
                             <!-- Password end -->
                             <!-- Confirm password start -->
                             <div class="pt-3">
                                     <label class="form-label inter-regular" for="confirmPassword" style="letter-spacing: 4px; color: #272937; text-transform: uppercase;">Confirm Password</label><br>
-                                    <input class="form-control" id="confirmPassword" type="password" placeholder="confirm password">
+                                    <input class="form-control" id="confirmPassword" name="confirmPassword" type="password" placeholder="confirm password">
                             </div>
                             <!-- Confirm password end -->
                             <!-- Occupation start -->

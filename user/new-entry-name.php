@@ -50,7 +50,7 @@
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end p-2">
                         <li><a class="dropdown-item inter-regular" href="profile.php">Profile</a></li>
-                        <li><a class="dropdown-item inter-regular" href="#">Sign Out</a></li>
+                        <li><a class="dropdown-item inter-regular" href="logout.php">Sign Out</a></li>
                     </ul>
                 </li>
                 <!-- Profile button end -->
@@ -76,7 +76,7 @@
                             <!-- Email input start -->
                             <div class="col">
                                 <label class="form-label inter-regular" for="event" style="letter-spacing: 4px; color: #272937;">Subject/Event Name</label><br>
-                                <input class="form-control" id="event"  type="text" placeholder="subject/event name"><br>
+                                <input class="form-control" id="event" name="event" type="text" placeholder="subject/event name"><br>
                             </div>
                             <!-- Email input end -->
                             <div class="row pt-4">
