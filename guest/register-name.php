@@ -60,7 +60,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <link rel="stylesheet" href="../assets/css/google-fonts.css">
         <!-- Import CSS file(s) end --> 
 
-        <title>BookItClassroom - Register - Name</title>
+        <title>Register - Name - BookItClassroom</title>
         <link rel="icon" type="image/x-icon" href="favicon.ico">
     </head>
     <body>
