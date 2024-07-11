@@ -1,65 +1,51 @@
--- phpMyAdmin SQL Dump
--- version 5.2.1
--- https://www.phpmyadmin.net/
---
--- Host: 127.0.0.1
--- Generation Time: Jun 23, 2024 at 07:59 AM
--- Server version: 10.4.32-MariaDB
--- PHP Version: 8.0.30
+-- Initialize Database
+CREATE DATABASE bookitclassroom;
 
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-START TRANSACTION;
-SET time_zone = "+00:00";
+-- Use Database
+USE bookitclassroom;
 
+-- Create USER Table
+CREATE TABLE USER (
+    ID int(20) NOT NULL AUTO_INCREMENT,
+    FName varchar(200) NOT NULL,
+    LName varchar(200) NOT NULL,
+    Email varchar(200) NOT NULL UNIQUE,
+    Password varchar(200) NOT NULL,
+    Date timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+    User_Type enum('MEMBER','ADMIN','CLUB_LEAD') NOT NULL,
+    Reset_Token varchar(200),
+    Token_Expire DATE,
+    PRIMARY KEY(ID)
+);
 
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
+-- Create CLASSROOM Table
+CREATE TABLE CLASSROOM (
+    CName varchar(200) NOT NULL UNIQUE,
+    Floor int(1) NOT NULL,
+    PRIMARY KEY(CName)
+);
 
---
--- Database: `bookitclassroom`
---
+-- Create ENTRY Table
+CREATE TABLE ENTRY (
+    ID int(20) NOT NULL AUTO_INCREMENT,
+    User_ID int(20) NOT NULL,
+    EName varchar(200) NOT NULL,
+    Day enum('MONDAY','TUESDAY','WEDNESDAY','THURSDAY','FRIDAY') NOT NULL,
+    Time_Start TIME NOT NULL,
+    Time_End TIME NOT NULL,
+    Assigned_Class varchar(200),
+    FOREIGN KEY (User_ID) REFERENCES USER(ID),
+    FOREIGN KEY (Assigned_Class) REFERENCES CLASSROOM(CName),
+    PRIMARY KEY(ID)
+);
 
--- --------------------------------------------------------
-
---
--- Table structure for table `users`
---
-
-CREATE TABLE `users` (
-  `id` bigint(20) NOT NULL,
-  `FName` varchar(200) NOT NULL,
-  `LName` varchar(200) NOT NULL,
-  `email` varchar(200) NOT NULL,
-  `password` varchar(200) NOT NULL,
-  `date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `User_Type` varchar(200) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Indexes for dumped tables
---
-
---
--- Indexes for table `users`
---
-ALTER TABLE `users`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `email` (`email`),
-  ADD KEY `date` (`date`);
-
---
--- AUTO_INCREMENT for dumped tables
---
-
---
--- AUTO_INCREMENT for table `users`
---
-ALTER TABLE `users`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
-COMMIT;
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+-- Create BOOKING Table
+CREATE TABLE BOOKING (
+    ID int(20) NOT NULL AUTO_INCREMENT,
+    Booking_Date DATE NOT NULL,
+    Entry_ID int(20) NOT NULL,
+    Classroom varchar(200) NOT NULL,
+    FOREIGN KEY (Entry_ID) REFERENCES ENTRY(ID),
+    FOREIGN KEY (Classroom) REFERENCES CLASSROOM(CName),
+    PRIMARY KEY(ID)
+);
