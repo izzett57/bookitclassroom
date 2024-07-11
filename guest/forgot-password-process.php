@@ -15,7 +15,7 @@ if (isset($_POST['Email'])) {
             mysqli_query($conn, $sql);
 
             // Send email (this is a simplified example)
-            $resetLink = "http://yourdomain.com/reset-password.php?token=$token";
+            $resetLink = "localhost/bookitclassroom/bookitclassroom/guest/reset-password.php?token=$token";
             $subject = "Password Reset Request";
             $message = "Click the link to reset your password: $resetLink";
             mail($email, $subject, $message, "From: no-reply@yourdomain.com");
