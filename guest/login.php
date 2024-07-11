@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="../assets/css/google-fonts.css">
     <!-- Import CSS file(s) end -->
 
-    <title>BookItClassroom - Login</title>
+    <title>Login - BookItClassroom</title>
     <link rel="icon" type="image/x-icon" href="favicon.ico">
 </head>
 <body>

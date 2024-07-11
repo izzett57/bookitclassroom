@@ -47,7 +47,7 @@ if (isset($_POST['next'])) {
         <link rel="stylesheet" href="../assets/css/google-fonts.css">
         <!-- Import CSS file(s) end -->
 
-        <title>BookItClassroom - Register - Email</title>
+        <title>Register - Email - BookItClassroom</title>
         <link rel="icon" type="image/x-icon" href="favicon.ico">
     </head>
     <body>
