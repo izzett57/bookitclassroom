@@ -16,7 +16,7 @@
         <link rel="stylesheet" href="../assets/css/google-fonts.css">
         <!-- Import CSS file(s) end -->
 
-        <title>BookItClassroom - Reset Password Complete!</title>
+        <title>Reset Password Complete! - BookItClassroom</title>
         <link rel="icon" type="image/x-icon" href="favicon.ico">
     </head>
     <body>

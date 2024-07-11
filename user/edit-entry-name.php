@@ -16,7 +16,7 @@
         <link rel="stylesheet" href="../assets/css/google-fonts.css">
         <!-- Import CSS file(s) end --> 
 
-        <title>BookItClassroom - Edit Entry - Name</title>
+        <title>Edit Entry - Name - BookItClassroom</title>
         <link rel="icon" type="image/x-icon" href="favicon.ico">
     </head>
     
