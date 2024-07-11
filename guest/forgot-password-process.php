@@ -11,7 +11,7 @@ if (isset($_POST['Email'])) {
 
         if (mysqli_num_rows($result) === 1) {
             $token = bin2hex(random_bytes(50)); // Generate a random token
-            $sql = "UPDATE user SET reset_token='$token', token_expire=DATE_ADD(NOW(), INTERVAL 1 HOUR) WHERE Email='$email'";
+            $sql = "UPDATE user SET Reset_Token='$token', token_expire=DATE_ADD(NOW(), INTERVAL 1 HOUR) WHERE Email='$email'";
             mysqli_query($conn, $sql);
 
             // Send email (this is a simplified example)
