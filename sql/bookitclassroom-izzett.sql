@@ -21,14 +21,14 @@ CREATE TABLE USER (
 -- Create CLASSROOM Table
 CREATE TABLE CLASSROOM (
     CName varchar(200) NOT NULL UNIQUE,
-    Floor int(1),
+    Floor int(1) NOT NULL,
     PRIMARY KEY(CName)
 );
 
 -- Create ENTRY Table
 CREATE TABLE ENTRY (
     ID int(20) NOT NULL AUTO_INCREMENT,
-    User_ID int(20),
+    User_ID int(20) NOT NULL,
     EName varchar(200) NOT NULL,
     Day enum('MONDAY','TUESDAY','WEDNESDAY','THURSDAY','FRIDAY') NOT NULL,
     Time_Start TIME NOT NULL,
