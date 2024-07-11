@@ -8,14 +8,14 @@ USE bookitclassroom;
 
 -- Create USER Table
 CREATE TABLE USER (
-  ID int(20) NOT NULL AUTO_INCREMENT,
-  FName varchar(200) NOT NULL,
-  LName varchar(200) NOT NULL,
-  Email varchar(200) NOT NULL UNIQUE,
-  Password varchar(200) NOT NULL,
-  Date timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  User_Type enum('MEMBER','ADMIN','CLUB_LEAD') NOT NULL,
-  PRIMARY KEY(ID)
+    ID int(20) NOT NULL AUTO_INCREMENT,
+    FName varchar(200) NOT NULL,
+    LName varchar(200) NOT NULL,
+    Email varchar(200) NOT NULL UNIQUE,
+    Password varchar(200) NOT NULL,
+    Date timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+    User_Type enum('MEMBER','ADMIN','CLUB_LEAD') NOT NULL,
+    PRIMARY KEY(ID)
 );
 
 -- Create CLASSROOM Table
