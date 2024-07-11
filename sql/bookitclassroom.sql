@@ -14,7 +14,7 @@ CREATE TABLE USER (
     Date timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
     User_Type enum('MEMBER','ADMIN','CLUB_LEAD') NOT NULL,
     Reset_Token varchar(200),
-    Token_Expire DATE,
+    Token_Expire DATETIME,
     PRIMARY KEY(ID)
 );
 
