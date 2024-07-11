@@ -71,11 +71,11 @@
                 <div class="row-auto d-flex flex-column">
                     <div class="container" style="width: 35%;">
                         <!-- Forgot password form start -->
-                        <form class="row">
+                        <form class="row" method= "POST" action="send-password-reset.php">
                             <!-- Email input start -->
                             <div class="col">
-                                <label class="form-label inter-regular" for="email" style="letter-spacing: 4px; color: #272937;">EMAIL</label><br>
-                                <input class="form-control" id="email"  type="text" placeholder="email"><br>
+                                <label class="form-label inter-regular" for="Email" style="letter-spacing: 4px; color: #272937;">EMAIL</label><br>
+                                <input class="form-control" id="Email"  type="text" placeholder="email"><br>
                             </div>
                             <!-- Email input end -->
                             <div class="row pt-4">
@@ -89,7 +89,7 @@
                                     <a onclick="history.back()" class="dongle-regular custom-btn-inline me-3 mt-2 primary" style="text-decoration: none; font-size: 2rem; cursor: pointer;">back</a>
                                     <!-- Back button end -->
                                     <!-- Next button start -->
-                                    <button onclick="location.href='forgot-password-process.php'" type="submit" class="btn btn-lg custom-btn-noanim d-flex align-items-center justify-content-between">
+                                    <button onclick="location.href='send-password-reset.php'" type="submit" class="btn btn-lg custom-btn-noanim d-flex align-items-center justify-content-between">
                                         <p class="dongle-regular mt-2" style="font-size: 3rem; flex-grow: 1;">Next</p>
                                     </button>
                                     <!-- Next button end -->
@@ -98,51 +98,10 @@
                             </div>
                         </form>
                         <!-- Forgot password form end --> 
-
-                        <?php
-        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['reset_password'])) {
-            $userEmail = $_POST['email'];
-
-            // Database configuration
-            $host = 'localhost';
-            $dbname = 'bookitclassroom';
-            $username = 'root';
-            $password = '';
-
-            try {
-                // Connect to the database
-                $pdo = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
-                $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-                // SQL query to find the user by email
-                $sql = "SELECT password FROM users WHERE email = :email";
-
-                // Prepare statement
-                $stmt = $pdo->prepare($sql);
-
-                // Bind the email parameter
-                $stmt->bindParam(':email', $userEmail);
-
-                // Execute the query
-                $stmt->execute();
-
-                // Fetch the result
-                $user = $stmt->fetch(PDO::FETCH_ASSOC);
-
-                if ($user) {
-                    // Found user, but remember, showing passwords like this is not secure!
-                    echo "Password found! Your password is: " . $user['password'] . ". Please change it immediately.";
-                } else {
-                    echo "No user found with that email address.";
-                }
-            } catch(PDOException $e) {
-                echo "Connection failed: " . $e->getMessage();
-            }
-            header('Location: forgot-password-complete.php');
-            // Close the connection
-            $pdo = null;
-        }
-        ?>
+                         <!--display error message if any is  found-->
+                        <?php if (isset($_GET['error'])) { ?>
+                        <p class="error"><?php echo $_GET['error']; ?></p>
+                    <?php } ?>
                     </div>
                 </div>
             </div>
