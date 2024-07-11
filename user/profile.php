@@ -1,3 +1,18 @@
+<?php
+session_start();
+include '../assets/db_conn.php';
+$user_id = $_SESSION['ID'];
+$query = "SELECT * FROM user WHERE ID = ?";
+$stmt = $conn->prepare($query);
+$stmt->bind_param("i", $user_id);
+$stmt->execute();
+$result = $stmt->get_result();
+$user = $result->fetch_assoc();
+
+$stmt->close();
+$conn->close();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -93,25 +108,25 @@
                         <!-- Name start -->
                         <div class="row">
                             <div class="col pt-3">
-                                <p class="inter-regular" style="letter-spacing: 4px; color: #272937;">First Name</p>
-                                <p class="subheading1" style="margin: 0px 0px 0px -2px;">First name</p>
+                                <p class="inter-regular" style="letter-spacing: 4px; color: #272937;text-transform: uppercase;">First Name</p>
+                                <p class="subheading1" style="margin: 0px 0px 0px -2px;"><?php echo htmlspecialchars($user['FName']); ?></p>
                             </div>
                             <div class="col pt-3">
-                                <p class="inter-regular" style="letter-spacing: 4px; color: #272937;">Last Name</p>
-                                <p class="subheading1" style="margin: 0px 0px 0px -2px;">Last name</p>
+                                <p class="inter-regular" style="letter-spacing: 4px; color: #272937;text-transform: uppercase;">Last Name</p>
+                                <p class="subheading1" style="margin: 0px 0px 0px -2px;"><?php echo htmlspecialchars($user['LName']); ?></p>
                             </div>
                         </div>
                         <!-- Name end -->
                         <!-- Email start -->
                         <div class="pt-5">
-                            <p class="inter-regular" style="letter-spacing: 4px; color: #272937;">Email</p>
-                            <p class="subheading1" style="margin: 0px 0px 0px -2px;">Email</p>
+                            <p class="inter-regular" style="letter-spacing: 4px; color: #272937;text-transform: uppercase;">Email</p>
+                            <p class="subheading1" style="margin: 0px 0px 0px -2px;"><?php echo htmlspecialchars($user['Email']); ?></p>
                         </div>
                         <!-- Email end -->
                         <!-- Occupation start -->
                         <div class="pt-5">
-                            <p class="inter-regular" style="letter-spacing: 4px; color: #272937;">Occupation</p>
-                            <p class="subheading1" style="margin: 0px 0px 0px -2px;">Occupation</p>
+                            <p class="inter-regular" style="letter-spacing: 4px; color: #272937;text-transform: uppercase;">Occupation</p>
+                            <p class="subheading1" style="margin: 0px 0px 0px -2px;"><?php echo htmlspecialchars($user['User_Type']); ?></p>
                         </div>
                         <!-- Occupation end -->
                     </div>

@@ -1,3 +1,18 @@
+<?php
+session_start();
+include '../assets/db_conn.php';
+$user_id = $_SESSION['ID'];
+$query = "SELECT FName FROM user WHERE id = ?";
+$stmt = $conn->prepare($query);
+$stmt->bind_param("i", $user_id);
+$stmt->execute();
+$result = $stmt->get_result();
+$user = $result->fetch_assoc();
+
+$stmt->close();
+$conn->close();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -55,7 +70,7 @@
                     <!-- Text start -->
                     <div>
                         <!-- Heading -->
-                        <div class="heading1"><p>Welcome, User!</p></div>
+                        <div class="heading1"><p>Welcome, <?php echo htmlspecialchars($user['FName']); ?>!</p></div>
                         <!-- Subheading -->
                         <div class="subheading1"><p>What would you like to do today?</p></div>
                     </div>
