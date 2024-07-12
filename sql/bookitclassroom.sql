@@ -15,7 +15,7 @@ CREATE TABLE USER (
     User_Type enum('MEMBER','LECTURER','CLUB_LEAD','ADMIN') NOT NULL,
     Reset_Token varchar(200),
     Token_Expire DATETIME,
-    ProfilePicture varchar(255) DEFAULT NULL
+    ProfilePicture varchar(255) DEFAULT NULL,
     PRIMARY KEY(ID)
 );
 
