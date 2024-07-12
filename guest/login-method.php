@@ -1,9 +1,8 @@
-<?php 
-session_start(); 
+<?php
+session_start();
 include "../assets/db_conn.php";
 
 if (isset($_POST['email']) && isset($_POST['password'])) {
-
     function validate($data) {
         $data = trim($data);
         $data = stripslashes($data);
@@ -38,8 +37,21 @@ if (isset($_POST['email']) && isset($_POST['password'])) {
                     $_SESSION['Email'] = $row['Email'];
                     $_SESSION['name'] = $row['FName'] . ' ' . $row['LName'];
                     $_SESSION['ID'] = $row['ID'];
-                    header("Location: ../user/index.php");
-                    exit();
+                    $_SESSION['User_Type'] = $row['User_Type']; // Assuming you have a User_Type column
+
+                    // Redirect based on user type
+                    if ($row['User_Type'] == 'MEMBER' || $row['User_Type'] == 'LECTURER' || $row['User_Type'] == 'CLUB_LEAD') {
+                        header("Location: ../user/index.php");
+                        exit();
+                    } elseif ($row['User_Type'] == 'ADMIN') {
+                        header("Location: ../admin/index.php");
+                        exit();
+                    } else {
+                        // Handle unexpected User_Type
+                        error_log("Unexpected User_Type: " . $row['User_Type']);
+                        header("Location: error.php");
+                        exit();
+                    }
                 } else {
                     header("Location: login.php?error=Incorrect Email or password");
                     exit();
