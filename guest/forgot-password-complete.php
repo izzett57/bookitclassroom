@@ -1,3 +1,11 @@
+<?php
+session_start();
+if (!isset($_SESSION['password_reset_complete'])) {
+    header("Location: index.php");
+    exit();
+}
+unset($_SESSION['password_reset_complete']);
+?>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -5,9 +13,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         
         <!-- Import Bootstrap start -->
-        <?php 
-            include('../assets/import-bootstrap.php');
-        ?>
+        <?php include('../assets/import-bootstrap.php'); ?>
         <!-- Import Bootstrap end -->
 
         <!-- Import CSS file(s) start -->
@@ -94,9 +100,7 @@
         </div>
         <!-- Main content end -->
         <!-- Footer -->
-        <?php 
-            include('../assets/footer.php');
-        ?>
+        <?php include('../assets/footer.php'); ?>
         <!-- Footer end -->
     </body>
 </html>

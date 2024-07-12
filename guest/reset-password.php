@@ -1,3 +1,18 @@
+<?php
+session_start();
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+$token = $_GET['token'] ?? '';
+if (empty($token)) {
+    die("No token provided. Please request a new password reset link.");
+}
+
+// Generate CSRF token
+if (empty($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -5,9 +20,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         
         <!-- Import Bootstrap start -->
-        <?php 
-            include('../assets/import-bootstrap.php');
-        ?>
+        <?php include('../assets/import-bootstrap.php'); ?>
         <!-- Import Bootstrap end -->
 
         <!-- Import CSS file(s) start -->
@@ -70,18 +83,20 @@
                     <!-- Text end -->
                 <div class="row-auto d-flex flex-column">
                     <div class="container" style="width: 50%;">
-                        <!-- Forgot password form start -->
-                        <form class="row">
-                            <!-- Email input start -->
+                        <!-- Reset password form start -->
+                        <form class="row" action="reset-password-method.php" method="post">
+                            <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
+                            <input type="hidden" name="token" value="<?php echo htmlspecialchars($token); ?>">
+                            <!-- Password input start -->
                             <div class="col">
-                                <label class="form-label inter-regular" for="Password" style="letter-spacing: 4px; color: #272937; text-transform: uppercase;">Password</label><br>
-                                <input class="form-control" id="Password" name="Password" type="Password" placeholder="password"><br>
+                                <label class="form-label inter-regular" for="password" style="letter-spacing: 4px; color: #272937; text-transform: uppercase;">Password</label><br>
+                                <input class="form-control" id="password" name="password" type="password" placeholder="password" required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{12,}" title="Must contain at least one number, one uppercase and lowercase letter, and be at least 12 characters long"><br>
                             </div>
                             <div class="col">
-                                <label class="form-label inter-regular" for="confirmPassword" style="letter-spacing: 4px; color: #272937; text-transform: uppercase;">Confirm Password</label><br>
-                                <input class="form-control" id="confirmPassword" name="confirmPassword" type="password" placeholder="confirm password"><br>
+                                <label class="form-label inter-regular" for="password_confirmation" style="letter-spacing: 4px; color: #272937; text-transform: uppercase;">Confirm Password</label><br>
+                                <input class="form-control" id="password_confirmation" name="password_confirmation" type="password" placeholder="confirm password" required><br>
                             </div>
-                            <!-- Email input end -->
+                            <!-- Password input end -->
                             <div class="row pt-4">
                                 <!-- Spacing start -->
                                 <div class="col">
@@ -90,7 +105,7 @@
                                 <!-- Buttons start -->
                                 <div class="col d-flex justify-content-end align-items-center">
                                     <!-- Back button start -->
-                                    <a onclick="href='index.php'" class="dongle-regular custom-btn-inline me-3 mt-2 primary" style="text-decoration: none; font-size: 2rem; cursor: pointer;">cancel</a>
+                                    <a onclick="location.href='index.php'" class="dongle-regular custom-btn-inline me-3 mt-2 primary" style="text-decoration: none; font-size: 2rem; cursor: pointer;">cancel</a>
                                     <!-- Back button end -->
                                     <!-- Next button start -->
                                     <button type="submit" name="#" value="#" class="btn btn-lg custom-btn-noanim d-flex align-items-center justify-content-between">
@@ -101,16 +116,14 @@
                                 <!-- Buttons end -->
                             </div>
                         </form>
-                        <!-- Forgot password form end --> 
+                        <!-- Reset password form end --> 
                     </div>
                 </div>
             </div>
         </div>
         <!-- Main content end -->
         <!-- Footer -->
-        <?php 
-            include('../assets/footer.php');
-        ?>
+        <?php include('../assets/footer.php'); ?>
         <!-- Footer end -->
     </body>
 </html>
