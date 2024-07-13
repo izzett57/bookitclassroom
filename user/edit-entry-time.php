@@ -145,7 +145,7 @@
                                 <span class="text-time mx-5">-</span>
                                 <div class="form-group text-center" style="height: 60px; width: 20%;">
                                     <?php get_times( $default = '00:00', $interval = '+30 minutes' )?>
-                                    <select class="form-control text-center text-time" style="height: 100%;" id="endtime" name="timeTo" disabled=""><?php echo get_times(); ?></select>
+                                    <select class="form-control text-center text-time custom-select" style="height: 100%;" id="endtime" name="timeTo" disabled=""><?php echo get_times(); ?></select>
                                 </div>
                             </div>
                             <!-- Function to call time -->
