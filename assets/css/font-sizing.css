@@ -14,3 +14,12 @@
     margin-top: -30px;
     line-height: 100%;
 }
+
+.text-time {
+    font-family: "Inter", sans-serif;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 1.5rem;
+    letter-spacing: -0.1px;
+    line-height: 100%;
+}

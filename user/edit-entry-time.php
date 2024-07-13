@@ -16,6 +16,7 @@
         <link rel="stylesheet" href="../assets/css/google-fonts.css">
         <!-- Import CSS file(s) end --> 
 
+        <link rel="stylesheet" href="../assets/css/entry.css">
 
         <title>Edit Entry - Time - BookItClassroom</title>
         <link rel="icon" type="image/x-icon" href="favicon.ico">
@@ -120,25 +121,6 @@
             </div>
         </nav>
         <!-- Nav bar end -->
-        <style>
-            .custom-select, #starttime, #endtime {
-                border: 3px solid #DA7422; /* Sets the border color */
-                background-color: rgba(218, 116, 34, 0.1); /* Sets the background color */
-                color: #DA7422; /* Sets the text color */
-                padding: 5px; /* Adjust padding as needed */
-                -webkit-appearance: none; /* Removes default styling for select in WebKit browsers */
-                -moz-appearance: none; /* Removes default styling for select in Mozilla browsers */
-                appearance: none; /* Standard way to remove default styling */
-            }
-
-            /* To ensure the disabled select box has the same styling */
-            #endtime:disabled {
-                border: 3px solid #A4A4A4; /* Sets the border color */
-                background-color: #FFF; /* Keeps the background color white */
-                color: #A4A4A4; /* Ensures the text color remains */
-                opacity: 1; /* Adjust if you want to change the opacity for disabled state */
-            }
-        </style>
         <!-- Main content start -->
         <div class="container main-content bg-white rounded-3 d-flex flex-column justify-content-center">
             <div class="container">

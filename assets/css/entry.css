@@ -26,3 +26,21 @@ label.dayContainer span {
 .dayInput:checked + label.dayContainer span {
     color: #FFF;
 }
+
+.custom-select, #starttime, #endtime {
+    border: 3px solid #DA7422; /* Sets the border color */
+    background-color: rgba(218, 116, 34, 0.1); /* Sets the background color */
+    color: #DA7422; /* Sets the text color */
+    padding: 5px; /* Adjust padding as needed */
+    -webkit-appearance: none; /* Removes default styling for select in WebKit browsers */
+    -moz-appearance: none; /* Removes default styling for select in Mozilla browsers */
+    appearance: none; /* Standard way to remove default styling */
+}
+
+/* To ensure the disabled select box has the same styling */
+#endtime:disabled {
+    border: 3px solid #A4A4A4; /* Sets the border color */
+    background-color: #FFF; /* Keeps the background color white */
+    color: #A4A4A4; /* Ensures the text color remains */
+    opacity: 1; /* Adjust if you want to change the opacity for disabled state */
+}
