@@ -44,3 +44,22 @@ label.dayContainer span {
     color: #A4A4A4; /* Ensures the text color remains */
     opacity: 1; /* Adjust if you want to change the opacity for disabled state */
 }
+
+.dayBox {
+    background-color: #DA7422;
+    width: 400px;
+    height: 90px;
+    text-align: center;
+    border-radius: 56px;
+}
+span.dayBoxText {
+    color: #FFF;
+}
+.timeBox {
+    border: 3px solid #DA7422;
+    border-radius: 8px;
+    background-color: rgba(218, 116, 34, 0.1);
+    color: #DA7422;
+    height: 60px;
+    width: 20%;
+}
