@@ -18,7 +18,7 @@
 
         <link rel="stylesheet" href="../assets/css/entry.css">
 
-        <title>New Entry - Day - BookItClassroom</title>
+        <title>Edit Entry - Day - BookItClassroom</title>
         <link rel="icon" type="image/x-icon" href="favicon.ico">
     </head>
     
@@ -66,7 +66,7 @@
                     <!-- Text start -->
                     <div class="col-9">
                         <!-- Heading -->
-                        <div class="heading1 ms-5"><p>New Entry</p></div>
+                        <div class="heading1 ms-5"><p>Edit Entry</p></div>
                         <div class="subheading1 ms-5"><p>Which day is the class/event?</p></div>
                     </div>
                     <!-- Text end -->

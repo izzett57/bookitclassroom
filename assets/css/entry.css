@@ -1,0 +1,28 @@
+label.dayContainer {
+    background: #FFF;
+    margin: 6px;
+    width: 100px;
+    height: 100px;
+    text-align: center;
+    border: 3px solid #DA7422;
+    border-radius: 100%;
+    cursor: pointer;
+    display: inline-block; /* Adjusted for layout */
+}
+.dayInput {
+    display: none;
+}
+
+label.dayContainer span {
+    color: #DA7422;
+    display: inline-block; /* Make sure margin-top is respected */
+    margin: 6px 0px 0px -3px;
+}
+
+.dayInput:checked + label.dayContainer {
+    background-color: #DA7422;
+}
+
+.dayInput:checked + label.dayContainer span {
+    color: #FFF;
+}
