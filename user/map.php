@@ -19,6 +19,8 @@
         <script src="../assets/js/rome.js"></script>
         <script src="../assets/js/main.js"></script>
 
+        <link rel="stylesheet" href="../assets/css/entry.css">
+
         <title>Map - BookItClassroom</title>
         <link rel="icon" type="image/x-icon" href="favicon.ico">
     </head>
@@ -75,7 +77,7 @@
                             map
                         </div>
                         <div class="col">
-                            <div class="col" style="height: 50%; background-color: rgba(0, 0, 0, 0.4);">
+                            <div class="col d-flex justify-content-center align-items-center" style="height: 50%; background-color: rgba(0, 0, 0, 0.4);">
                                 <style>
                                     /**
                                     * rome - Customizable date (and time) picker. Opt-in UI, no jQuery!
@@ -187,8 +189,35 @@
                                 </style>
                                 <div id="inline_cal" class="inter-light"></div>
                             </div>
-                            <div class="col" style="height: 50%; background-color: rgba(0, 0, 0, 0.5);">
-                                timeblocks
+                            <div class="col d-flex justify-content-center align-items-center" style="height: 50%; background-color: rgba(0, 0, 0, 0.5);">
+                                <?php
+                                function get_times($default = '00:00', $interval = '+30 minutes') {
+                                    $output = '';
+                                    $current = strtotime('00:00');
+                                    $end = strtotime('23:59');
+                                
+                                    while ($current <= $end) {
+                                        $time = date('H:i:s', $current);
+                                        $sel = ($time == $default) ? ' selected' : '';
+                                        $output .= "<option value=\"{$time}\"{$sel}>" . date('H:i ', $current) . '</option>';
+                                        $current = strtotime($interval, $current);
+                                    }
+                                    return $output;
+                                }
+                                ?>
+                                <div class="d-flex flex-glow justify-content-center align-items-center" style="width: 100%;">
+                                    <div class="col-5 form-group text-center" style="width: 35%; height: 60px;">
+                                        <select class="form-control text-center text-time custom-select" style="height: 100%;" id="starttime" name="timeFrom" required>
+                                            <?php echo get_times(); ?>
+                                        </select>
+                                    </div>
+                                    <span class="col-1 text-center text-time mx-2">-</span>
+                                    <div class="col-5 form-group text-center" style="width: 35%; height: 60px;">
+                                        <select class="form-control text-center text-time custom-select" style="height: 100%;" id="endtime" name="timeTo" required>
+                                            <?php echo get_times(); ?>
+                                        </select>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         </div>
