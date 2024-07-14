@@ -1,3 +1,32 @@
+<?php
+require_once '../assets/db_conn.php';
+session_start();
+
+if (!isset($_SESSION['ID'])) {
+    header("Location: ../guest/login.php");
+    exit();
+}
+
+// Fetch user's entries from the database
+try {
+    $pdo = dbConnect();
+    $stmt = $pdo->prepare("SELECT e.*, b.Classroom AS Reserved_Classroom 
+                           FROM ENTRY e 
+                           LEFT JOIN BOOKING b ON e.ID = b.Entry_ID 
+                           WHERE e.User_ID = ? 
+                           ORDER BY e.Day, e.Time_Start");
+    $stmt->execute([$_SESSION['ID']]);
+    $entries = $stmt->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    die("Error fetching entries: " . $e->getMessage());
+}
+
+// Function to format time
+function formatTime($time) {
+    return date('H:i', strtotime($time));
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -5,9 +34,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         
         <!-- Import Bootstrap start -->
-        <?php 
-            include('../assets/import-bootstrap.php');
-        ?>
+        <?php include('../assets/import-bootstrap.php'); ?>
         <!-- Import Bootstrap end -->
 
         <!-- Import CSS file(s) start -->
@@ -29,12 +56,12 @@
                     <button onclick="history.back()" type="button" class="btn btn-light btn-circle me-3">
                         <svg xmlns="http://www.w3.org/2000/svg" width="38" height="38" fill="currentColor" class="bi bi-arrow-left-circle-fill primary" viewBox="0 0 16 16">
                             <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0m3.5 7.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5z"/>
-                            </svg>
+                        </svg>
                     </button>
                     <!-- Back button end -->
                     <!-- Logo start -->
                     <a class="navbar-brand" href="index.php">
-                        <img src="../assets/logo.png" class="img-fluid" width="316" height="51">
+                        <img src="../assets/logo.png" class="img-fluid" width="316" height="51" alt="BookItClassroom Logo">
                     </a>
                     <!-- Logo end -->
                 </div>
@@ -45,7 +72,7 @@
                             <svg xmlns="http://www.w3.org/2000/svg" width="38" height="38" fill="currentColor" class="bi bi-person-circle primary" viewBox="0 0 16 16">
                                 <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
                                 <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
-                              </svg>
+                            </svg>
                         </button>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end p-2">
@@ -96,74 +123,40 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <!-- Placeholder start -->
-                        <tr>
-                        <th scope="row">1</th>
-                        <td>Subject 1</td>
-                        <td>Tuesday</td>
-                        <td>14:00 - 15:00</td>
-                        <td>A1</td>
-                        <!-- Action start -->
-                        <td class="d-flex justify-content-evenly">
-                        <a class="custom-btn-inline" href="#" style="text-decoration: none;">
-                            Unreserve
-                            <i class="bi bi-bookmark-dash-fill"></i>    
-                        </a>
-                        <!-- Action end -->
-                        </svg>
-                        </td>
-                        </tr>
-                        <tr>
-                        <th scope="row">2</th>
-                        <td>Subject 2</td>
-                        <td>Monday</td>
-                        <td>16:00 - 17:00</td>
-                        <td>-</td>
-                        <!-- Action start -->
-                        <td class="d-flex justify-content-evenly">
-                        <a class="custom-btn-inline" href="edit-entry.php" style="text-decoration: none;">
-                            Edit
-                            <i class="bi bi-pencil-fill"></i>    
-                        </a>
-                        <a class="custom-btn-inline" href="reserve-event.php" style="text-decoration: none;">
-                            Reserve
-                            <i class="bi bi-bookmark-plus-fill"></i>
-                        </a>
-                        <!-- Action end -->
-                        </tr>
-                        <tr>
-                        <th scope="row">3</th>
-                        <td>Subject 3</td>
-                        <td>Thursday</td>
-                        <td>17:00 - 19:00</td>
-                        <td>B2</td>
-                        <!-- Action start -->
-                        <td class="d-flex justify-content-evenly">
-                        <a class="custom-btn-inline" href="#" style="text-decoration: none;">
-                            Unreserve
-                            <i class="bi bi-bookmark-dash-fill"></i>    
-                        </a>
-                        <!-- Action end -->
-                        </tr>
-                        <tr>
-                        <th scope="row">3</th>
-                        <td>Subject 4</td>
-                        <td>Wednesday</td>
-                        <td>12:00 - 15:00</td>
-                        <td>-</td>
-                        <!-- Action start -->
-                        <td class="d-flex justify-content-evenly">
-                        <a class="custom-btn-inline" href="edit-entry.php" style="text-decoration: none;">
-                            Edit
-                            <i class="bi bi-pencil-fill"></i>    
-                        </a>
-                        <a class="custom-btn-inline" href="reserve-event.php" style="text-decoration: none;">
-                            Reserve
-                            <i class="bi bi-bookmark-plus-fill"></i>
-                        </a>
-                        <!-- Action end -->
-                        </tr>
-                        <!-- Placeholder end -->
+                        <?php if (empty($entries)): ?>
+                            <tr>
+                                <td colspan="6">No entries found. Click "New Entry" to add one.</td>
+                            </tr>
+                        <?php else: ?>
+                            <?php foreach ($entries as $index => $entry): ?>
+                            <tr>
+                                <th scope="row"><?php echo $index + 1; ?></th>
+                                <td><?php echo htmlspecialchars($entry['EName']); ?></td>
+                                <td><?php echo htmlspecialchars($entry['Day']); ?></td>
+                                <td><?php echo formatTime($entry['Time_Start']) . ' - ' . formatTime($entry['Time_End']); ?></td>
+                                <td><?php echo htmlspecialchars($entry['Reserved_Classroom'] ?? $entry['Assigned_Class'] ?? '-'); ?></td>
+                                <!-- Action start -->
+                                <td class="d-flex justify-content-evenly">
+                                <?php if ($entry['Reserved_Classroom'] || $entry['Assigned_Class']): ?>
+                                    <a class="custom-btn-inline" href="unreserve.php?id=<?php echo $entry['ID']; ?>" style="text-decoration: none;">
+                                        Unreserve
+                                        <i class="bi bi-bookmark-dash-fill"></i>    
+                                    </a>
+                                <?php else: ?>
+                                    <a class="custom-btn-inline" href="edit-entry-name.php?id=<?php echo $entry['ID']; ?>" style="text-decoration: none;">
+                                        Edit
+                                        <i class="bi bi-pencil-fill"></i>    
+                                    </a>
+                                    <a class="custom-btn-inline" href="reserve-event.php?id=<?php echo $entry['ID']; ?>" style="text-decoration: none;">
+                                        Reserve
+                                        <i class="bi bi-bookmark-plus-fill"></i>
+                                    </a>
+                                <?php endif; ?>
+                                </td>
+                                <!-- Action end -->
+                            </tr>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
                     </tbody>
                 </table>
                 </div>
@@ -172,9 +165,7 @@
         </div>
         <!-- Main content end -->
         <!-- Footer -->
-        <?php 
-            include('../assets/footer.php');
-        ?>
+        <?php include('../assets/footer.php'); ?>
         <!-- Footer end -->
     </body>
 </html>
