@@ -20,6 +20,7 @@
         <script src="../assets/js/main.js"></script>
 
         <link rel="stylesheet" href="../assets/css/entry.css">
+        <link rel="stylesheet" href="../assets/css/rome.css">
 
         <title>Map - BookItClassroom</title>
         <link rel="icon" type="image/x-icon" href="favicon.ico">
