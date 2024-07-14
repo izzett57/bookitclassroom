@@ -147,7 +147,7 @@ function formatTime($time) {
                                         Edit
                                         <i class="bi bi-pencil-fill"></i>    
                                     </a>
-                                    <a class="custom-btn-inline" href="reserve-event.php?id=<?php echo $entry['ID']; ?>" style="text-decoration: none;">
+                                    <a class="custom-btn-inline" href="reserve.php?id=<?php echo $entry['ID']; ?>" style="text-decoration: none;">
                                         Reserve
                                         <i class="bi bi-bookmark-plus-fill"></i>
                                     </a>
