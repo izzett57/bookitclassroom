@@ -20,6 +20,7 @@
         <script src="../assets/js/main.js"></script>
 
         <link rel="stylesheet" href="../assets/css/entry.css">
+        <link rel="stylesheet" href="../assets/css/rome.css">
 
         <title>Map - BookItClassroom</title>
         <link rel="icon" type="image/x-icon" href="favicon.ico">
@@ -78,115 +79,6 @@
                         </div>
                         <div class="col">
                             <div class="col d-flex justify-content-center align-items-center" style="height: 50%; background-color: rgba(0, 0, 0, 0.4);">
-                                <style>
-                                    /**
-                                    * rome - Customizable date (and time) picker. Opt-in UI, no jQuery!
-                                    * @version v2.1.22
-                                    * @link https://github.com/bevacqua/rome
-                                    * @license MIT
-                                    */
-                                    .rd-container {
-                                        display: block; /* Ensure it's not set to none */
-                                        width: 100%; /* Fill the width of its parent */
-                                        height: 100%; /* Fill the height of its parent */
-                                        background-color: #fff;
-                                        padding: 10px;
-                                        text-align: center;
-                                    }
-                                    .rd-container-attachment {
-                                    position: absolute;
-                                    }
-                                    .rd-month {
-                                    display: inline-block;
-                                    margin-right: 25px;
-                                    }
-                                    .rd-month:last-child {
-                                    margin-right: 0;
-                                    }
-                                    .rd-back,
-                                    .rd-next {
-                                    cursor: pointer;
-                                    border: none;
-                                    outline: none;
-                                    background: none;
-                                    padding: 0;
-                                    margin: 0;
-                                    }
-                                    .rd-back[disabled],
-                                    .rd-next[disabled] {
-                                    cursor: default;
-                                    }
-                                    .rd-back {
-                                    float: left;
-                                    margin-left: 10px;
-                                    }
-                                    .rd-next {
-                                    float: right;
-                                    margin-right: 10px;
-                                    }
-                                    .rd-back:before {
-                                    display: block;
-                                    content: '\2190';
-                                    }
-                                    .rd-next:before {
-                                    display: block;
-                                    content: '\2192';
-                                    }
-                                    .rd-day-body {
-                                    cursor: pointer;
-                                    text-align: center;
-                                    /* new */
-                                    line-height: 0;
-                                    width: 2.8vw!important;
-                                    height: 4vh!important;
-                                    }
-                                    .rd-day-selected,
-                                    .rd-time-selected,
-                                    .rd-time-option:hover {
-                                    cursor: pointer;
-                                    background-color: #DA7422;
-                                    color: #fff;
-                                    /* new */
-                                    border-radius: 25%;
-                                    }
-                                    .rd-day-prev-month,
-                                    .rd-day-next-month {
-                                    color: #ccc;
-                                    }
-                                    .rd-day-disabled {
-                                    cursor: default;
-                                    color: #fcc;
-                                    }
-                                    .rd-time {
-                                    position: relative;
-                                    display: inline-block;
-                                    margin-top: 5px;
-                                    min-width: 80px;
-                                    }
-                                    .rd-time-list {
-                                    display: none;
-                                    position: absolute;
-                                    overflow-y: scroll;
-                                    max-height: 160px;
-                                    left: 0;
-                                    right: 0;
-                                    background-color: #fff;
-                                    color: #333;
-                                    }
-                                    .rd-time-selected {
-                                    padding: 5px;
-                                    }
-                                    .rd-time-option {
-                                    padding: 5px;
-                                    }
-                                    .rd-day-concealed {
-                                    visibility: hidden;
-                                    }
-
-                                    .rd-days {
-                                    margin-top: 20px;
-                                    }
-                                </style>
                                 <div id="inline_cal" class="inter-light"></div>
                             </div>
                             <div class="col d-flex justify-content-center align-items-center" style="height: 50%; background-color: rgba(0, 0, 0, 0.5);">
