@@ -90,7 +90,7 @@ function formatTime($time) {
             <div class="container">
                 <div class="row">
                     <!-- Text start -->
-                    <div class="col-9">
+                    <div class="col-8">
                         <!-- Heading -->
                         <div class="heading1 ms-5"><p>Timetable</p></div>
                         <div class="subheading1 ms-5"><p>Here is a list of your classes/event.</p></div>
