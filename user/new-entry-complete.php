@@ -7,13 +7,11 @@ if (!isset($_SESSION['ID']) || !isset($_SESSION['last_entry_id'])) {
     exit();
 }
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $reserve = $_POST['reserve'] === 'yes';
     if ($reserve) {
-        // Redirect to the reservation page
-        header("Location: reserve.php?entry_id=" . $_SESSION['last_entry_id']);
+        header("Location: reserve.php?id=" . $_SESSION['last_entry_id']);
     } else {
-        // Redirect to the timetable
         header("Location: timetable.php");
     }
     exit();
@@ -38,6 +36,7 @@ unset($_SESSION['new_entry']);
         <link rel="icon" type="image/x-icon" href="favicon.ico">
     </head>
     <body>
+        <!-- Nav bar start -->
         <nav class="navbar bg-transparent px-5 py-4">
             <div class="container-fluid">
                 <div class="d-flex align-items-center">
@@ -61,10 +60,12 @@ unset($_SESSION['new_entry']);
                 </li>
             </div>
         </nav>
+        <!-- Nav bar end -->
 
+        <!-- Main content start -->
         <div class="container main-content bg-white rounded-3 d-flex flex-column justify-content-center">
             <div class="row justify-content-evenly">
-                <div class="col-8 d-flex justify-content-center align-items-center">
+            <div class="col-8 d-flex justify-content-center align-items-center">
                     <div>
                         <div class="heading1" style="font-size: 5rem;"><p>New entry added!</p></div>
                         <div class="subheading1"><p>Would you like to reserve the class/event now?</p></div>
@@ -72,7 +73,7 @@ unset($_SESSION['new_entry']);
                 </div>
                 <div class="col d-flex">
                     <div class="container d-flex justify-content-center align-items-center text-center">
-                        <form method="POST" action="new-entry-complete.php">
+                        <form method="POST">
                             <div class="row">
                                 <div class="col">
                                     <button type="submit" name="reserve" value="yes" class="btn btn-lg custom-btn-noanim d-flex align-items-center">
@@ -86,7 +87,7 @@ unset($_SESSION['new_entry']);
                 </div>
             </div>
         </div>
-
+        <!-- Main content end -->
         <?php include('../assets/footer.php'); ?>
     </body>
 </html>

@@ -7,7 +7,7 @@ if (!isset($_SESSION['ID']) || !isset($_SESSION['new_entry'])) {
     exit();
 }
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $start_time = $_POST['timeFrom'];
     $end_time = $_POST['timeTo'];
     if (!empty($start_time) && !empty($end_time)) {
@@ -50,19 +50,20 @@ function get_times($default = '00:00', $interval = '+30 minutes') {
     
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
         <script>
-            // (Keep your existing JavaScript here)
+            // Your existing JavaScript here
         </script>
     </head>
     
     <body>
+        <!-- Nav bar start -->
         <nav class="navbar bg-transparent px-5 py-4">
             <div class="container-fluid">
                 <div class="d-flex align-items-center">
                     <button onclick="history.back()" type="button" class="btn btn-light btn-circle me-3">
                         <svg xmlns="http://www.w3.org/2000/svg" width="38" height="38" fill="currentColor" class="bi bi-arrow-left-circle-fill primary" viewBox="0 0 16 16">
-                            <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0m3.5 7.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5z"/>
+                        <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0m3.5 7.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5z"/>
                         </svg>
-                        </button>
+                    </button>
                     <a class="navbar-brand" href="index.php">
                         <img src="../assets/logo.png" class="img-fluid" width="316" height="51">
                     </a>
@@ -83,7 +84,8 @@ function get_times($default = '00:00', $interval = '+30 minutes') {
                 </li>
             </div>
         </nav>
-
+        <!-- Nav bar end -->
+        <!-- Main content start -->
         <div class="container main-content bg-white rounded-3 d-flex flex-column justify-content-center">
             <div class="container">
                 <div class="row">
@@ -94,13 +96,13 @@ function get_times($default = '00:00', $interval = '+30 minutes') {
                 </div>
                 <div class="row-auto d-flex flex-column">
                     <div class="container" style="height: 45vh; width: 90%; align-content: center;">
-                        <form method="POST" action="new-entry-time.php">
+                        <form method="POST">
                             <div class="d-flex justify-content-center align-items-center">
                                 <div class="form-group text-center" style="height: 60px; width: 20%;">
                                     <select class="form-control text-center text-time custom-select" style="height: 100%;" id="starttime" name="timeFrom" required>
                                         <?php echo get_times(); ?>
                                     </select>
-                                </div>
+                                </div><br><br>
                                 <span class="text-time mx-5">-</span>
                                 <div class="form-group text-center" style="height: 60px; width: 20%;">
                                     <select class="form-control text-center text-time custom-select" style="height: 100%;" id="endtime" name="timeTo" required>
@@ -119,7 +121,7 @@ function get_times($default = '00:00', $interval = '+30 minutes') {
                 </div>
             </div>
         </div>
-
+        <!-- Main content end -->
         <?php include('../assets/footer.php'); ?>
     </body>
 </html>

@@ -7,7 +7,7 @@ if (!isset($_SESSION['ID'])) {
     exit();
 }
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $event_name = trim($_POST['event']);
     if (!empty($event_name)) {
         $_SESSION['new_entry'] = ['name' => $event_name];
@@ -33,6 +33,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </head>
     
     <body>
+        <!-- Nav bar start -->
         <nav class="navbar bg-transparent px-5 py-4">
             <div class="container-fluid">
                 <div class="d-flex align-items-center">
@@ -61,7 +62,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </li>
             </div>
         </nav>
-
+        <!-- Nav bar end -->
+        <!-- Main content start -->
         <div class="container main-content bg-white rounded-3 d-flex flex-column justify-content-center">
             <div class="container">
                 <div class="row">
@@ -72,7 +74,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </div>
                 <div class="row-auto d-flex flex-column">
                     <div class="container" style="height: 45vh; width: 35%; align-content: center;">
-                        <form class="row" method="POST" action="new-entry-name.php">
+                        <form class="row" method="POST">
                             <div class="col">
                                 <label class="form-label inter-regular" for="event" style="letter-spacing: 4px; color: #272937;">Subject/Event Name</label><br>
                                 <input class="form-control" id="event" name="event" type="text" placeholder="subject/event name" required><br>
@@ -92,7 +94,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </div>
             </div>
         </div>
-
+        <!-- Main content end -->
         <?php include('../assets/footer.php'); ?>
     </body>
 </html>

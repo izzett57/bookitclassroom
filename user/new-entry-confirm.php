@@ -2,44 +2,22 @@
 require_once '../assets/db_conn.php';
 session_start();
 
-if (!isset($_SESSION['ID'])) {
+if (!isset($_SESSION['ID']) || !isset($_SESSION['new_entry'])) {
     header("Location: ../guest/login.php");
     exit();
 }
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $entry = $_SESSION['new_entry'];
-    $user_id = $_SESSION['ID'];
-
-    try {
-        require_once '../assets/db_conn.php';
-        $pdo = dbConnect();
-        
-        // Prepare SQL statement
-        $sql = "INSERT INTO ENTRY (User_ID, EName, Day, Time_Start, Time_End) VALUES (?, ?, ?, ?, ?)";
-        $stmt = $pdo->prepare($sql);
-
-        // Execute the statement
-        $stmt->execute([
-            $user_id,
-            $entry['name'],
-            $entry['day'],
-            $entry['start_time'],
-            $entry['end_time']
-        ]);
-
-        $_SESSION['last_entry_id'] = $pdo->lastInsertId();
-
-        // If successful, redirect to the completion page
-        header("Location: new-entry-complete.php");
-        exit();
-    } catch (PDOException $e) {
-        // If there's an error, you might want to handle it more gracefully in a production environment
-        die("Error saving entry: " . $e->getMessage());
-    }
-}
-
 $entry = $_SESSION['new_entry'];
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $pdo = dbConnect();
+    $stmt = $pdo->prepare("INSERT INTO ENTRY (User_ID, EName, Day, Time_Start, Time_End) VALUES (?, ?, ?, ?, ?)");
+    $stmt->execute([$_SESSION['ID'], $entry['name'], $entry['day'], $entry['start_time'], $entry['end_time']]);
+    
+    $_SESSION['last_entry_id'] = $pdo->lastInsertId();
+    header("Location: new-entry-complete.php");
+    exit();
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -59,6 +37,7 @@ $entry = $_SESSION['new_entry'];
     </head>
     
     <body>
+        <!-- Nav bar start -->
         <nav class="navbar bg-transparent px-5 py-4">
             <div class="container-fluid">
                 <div class="d-flex align-items-center">
@@ -87,7 +66,8 @@ $entry = $_SESSION['new_entry'];
                 </li>
             </div>
         </nav>
-
+        <!-- Nav bar end -->
+        <!-- Main content start -->
         <div class="container main-content bg-white rounded-3 d-flex flex-column justify-content-center">
             <div class="container">
                 <div class="row">
@@ -98,7 +78,7 @@ $entry = $_SESSION['new_entry'];
                 </div>
                 <div class="row-auto d-flex flex-column">
                     <div class="container" style="height: 45vh; width: 90%; align-content: center;">
-                        <form method="POST" action="new-entry-confirm.php">
+                        <form method="POST">
                             <div class="d-flex justify-content-center align-items-center">
                                 <div class="dayBox">
                                     <span class="dayBoxText heading1"><?php echo $entry['day']; ?></span>
@@ -106,20 +86,20 @@ $entry = $_SESSION['new_entry'];
                             </div>
                             <div class="d-flex justify-content-center text-center mt-5">
                                 <span class="d-flex justify-content-center align-items-center timeBox text-time me-5">
-                                    <?php echo $entry['start_time']; ?>
+                                    <?php echo date('H:i', strtotime($entry['start_time'])); ?>
                                 </span>
                                 <span class="text-time d-flex justify-content-center align-items-center ">
                                     -
                                 </span>
                                 <span class="d-flex justify-content-center align-items-center timeBox text-time ms-5">
-                                    <?php echo $entry['end_time']; ?>
+                                    <?php echo date('H:i', strtotime($entry['end_time'])); ?>
                                 </span>
                             </div>
-                            <p class="text-center mt-3">Event: <?php echo $entry['name']; ?></p>
+                            <p class="text-center mt-3">Event: <?php echo htmlspecialchars($entry['name']); ?></p>
                             <div class="col d-flex justify-content-end align-items-center mt-5">
                                 <a onclick="history.back()" class="dongle-regular custom-btn-inline me-3 mt-2 primary" style="text-decoration: none; font-size: 2rem; cursor: pointer;">back</a>
                                 <button type="submit" class="btn btn-lg custom-btn-noanim d-flex align-items-center justify-content-between">
-                                    <p class="dongle-regular mt-2" style="font-size: 3rem; flex-grow: 1;">Confirm</p>
+                                    <p class="dongle-regular mt-2" style="font-size: 3rem; flex-grow: 1;">Next</p>
                                 </button>
                             </div>
                         </form>
@@ -127,7 +107,7 @@ $entry = $_SESSION['new_entry'];
                 </div>
             </div>
         </div>
-
+        <!-- Main content end -->
         <?php include('../assets/footer.php'); ?>
     </body>
-</html>
+</html> 
