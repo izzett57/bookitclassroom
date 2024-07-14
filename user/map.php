@@ -65,7 +65,7 @@
         <!-- Nav bar end -->
 
         <!-- Main content start -->
-        <div class="container main-content bg-white rounded-3 d-flex flex-column justify-content-center py-3">
+        <form class="container main-content bg-white rounded-3 d-flex flex-column justify-content-center py-3">
             <div class="container">
                 <div class="row">
                     <!-- Text start -->
@@ -116,7 +116,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </form>
         <!-- Main content end -->
         <!-- Footer -->
         <?php include('../assets/footer.php'); ?>
