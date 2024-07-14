@@ -17,6 +17,10 @@ INSERT INTO BOOKING (Booking_Date, Entry_ID, Classroom) VALUES
 SELECT COUNT(DISTINCT Floor) AS No_Of_Floors
 FROM CLASSROOM;
 
+-- New Entry
+INSERT INTO ENTRY (User_ID, Ename, Day, Time_Start, Time_End) VALUES 
+('$userid', '$entryname', '$day', '$timestart', '$timeend');
+
 -- Booking
 -- Booking an event
 INSERT INTO BOOKING (Booking_Date, Entry_ID, Classroom) VALUES 
