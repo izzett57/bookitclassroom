@@ -25,7 +25,7 @@
 }
 .calendar ul li {
   width: calc(90% / 7);
-  margin-top: 8px;
+  margin-top: 6px;
   position: relative;
   z-index: 2;
 }
