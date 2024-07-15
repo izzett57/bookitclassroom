@@ -70,7 +70,7 @@ switch ($user['User_Type']) {
             <!-- Nav bar start -->
             <?php 
             include('../assets/navbar-user-back.php');
-        ?>
+            ?>
             <!-- Nav bar end -->
     
             <!-- Main content start -->
