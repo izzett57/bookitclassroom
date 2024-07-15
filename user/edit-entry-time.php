@@ -73,6 +73,35 @@ function get_times($default = '00:00', $interval = '+30 minutes') {
 
         <title>Edit Entry - Time - BookItClassroom</title>
         <link rel="icon" type="image/x-icon" href="favicon.ico">
+
+        <script>
+        $(document).ready(function() {
+            function updateEndTime() {
+                var startTime = $('#starttime').val();
+                var endTime = $('#endtime').val();
+                
+                $('#endtime option').each(function() {
+                    $(this).prop('disabled', $(this).val() <= startTime);
+                });
+
+                if (endTime <= startTime) {
+                    $('#endtime').val($('#endtime option:not(:disabled)').first().val());
+                }
+
+                $('#endtime').prop('disabled', false);
+            }
+
+            $('#starttime').change(updateEndTime);
+
+            // Initial call to set up correct state
+            updateEndTime();
+
+            // Enable endtime select before form submission
+            $('form').submit(function() {
+                $('#endtime').prop('disabled', false);
+            });
+        });
+        </script>
     </head>
     
     <body>
@@ -99,7 +128,7 @@ function get_times($default = '00:00', $interval = '+30 minutes') {
                                 </div>
                                 <span class="text-time mx-5">-</span>
                                 <div class="form-group text-center" style="height: 60px; width: 20%;">
-                                    <select class="form-control text-center text-time custom-select" style="height: 100%;" id="endtime" name="timeTo" disabled="" required>
+                                    <select class="form-control text-center text-time custom-select" style="height: 100%;" id="endtime" name="timeTo" required>
                                         <?php echo get_times($entry['Time_End']); ?>
                                     </select>
                                 </div>
