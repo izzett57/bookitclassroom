@@ -69,18 +69,19 @@
                 <div class="row">
                     <!-- Text start -->
                         <!-- Heading -->
-                        <div class="heading1" style="background-color: rgba(0, 0, 0, 0.1);"><p>Map</p></div>
+                        <div class="heading1" style=""><p>Map</p></div>
                     <!-- Text end -->
-                    <div class="container" style="height: 70vh; background-color: rgba(0, 0, 0, 0.2);">
+                    <div class="container" style="height: 70vh;">
                         <div class="row" style="height: 100%;">
                             <!-- Map start -->
-                            <div class="col-8" style="background-color: rgba(0, 0, 0, 0.3);">
+                            <div class="col-8" style="">
                             <style>
                                 .svg-container {
                                     width: 100%; /* Adjust based on your layout needs */
                                     height: 70vh; /* Maximum size of the container */
                                     margin: auto; /* Center the container */
-                                    border: 1px solid #ccc; /* Optional: adds a border around the SVG viewport */
+                                    border: 3px solid #ccc; /* Optional: adds a border around the SVG viewport */
+                                    border-radius: 8px;
                                     overflow: hidden; /* Ensures no overflow of the SVG content */
                                 }
                                 .svg-container:active {
@@ -95,8 +96,10 @@
                             <script>
                                 function injectCSS(svgDocument) {
                                     const style = document.createElementNS("http://www.w3.org/2000/svg", "style");
+                                    // A1 example of available
+                                    // A2 example of unavailable
                                     style.textContent = `
-                                        #A1 rect {
+                                        #A1 rect { 
                                             stroke: rgba(69, 218, 34, 1.0);
                                             fill: rgba(69, 218, 34, 0.3);
                                         }
@@ -128,6 +131,7 @@
                                         }
                                             cursor: pointer;
                                         }
+
                                         #B1 rect{
                                             stroke: rgba(69, 218, 34, 1.0);
                                             fill: rgba(69, 218, 34, 0.3);
@@ -144,6 +148,7 @@
                                             }
                                             cursor: pointer;
                                         }
+
                                         #B2 rect{
                                             stroke: rgba(218, 34, 34, 0.8);
                                             fill: rgba(244, 196, 196, 0.3);
@@ -160,6 +165,7 @@
                                         }
                                             cursor: pointer;
                                         }
+                                            
                                         #C1 rect{
                                             stroke: rgba(218, 34, 34, 0.8);
                                             fill: rgba(244, 196, 196, 0.3);
@@ -198,8 +204,8 @@
                             <!-- Map end -->
                             <div class="col">
                                 <!-- Calendar start -->
-                                <div class="col d-flex justify-content-center align-items-center" style="height: 50%; background-color: rgba(0, 0, 0, 0.4);">
-                                    <div class="calendar inter-light">
+                                <div class="col calendar inter-light" style="margin: auto;">
+                                    <div class="">
                                     <header>
                                         <h3></h3>
                                         <nav>
@@ -224,7 +230,7 @@
                                 </div>
                                 <!-- Calendar end -->
                                 <!-- Time select start -->
-                                <div class="col d-flex justify-content-center align-items-center" style="height: 50%; background-color: rgba(0, 0, 0, 0.5);">
+                                <div class="col d-flex justify-content-center align-items-center" style="height: 16.66%;">
                                     <?php
                                     function get_times($default = '00:00', $interval = '+30 minutes') {
                                         $output = '';
@@ -255,6 +261,21 @@
                                     </div>
                                 </div>
                                 <!-- Time select end -->
+                                <!-- Selected class start -->
+                                <div class="col d-flex justify-content-center align-items-center" style="height: 16.66%;">
+                                <div class="d-flex flex-column justify-content-center align-items-center pt-4">
+                                    <p class="inter-regular" style="letter-spacing: 4px; color: #272937;text-transform: uppercase;">Selected class</p>
+                                    <p class="subheading1" style="margin: 0px 0px 0px -2px;">Class Name</p>
+                                </div>
+                                </div>
+                                <!-- Selected class end -->
+                                <!-- Reserve button start -->
+                                <div class="col d-flex justify-content-center align-items-center" style="height: 16.66%;">
+                                <button type="submit" class="btn btn-lg custom-btn-noanim d-flex align-items-center justify-content-between">
+                                    <p class="dongle-regular mt-2" style="font-size: 3rem; flex-grow: 1;">View Schedule</p>
+                                </button>
+                                </div>
+                                <!-- Reserve button end -->
                             </div>
                         </div>
                     </div>
