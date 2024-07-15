@@ -12,80 +12,17 @@
         <link rel="stylesheet" href="../assets/css/global.css">
         <link rel="stylesheet" href="../assets/css/font-sizing.css">
         <link rel="stylesheet" href="../assets/css/google-fonts.css">
+        <link rel="stylesheet" href="../assets/css/entry.css"/>
+        <link rel="stylesheet" href="../assets/css/calendar.css"/>
         <!-- Import CSS file(s) end --> 
 
-        <script src="../assets/js/jquery-3.3.1.min.js"></script>
-        <script src="../assets/js/popper.min.js"></script>
-        <script src="../assets/js/rome.js"></script>
-        <script src="../assets/js/main.js"></script>
-
-        <link rel="stylesheet" href="../assets/css/entry.css">
-        <link rel="stylesheet" href="../assets/css/rome.css">
+        <!-- Import time select scripts start -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+        <script src="../assets/js/time-select.js"></script>
+        <!-- Import time select scripts end -->
 
         <title>Map - BookItClassroom</title>
         <link rel="icon" type="image/x-icon" href="favicon.ico">
-
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-        <script>
-            $(document).ready(function() {
-                var initialEndTimeOptions = []; // Store initial "End Time" options
-
-                // Generate initial "End Time" options
-                for (var hour = 0; hour < 24; hour++) {
-                    for (var minute = 0; minute < 60; minute += 30) {
-                        var timeString = (hour < 10 ? "0" + hour : hour) + ":" + (minute === 0 ? "00" : minute);
-                        initialEndTimeOptions.push($('<option>', {
-                            value: timeString,
-                            text: timeString
-                        }));
-                    }
-                }
-
-                $('#starttime').change(function() {
-                    var starttime = $(this).val();
-                    var currentEndTime = $('#endtime').val(); // Capture the currently selected "End Time"
-
-                    var startHoursMinutes = starttime.split(':');
-                    var startTotalMinutes = parseInt(startHoursMinutes[0]) * 60 + parseInt(startHoursMinutes[1]);
-
-                    // Clear current "End Time" options
-                    $('#endtime').empty();
-
-                    // Dynamically generate "End Time" options based on "Start Time"
-                    $.each(initialEndTimeOptions, function(index, option) {
-                        var optionTime = $(option).val();
-                        var optionHoursMinutes = optionTime.split(':');
-                        var endTotalMinutes = parseInt(optionHoursMinutes[0]) * 60 + parseInt(optionHoursMinutes[1]);
-
-                        if (endTotalMinutes > startTotalMinutes) {
-                            $('#endtime').append($(option).clone()); // Use clone to avoid removing from initialEndTimeOptions
-                        }
-                    });
-
-                    // Re-select the previously selected "End Time" if still valid
-                    if ($('#endtime option[value="' + currentEndTime + '"]').length > 0) {
-                        $('#endtime').val(currentEndTime);
-                    } else {
-                        // Optionally, handle the case where the previous "End Time" is no longer valid
-                        // e.g., select the next valid "End Time" automatically or leave as is
-                    }
-
-                    $('#endtime').removeAttr('disabled');
-                });
-                $('select').on('focus', function() {
-                    $(this).children('option').css('font-size', '18px'); // Smaller font size for options
-                }).on('blur change', function() {
-                    $(this).children('option').css('font-size', '16px'); // Revert to original font size
-                });
-                $('select').selectmenu({
-                    open: function(event, ui) {
-                        var menuWidget = $(this).selectmenu("menuWidget");
-                        menuWidget.find("li").removeClass("ui-state-focus"); // Optional: Remove focus class on open to avoid styling conflicts
-                    }
-                }).selectmenu("menuWidget").addClass("custom-hover-style");
-            });
-        </script>
-
     </head>
     
     <body>
@@ -136,44 +73,189 @@
                     <!-- Text end -->
                     <div class="container" style="height: 70vh; background-color: rgba(0, 0, 0, 0.2);">
                         <div class="row" style="height: 100%;">
-                        <div class="col-8" style="background-color: rgba(0, 0, 0, 0.3);">
-                            map
-                        </div>
-                        <div class="col">
-                            <div class="col d-flex justify-content-center align-items-center" style="height: 50%; background-color: rgba(0, 0, 0, 0.4);">
-                                <div id="inline_cal" class="inter-light"></div>
-                            </div>
-                            <div class="col d-flex justify-content-center align-items-center" style="height: 50%; background-color: rgba(0, 0, 0, 0.5);">
-                                <?php
-                                function get_times($default = '00:00', $interval = '+30 minutes') {
-                                    $output = '';
-                                    $current = strtotime('00:00');
-                                    $end = strtotime('23:59');
-                                
-                                    while ($current <= $end) {
-                                        $time = date('H:i:s', $current);
-                                        $sel = ($time == $default) ? ' selected' : '';
-                                        $output .= "<option value=\"{$time}\"{$sel}>" . date('H:i ', $current) . '</option>';
-                                        $current = strtotime($interval, $current);
-                                    }
-                                    return $output;
+                            <!-- Map start -->
+                            <div class="col-8" style="background-color: rgba(0, 0, 0, 0.3);">
+                            <style>
+                                .svg-container {
+                                    width: 100%; /* Adjust based on your layout needs */
+                                    height: 70vh; /* Maximum size of the container */
+                                    margin: auto; /* Center the container */
+                                    border: 1px solid #ccc; /* Optional: adds a border around the SVG viewport */
+                                    overflow: hidden; /* Ensures no overflow of the SVG content */
                                 }
-                                ?>
-                                <div class="d-flex flex-glow justify-content-center align-items-center" style="width: 100%;">
-                                    <div class="col-5 form-group text-center" style="width: 35%; height: 60px;">
-                                        <select class="form-control text-center text-time custom-select" style="height: 100%;" id="starttime" name="timeFrom" required>
-                                            <?php echo get_times(); ?>
-                                        </select>
+                                .svg-container:active {
+                                    cursor: grabbing;
+                                }
+                            </style>
+                            <div class="svg-container">
+                                <object id="svg-object" type="image/svg+xml" data="../assets/svg/map/classroom.svg" onload="initPanZoom(this.contentDocument);"></object>
+                            </div>
+                            <!-- Include svg-pan-zoom library -->
+                            <script src="https://cdn.jsdelivr.net/npm/svg-pan-zoom@latest/dist/svg-pan-zoom.min.js"></script>
+                            <script>
+                                function injectCSS(svgDocument) {
+                                    const style = document.createElementNS("http://www.w3.org/2000/svg", "style");
+                                    style.textContent = `
+                                        #A1 rect {
+                                            stroke: rgba(69, 218, 34, 1.0);
+                                            fill: rgba(69, 218, 34, 0.3);
+                                        }
+                                        #A1 tspan {
+                                            user-select: none;
+                                            fill: rgba(49, 136, 28, 1.0);
+                                        }
+                                        #A1:hover rect {
+                                            stroke: rgba(69, 218, 34, 0.7);
+                                            fill: rgba(69, 218, 34, 0.2);
+                                            tspan {
+                                                fill: rgba(49, 136, 28, 0.8);
+                                            }
+                                            cursor: pointer;
+                                        }
+                                        #A2 rect{
+                                            stroke: rgba(218, 34, 34, 0.8);
+                                            fill: rgba(244, 196, 196, 0.3);
+                                        }
+                                        #A2 tspan {
+                                            user-select: none;
+                                            fill: rgba(136, 28, 28, 1.0);
+                                        }
+                                        #A2:hover rect {
+                                            stroke: rgba(218, 34, 34, 0.5);
+                                            fill: rgba(244, 196, 196, 0.2);
+                                            tspan {
+                                                fill: rgba(136, 28, 28, 0.8);
+                                        }
+                                            cursor: pointer;
+                                        }
+                                        #B1 rect{
+                                            stroke: rgba(69, 218, 34, 1.0);
+                                            fill: rgba(69, 218, 34, 0.3);
+                                        }
+                                        #B1 tspan {
+                                            user-select: none;
+                                            fill: rgba(49, 136, 28, 1.0);
+                                        }
+                                        #B1:hover rect {
+                                            stroke: rgba(69, 218, 34, 0.7);
+                                            fill: rgba(69, 218, 34, 0.2);
+                                            tspan {
+                                                fill: rgba(49, 136, 28, 0.8);
+                                            }
+                                            cursor: pointer;
+                                        }
+                                        #B2 rect{
+                                            stroke: rgba(218, 34, 34, 0.8);
+                                            fill: rgba(244, 196, 196, 0.3);
+                                        }
+                                        #B2 tspan {
+                                            user-select: none;
+                                            fill: rgba(136, 28, 28, 1.0);
+                                        }
+                                        #B2:hover rect {
+                                            stroke: rgba(218, 34, 34, 0.5);
+                                            fill: rgba(244, 196, 196, 0.2);
+                                            tspan {
+                                                fill: rgba(136, 28, 28, 0.8);
+                                        }
+                                            cursor: pointer;
+                                        }
+                                        #C1 rect{
+                                            stroke: rgba(218, 34, 34, 0.8);
+                                            fill: rgba(244, 196, 196, 0.3);
+                                        }
+                                        #C1 tspan {
+                                            user-select: none;
+                                            fill: rgba(136, 28, 28, 1.0);
+                                        }
+                                        #C1:hover rect {
+                                            stroke: rgba(218, 34, 34, 0.5);
+                                            fill: rgba(244, 196, 196, 0.2);
+                                            tspan {
+                                                fill: rgba(136, 28, 28, 0.8);
+                                        }
+                                            cursor: pointer;
+                                        }
+                                    `;
+                                    svgDocument.querySelector('svg').appendChild(style);
+                                }
+
+                                function initPanZoom(svgDocument) {
+                                    injectCSS(svgDocument);
+                                    svgPanZoom(svgDocument.querySelector('svg'), {
+                                        zoomEnabled: true,
+                                        controlIconsEnabled: true,
+                                        fit: true,
+                                        center: true,
+                                        minZoom: 0.7, // Minimum zoom level
+                                        maxZoom: 2,   // Maximum zoom level
+                                        panEnabled: true,
+                                        contain: true // Prevents panning outside the SVG viewport
+                                    });
+                                }
+                            </script>
+                            </div>
+                            <!-- Map end -->
+                            <div class="col">
+                                <!-- Calendar start -->
+                                <div class="col d-flex justify-content-center align-items-center" style="height: 50%; background-color: rgba(0, 0, 0, 0.4);">
+                                    <div class="calendar inter-light">
+                                    <header>
+                                        <h3></h3>
+                                        <nav>
+                                        <button id="calendar-prev"></button>
+                                        <button id="calendar-next"></button>
+                                        </nav>
+                                    </header>
+                                    <section>
+                                        <ul class="calendar-days">
+                                        <li>Sun</li>
+                                        <li>Mon</li>
+                                        <li>Tue</li>
+                                        <li>Wed</li>
+                                        <li>Thu</li>
+                                        <li>Fri</li>
+                                        <li>Sat</li>
+                                        </ul>
+                                        <ul class="calendar-dates" style="font-weight: 500;"></ul>
+                                    </section>
                                     </div>
-                                    <span class="col-1 text-center text-time mx-2">-</span>
-                                    <div class="col-5 form-group text-center" style="width: 35%; height: 60px;">
-                                        <select class="form-control text-center text-time custom-select" style="height: 100%;" id="endtime" name="timeTo" disabled="" required>
-                                            <?php echo get_times(); ?>
-                                        </select>
+                                    <script src="../assets/js/calendar.js" defer></script>
+                                </div>
+                                <!-- Calendar end -->
+                                <!-- Time select start -->
+                                <div class="col d-flex justify-content-center align-items-center" style="height: 50%; background-color: rgba(0, 0, 0, 0.5);">
+                                    <?php
+                                    function get_times($default = '00:00', $interval = '+30 minutes') {
+                                        $output = '';
+                                        $current = strtotime('00:00');
+                                        $end = strtotime('23:59');
+                                    
+                                        while ($current <= $end) {
+                                            $time = date('H:i:s', $current);
+                                            $sel = ($time == $default) ? ' selected' : '';
+                                            $output .= "<option value=\"{$time}\"{$sel}>" . date('H:i ', $current) . '</option>';
+                                            $current = strtotime($interval, $current);
+                                        }
+                                        return $output;
+                                    }
+                                    ?>
+                                    <div class="d-flex flex-glow justify-content-center align-items-center" style="width: 100%;">
+                                        <div class="col-5 form-group text-center" style="width: 35%; height: 60px;">
+                                            <select class="form-control text-center text-time custom-select" style="height: 100%;" id="starttime" name="timeFrom" required>
+                                                <?php echo get_times(); ?>
+                                            </select>
+                                        </div>
+                                        <span class="col-1 text-center text-time mx-2">-</span>
+                                        <div class="col-5 form-group text-center" style="width: 35%; height: 60px;">
+                                            <select class="form-control text-center text-time custom-select" style="height: 100%;" id="endtime" name="timeTo" disabled="" required>
+                                                <?php echo get_times(); ?>
+                                            </select>
+                                        </div>
                                     </div>
                                 </div>
+                                <!-- Time select end -->
                             </div>
-                        </div>
                         </div>
                     </div>
                 </div>
