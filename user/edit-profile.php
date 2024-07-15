@@ -240,8 +240,8 @@ $conn->close();
                     <!-- Picture start -->
                     <div class="container d-flex justify-content-center text-center py-3">
                         <div class="row d-flex justify-content-center">
-                            <div class="d-flex justify-content-center align-items-center" style="background-color: white; width: 260px; height: 260px; border-radius: 250px; overflow: hidden;">
-                                <img id="profilePreview" src="<?php echo htmlspecialchars($profilePicture); ?>" alt="Profile Picture" style="width: 100%; height: 100%; object-fit: cover;">
+                            <div class="d-flex justify-content-center align-items-center" style="background-color: white; width: 260px; height: 260px; border-radius: 100%; overflow: hidden;">
+                                <img id="profilePreview" src="<?php echo htmlspecialchars($profilePicture); ?>" alt="Profile Picture" style="width: 125%; height: 125%; object-fit: cover;">
                             </div>
                             <label for="profilePicture" class="dongle-regular custom-btn-inline primary" style="text-decoration: none; font-size: 2rem; cursor: pointer;">edit</label>
                         </div>
