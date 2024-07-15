@@ -1,6 +1,6 @@
 <?php
 require_once '../assets/db_conn.php';
-session_start();
+require_once '../assets/isLoggedIn.php';
 
 if (!isset($_SESSION['ID'])) {
     header("Location: ../guest/login.php");

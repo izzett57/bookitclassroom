@@ -1,6 +1,6 @@
 <?php
 require_once '../assets/db_conn.php';
-session_start();
+require_once '../assets/IsLoggedIn.php';
 
 if (!isset($_SESSION['ID']) || !isset($_SESSION['last_entry_id'])) {
     header("Location: ../guest/login.php");

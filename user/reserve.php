@@ -1,3 +1,8 @@
+<?php
+include '../assets/db_conn.php';
+include '../assets/IsLoggedIn.php';
+?>
+
 <!DOCTYPE html>
 <html lang="en">
     <head>

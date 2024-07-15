@@ -1,6 +1,6 @@
 <?php
-include '../assets/IsLoggedIn.php';
 include '../assets/db_conn.php';
+include '../assets/IsLoggedIn.php';
 ?>
 
 <!DOCTYPE html>
