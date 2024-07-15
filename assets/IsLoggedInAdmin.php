@@ -37,6 +37,4 @@ if (!empty($user['ProfilePicture'])) {
 } else {
     error_log("No profile picture set for user ID: " . $user_id);
 }
-$stmt->close();
-$conn->close();
 ?>

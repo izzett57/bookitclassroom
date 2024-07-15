@@ -1,6 +1,6 @@
 <?php
-session_start();
 include '../assets/db_conn.php';
+include '../assets/IsLoggedInAdmin.php';
 
 if (!isset($_SESSION['ID']) || $_SESSION['User_Type'] !== 'ADMIN') {
     header("Location: ../guest/login.php");
