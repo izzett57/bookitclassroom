@@ -197,21 +197,6 @@ include '../assets/IsLoggedIn.php';
                                 <!-- Calendar end -->
                                 <!-- Time select start -->
                                 <div class="col d-flex justify-content-center align-items-center" style="height: 16.66%;">
-                                    <?php
-                                    function get_times($default = '00:00', $interval = '+30 minutes') {
-                                        $output = '';
-                                        $current = strtotime('00:00');
-                                        $end = strtotime('23:59');
-                                    
-                                        while ($current <= $end) {
-                                            $time = date('H:i:s', $current);
-                                            $sel = ($time == $default) ? ' selected' : '';
-                                            $output .= "<option value=\"{$time}\"{$sel}>" . date('H:i ', $current) . '</option>';
-                                            $current = strtotime($interval, $current);
-                                        }
-                                        return $output;
-                                    }
-                                    ?>
                                     <div class="d-flex flex-glow justify-content-center align-items-center" style="width: 100%;">
                                         <div class="col-5 form-group text-center" style="width: 35%; height: 60px;">
                                         <span class="d-flex justify-content-center align-items-center timeBox text-time" style="width: 100%; user-select: none;">
