@@ -161,7 +161,7 @@ function get_times($default = '00:00', $interval = '+30 minutes') {
                                 </div><br><br>
                                 <span class="text-time mx-5">-</span>
                                 <div class="form-group text-center" style="height: 60px; width: 20%;">
-                                    <select class="form-control text-center text-time custom-select" style="height: 100%;" id="endtime" name="timeTo" required>
+                                    <select class="form-control text-center text-time custom-select" style="height: 100%;" id="endtime" name="timeTo" disabled="" required>
                                         <?php echo get_times(); ?>
                                     </select>
                                 </div>

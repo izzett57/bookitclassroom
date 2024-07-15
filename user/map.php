@@ -167,7 +167,7 @@
                                     </div>
                                     <span class="col-1 text-center text-time mx-2">-</span>
                                     <div class="col-5 form-group text-center" style="width: 35%; height: 60px;">
-                                        <select class="form-control text-center text-time custom-select" style="height: 100%;" id="endtime" name="timeTo" required>
+                                        <select class="form-control text-center text-time custom-select" style="height: 100%;" id="endtime" name="timeTo" disabled="" required>
                                             <?php echo get_times(); ?>
                                         </select>
                                     </div>
