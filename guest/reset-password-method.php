@@ -3,6 +3,9 @@ session_start();
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
+// For debugging
+echo "Debugging information:<br>";
+
 // CSRF check
 if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
     die("CSRF token validation failed");
@@ -14,7 +17,11 @@ if (empty($token)) {
     die("No token provided");
 }
 
+echo "Received token: " . htmlspecialchars($token) . "<br>";
+
+// Hash the token before comparing with the database
 $token_hash = hash("sha256", $token);
+echo "Hashed token: " . $token_hash . "<br>";
 
 $mysqli = require __DIR__ . "/db_conn.php";
 if ($mysqli->connect_error) {
@@ -34,7 +41,10 @@ $result = $stmt->get_result();
 $user = $result->fetch_assoc();
 
 if ($user === null) {
+    echo "Query result: No matching user found<br>";
     die("Invalid or expired token");
+} else {
+    echo "Query result: Matching user found<br>";
 }
 
 if (strlen($_POST["password"]) < 12) {
