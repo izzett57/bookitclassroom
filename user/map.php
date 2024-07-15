@@ -19,6 +19,7 @@ include '../assets/IsLoggedIn.php';
         <link rel="stylesheet" href="../assets/css/google-fonts.css">
         <link rel="stylesheet" href="../assets/css/entry.css"/>
         <link rel="stylesheet" href="../assets/css/calendar.css"/>
+        <link rel="stylesheet" href="../assets/css/svg-container.css"/>
         <!-- Import CSS file(s) end --> 
 
         <!-- Import time select scripts start -->
@@ -49,19 +50,6 @@ include '../assets/IsLoggedIn.php';
                         <div class="row" style="height: 100%;">
                             <!-- Map start -->
                             <div class="col-8" style="">
-                            <style>
-                                .svg-container {
-                                    width: 100%; /* Adjust based on your layout needs */
-                                    height: 70vh; /* Maximum size of the container */
-                                    margin: auto; /* Center the container */
-                                    border: 3px solid #ccc; /* Optional: adds a border around the SVG viewport */
-                                    border-radius: 8px;
-                                    overflow: hidden; /* Ensures no overflow of the SVG content */
-                                }
-                                .svg-container:active {
-                                    cursor: grabbing;
-                                }
-                            </style>
                             <div class="svg-container">
                                 <object id="svg-object" type="image/svg+xml" data="../assets/svg/map/classroom.svg" onload="initPanZoom(this.contentDocument);"></object>
                             </div>
