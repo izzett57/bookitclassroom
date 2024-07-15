@@ -1,27 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        
-        <!-- Import Bootstrap start -->
-        <?php 
-            include('../assets/import-bootstrap.php');
-        ?>
-        <!-- Import Bootstrap end -->
-
-        <!-- Import CSS file(s) start -->
-        <link rel="stylesheet" href="../assets/css/global.css">
-        <link rel="stylesheet" href="../assets/css/font-sizing.css">
-        <link rel="stylesheet" href="../assets/css/google-fonts.css">
-        <!-- Import CSS file(s) end -->
-
-        <title>Home - BookItClassroom</title>
-        <link rel="icon" type="image/x-icon" href="favicon.ico">
-    </head>
-    <body>
-        <!-- Nav bar start -->
-        <nav class="navbar navbar-expand-lg bg-transparent px-5 py-4">
+    <!-- Navbar start -->
+    <nav class="navbar navbar-expand-lg bg-transparent px-5 py-4">
             <div class="container-fluid">
                 <!-- Logo start-->
                 <a class="navbar-brand" href="index.php">
@@ -46,17 +26,5 @@
                 <!-- Profile button end -->
             </div>
         </nav>
-        <!-- Nav bar end -->
-
-        <!-- Main content start -->
-        <?php 
-            include('../assets/navbar-user.php');
-        ?>
-        <!-- Main content end -->
-        <!-- Footer -->
-        <?php 
-            include('../assets/footer.php');
-        ?>
-        <!-- Footer end -->
-    </body>
+    <!-- Navbar end -->
 </html>
