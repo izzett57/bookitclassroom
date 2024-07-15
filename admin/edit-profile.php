@@ -123,7 +123,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 $conn->close();
 
 // Check if the user has a profile picture
-$profilePicture = '../assets/uploads/default-profile.png'; // Default image path
+$profilePicture = '../assets/uploads/default-profile.jpg'; // Default image path
 if (!empty($user['ProfilePicture'])) {
     $uploadedImage = '../assets/uploads/' . $user['ProfilePicture'];
     if (file_exists($uploadedImage)) {
