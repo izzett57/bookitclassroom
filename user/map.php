@@ -210,13 +210,13 @@ include '../assets/IsLoggedIn.php';
                                     ?>
                                     <div class="d-flex flex-glow justify-content-center align-items-center" style="width: 100%;">
                                         <div class="col-5 form-group text-center" style="width: 35%; height: 60px;">
-                                            <select class="form-control text-center text-time custom-select" style="height: 100%;" id="starttime" name="timeFrom" required>
+                                            <select class="form-control text-center text-time custom-select" style="height: 100%; user-select: none;" id="starttime" name="timeFrom" required>
                                                 <?php echo get_times(); ?>
                                             </select>
                                         </div>
-                                        <span class="col-1 text-center text-time mx-2">-</span>
+                                        <span class="col-1 text-center text-time mx-2" style="user-select: none;">-</span>
                                         <div class="col-5 form-group text-center" style="width: 35%; height: 60px;">
-                                            <select class="form-control text-center text-time custom-select" style="height: 100%;" id="endtime" name="timeTo" disabled="" required>
+                                            <select class="form-control text-center text-time custom-select" style="height: 100%; user-select: none;" id="endtime" name="timeTo" disabled="" required>
                                                 <?php echo get_times(); ?>
                                             </select>
                                         </div>
