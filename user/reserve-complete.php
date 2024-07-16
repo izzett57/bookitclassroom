@@ -21,7 +21,7 @@ if (!isset($_SESSION['ID'])) {
         <link rel="stylesheet" href="../assets/css/font-sizing.css">
         <link rel="stylesheet" href="../assets/css/google-fonts.css">
 
-        <title>Edit Entry Complete! - BookItClassroom</title>
+        <title>Reserve Complete! - BookItClassroom</title>
         <link rel="icon" type="image/x-icon" href="favicon.ico">
     </head>
     <body>
