@@ -85,7 +85,7 @@ function formatTime($time) {
                         <tr>
                         <th scope="col" style="width: 3%;">#</th>
                         <th scope="col" style="width: 45%;">Event</th>
-                        <th scope="col" style="width: 10%;">Day</th>
+                        <th scope="col" style="width: 10%;">Date</th>
                         <th scope="col" style="width: 14%;">Time</th>
                         <th scope="col" style="width: 14%;">Classroom</th>
                         <th scope="col" style="width: 14%;">Action</th>
