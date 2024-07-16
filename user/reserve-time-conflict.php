@@ -44,7 +44,7 @@ if (!isset($_SESSION['ID'])) {
                     <!-- Text start -->
                     <div class="row d-flex justify-content-center mb-5 text-center">
                         <!-- Heading -->
-                        <span class="heading1" style="padding-bottom: 30px;">Confirm Reserve</span>
+                        <span class="heading1" style="padding-bottom: 30px;">Time Conflict</span>
                         <!-- Subheading -->
                         <span class="subheading1" style="width: 70%;">This event has a different timing than the one selected on the map, continuing will update the selected event to the respective timing.</span>
                     </div>
@@ -76,18 +76,18 @@ if (!isset($_SESSION['ID'])) {
                                 </div>
                             </div>
                             <!-- Time select end -->
-                                <!-- Buttons start -->
-                                <div class="col d-flex justify-content-center align-items-center mt-5">
-                                    <!-- Back button start -->
-                                    <a onclick="history.back()" class="dongle-regular custom-btn-inline px-3 me-3 mt-2 primary" style="text-decoration: none; font-size: 2rem; cursor: pointer;">back</a>
-                                    <!-- Back button end -->
-                                    <!-- Next button start -->
-                                    <button type="submit" class="btn btn-lg custom-btn-noanim d-flex align-items-center justify-content-between">
-                                        <p class="dongle-regular mt-2" style="font-size: 3rem; flex-grow: 1;">Reserve</p>
-                                    </button>
-                                    <!-- Next button end -->
-                                </div>
-                                <!-- Buttons end -->
+                            <!-- Buttons start -->
+                            <div class="col d-flex justify-content-center align-items-center mt-5">
+                                <!-- Back button start -->
+                                <a onclick="history.back()" class="dongle-regular custom-btn-inline px-3 me-3 mt-2 primary" style="text-decoration: none; font-size: 2rem; cursor: pointer;">back</a>
+                                <!-- Back button end -->
+                                <!-- Next button start -->
+                                <button type="submit" class="btn btn-lg custom-btn-noanim d-flex align-items-center justify-content-between">
+                                    <p class="dongle-regular mt-2" style="font-size: 3rem; flex-grow: 1;">Reserve</p>
+                                </button>
+                                <!-- Next button end -->
+                            </div>
+                            <!-- Buttons end -->
                         </form>
                         <!-- Reserve conflict form end -->
                     </div>
