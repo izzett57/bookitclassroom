@@ -234,7 +234,7 @@ include '../assets/IsLoggedIn.php';
                                 <!-- Reserve button start -->
                                 <div class="col d-flex justify-content-center align-items-center" style="height: 16.66%;">
                                 <button type="submit" class="btn btn-lg custom-btn-noanim d-flex align-items-center justify-content-between">
-                                    <p class="dongle-regular mt-2" style="font-size: 3rem; flex-grow: 1;">Reserve</p>
+                                    <p class="dongle-regular mt-2" style="font-size: 3rem; flex-grow: 1;">View Class</p>
                                 </button>
                                 </div>
                                 <!-- Reserve button end -->
