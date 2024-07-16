@@ -1,12 +1,6 @@
 <?php
-require_once '../assets/db_conn.php';
-require_once '../assets/IsLoggedIn.php';
-
-if (!isset($_SESSION['ID'])) {
-    header("Location: ../guest/login.php");
-    exit();
-}
-
+include '../assets/db_conn.php';
+include '../assets/IsLoggedIn.php';
 ?>
 
 <!DOCTYPE html>
@@ -25,7 +19,6 @@ if (!isset($_SESSION['ID'])) {
         <link rel="stylesheet" href="../assets/css/global.css">
         <link rel="stylesheet" href="../assets/css/font-sizing.css">
         <link rel="stylesheet" href="../assets/css/google-fonts.css">
-        <link rel="stylesheet" href="../assets/css/entry.css"/>
         <!-- Import CSS file(s) end -->
 
         <title>Reserve - Type - BookItClassroom</title>
@@ -41,47 +34,33 @@ if (!isset($_SESSION['ID'])) {
         <!-- Main content start -->
         <div class="container main-content bg-white rounded-3 d-flex flex-column justify-content-center">
             <div class="row justify-content-evenly">
+                <div class="col-7 d-flex justify-content-center align-items-center">
                     <!-- Text start -->
-                    <div class="row d-flex justify-content-center mb-5 text-center">
+                    <div>
                         <!-- Heading -->
-                        <span class="heading1" style="padding-bottom: 30px;">Choose Reserve Type</span>
+                        <div class="heading1 ms-5"><p>Choose Reserve Type</p></div>
                         <!-- Subheading -->
-                        <span class="subheading1" style="width: 70%;">Would you like to reserve for a single timeslot or the whole semester?</span>
+                        <div class="subheading1 ms-5" style="width: 70%;"><p>Would you like to reserve for a single timeslot or the whole semester?</p></div>
                     </div>
                     <!-- Text end -->
-                <div>
-                    <div class="container">
-                        <!-- Reserve type form start -->
-                        <form class="row">
-                            <!-- Spacing start -->
-                            <div class="col"></div>
-                            <!-- Spacing end -->
-                            <!-- Buttons start -->
-                            <div class="col">
-                            <button type="button" name="" class="btn custom-btn-rtype btn-lg d-flex align-items-center justify-content-between mb-3" style="border-radius: 36px;">
-                                <p class="dongle-regular mt-2" style="font-size: 3rem; flex-grow: 1;">Single Booking</p>
-                                <span class="bg-light d-flex rounded-5 align-items-center justify-content-center" style="font-size: 1.5rem;">
-                                <i class="bi bi-1-circle-fill primary"></i>
-                                </span>
-                            </button>
-                            </div>
-                            <!-- Buttons end -->
-                            <!-- Buttons start -->
-                            <div class="col">
-                            <button type="button" name="" class="btn custom-btn-rtype btn-lg d-flex align-items-center justify-content-between mb-3" style="border-radius: 36px;">
-                                <p class="dongle-regular mt-2" style="font-size: 3rem; flex-grow: 1;">Whole Semester</p>
-                                <span class="bg-light d-flex rounded-5 align-items-center justify-content-center" style="font-size: 1.5rem;">
-                                <i class="bi bi-calendar-week primary"></i>
-                                </span>
-                            </button>
-                            </div>
-                            <!-- Buttons end -->
-                            <!-- Spacing start -->
-                            <div class="col"></div>
-                            <!-- Spacing end -->
-                        </form>
-                        <!-- Reserve type form end -->
-                    </div>
+                </div>
+                <div class="col d-flex flex-column align-items-center justify-content-center">
+                    <!-- View map button start -->
+                    <button type="button" name="" class="btn custom-btn-rtype btn-lg d-flex align-items-center justify-content-between mb-3" style="border-radius: 36px;">
+                        <p class="dongle-regular mt-2" style="font-size: 3rem; flex-grow: 1;">Single Booking</p>
+                        <span class="bg-light d-flex rounded-5 align-items-center justify-content-center" style="font-size: 1.5rem;">
+                        <i class="bi bi-1-circle-fill primary"></i>
+                        </span>
+                    </button>
+                    <!-- View map button end -->
+                    <!-- Timetable button -->
+                    <button type="button" name="" class="btn custom-btn-rtype btn-lg d-flex align-items-center justify-content-between mb-3" style="border-radius: 36px;">
+                        <p class="dongle-regular mt-2" style="font-size: 3rem; flex-grow: 1;">Whole Semester</p>
+                        <span class="bg-light d-flex rounded-5 align-items-center justify-content-center" style="font-size: 1.5rem;">
+                        <i class="bi bi-calendar-week primary"></i>
+                        </span>
+                    </button>
+                    <!-- Timetable button end -->
                 </div>
             </div>
         </div>
@@ -93,3 +72,4 @@ if (!isset($_SESSION['ID'])) {
         <!-- Footer end -->
     </body>
 </html>
+

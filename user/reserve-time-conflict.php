@@ -1,4 +1,4 @@
-<?php
+<p?php
 require_once '../assets/db_conn.php';
 require_once '../assets/IsLoggedIn.php';
 
@@ -37,22 +37,20 @@ if (!isset($_SESSION['ID'])) {
             include('../assets/navbar-user-back.php');
         ?>
         <!-- Nav bar end -->
-
         <!-- Main content start -->
         <div class="container main-content bg-white rounded-3 d-flex flex-column justify-content-center">
-            <div class="row justify-content-evenly">
-                    <!-- Text start -->
-                    <div class="row d-flex justify-content-center mb-5 text-center">
+            <div class="container">
+                <div class="row-9">
+                    <div class="col">
                         <!-- Heading -->
-                        <span class="heading1" style="padding-bottom: 30px;">Time Conflict</span>
+                        <p class="heading1 ms-5" style="">Time Conflict</p>
                         <!-- Subheading -->
-                        <span class="subheading1" style="width: 70%;">This event has a different timing than the one selected on the map, continuing will update the selected event to the respective timing.</span>
+                        <p class="subheading1 ms-5" style="width: 85%;">This event has a different timing than the one selected on the map, continuing will update the selected event to the respective timing.</p>
                     </div>
-                    <!-- Text end -->
+                </div>
                 <div class="row-auto d-flex flex-column">
-                    <div class="container" style="width: 35%;">
-                        <!-- Reserve conflict form start -->
-                        <form>
+                    <div class="container mt-5" style="width: 90%; align-content: center;">
+                        <form method="POST">
                             <div class="d-flex flex-column justify-content-center align-items-center mb-4">
                                 <p class="inter-regular" style="letter-spacing: 4px; color: #272937;text-transform: uppercase;">Event Name</p>
                                 <p class="subheading1" style="margin: 0px 0px 0px -2px;">Event Name</p>
@@ -60,14 +58,14 @@ if (!isset($_SESSION['ID'])) {
                             <!-- Time select start -->
                             <div class="col d-flex justify-content-center align-items-center" style="height: 16.66%;">
                                 <div class="d-flex flex-glow justify-content-center align-items-center" style="width: 100%;">
-                                    <div class="col-5 form-group text-center" style="width: 35%; height: 60px;">
+                                    <div class="col-5 form-group text-center" style="width: 15%; height: 60px;">
                                     <span class="d-flex justify-content-center align-items-center timeBox text-time" style="width: 100%; user-select: none;">
                                         <!-- <?php echo date('H:i', strtotime($entry['start_time'])); ?> -->
                                         01:00 <!-- placeholder -->
                                     </span>
                                     </div>
                                     <span class="col-1 text-center text-time mx-2" style="user-select: none;">-</span>
-                                    <div class="col-5 form-group text-center" style="width: 35%; height: 60px;" style="width: 100%">
+                                    <div class="col-5 form-group text-center" style="width: 15%; height: 60px;" style="width: 100%">
                                     <span class="d-flex justify-content-center align-items-center timeBox text-time" style="width: 100%; user-select: none;">
                                         <!-- <?php echo date('H:i', strtotime($entry['end_time'])); ?> -->
                                         02:00 <!-- placeholder -->
@@ -77,9 +75,9 @@ if (!isset($_SESSION['ID'])) {
                             </div>
                             <!-- Time select end -->
                             <!-- Buttons start -->
-                            <div class="col d-flex justify-content-center align-items-center mt-5">
+                            <div class="col d-flex justify-content-end align-items-center mt-5">
                                 <!-- Back button start -->
-                                <a onclick="history.back()" class="dongle-regular custom-btn-inline px-3 me-3 mt-2 primary" style="text-decoration: none; font-size: 2rem; cursor: pointer;">back</a>
+                                <a onclick="history.back()" class="dongle-regular custom-btn-inline px-3 ms-4 me-3 mt-2 primary" style="text-decoration: none; font-size: 2rem; cursor: pointer;">back</a>
                                 <!-- Back button end -->
                                 <!-- Next button start -->
                                 <button type="submit" class="btn btn-lg custom-btn-noanim d-flex align-items-center justify-content-between">
@@ -89,7 +87,6 @@ if (!isset($_SESSION['ID'])) {
                             </div>
                             <!-- Buttons end -->
                         </form>
-                        <!-- Reserve conflict form end -->
                     </div>
                 </div>
             </div>
