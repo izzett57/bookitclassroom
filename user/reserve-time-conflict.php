@@ -43,7 +43,7 @@ if (!isset($_SESSION['ID'])) {
                 <div class="row-9">
                     <div class="col">
                         <!-- Heading -->
-                        <p class="heading1 ms-5" style="">Time Conflict</p>
+                        <p class="heading1 ms-5">Time Conflict</p>
                         <!-- Subheading -->
                         <p class="subheading1 ms-5" style="width: 85%;">This event has a different timing than the one selected on the map, continuing will update the selected event to the respective timing.</p>
                     </div>
