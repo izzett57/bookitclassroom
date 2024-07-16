@@ -38,16 +38,16 @@
                         <span class="subheading1" style="width: 70%;">Would you like to reserve for a single timeslot or the whole semester?</span>
                     </div>
                     <!-- Text end -->
-                <div class="row-auto d-flex flex-column">
+                <div>
                     <div class="container">
                         <!-- Reserve type form start -->
-                        <form class="row justify-content-center">
+                        <form class="row">
                             <!-- Spacing start -->
                             <div class="col"></div>
                             <!-- Spacing end -->
                             <!-- Buttons start -->
-                            <div class="col d-flex justify-content-center align-items-center">
-                            <button type="button" name="" class="btn custom-btn btn-lg d-flex align-items-center justify-content-between mb-3" style="width: 340px; border-radius: 36px;">
+                            <div class="col">
+                            <button type="button" name="" class="btn custom-btn-rtype btn-lg d-flex align-items-center justify-content-between mb-3" style="border-radius: 36px;">
                                 <p class="dongle-regular mt-2" style="font-size: 3rem; flex-grow: 1;">Single Booking</p>
                                 <span class="bg-light d-flex rounded-5 align-items-center justify-content-center" style="font-size: 1.5rem;">
                                 <i class="bi bi-1-circle-fill primary"></i>
@@ -56,8 +56,8 @@
                             </div>
                             <!-- Buttons end -->
                             <!-- Buttons start -->
-                            <div class="col d-flex justify-content-center align-items-center">
-                            <button type="button" name="" class="btn custom-btn btn-lg d-flex align-items-center justify-content-between mb-3" style="width: 340px; border-radius: 36px;">
+                            <div class="col">
+                            <button type="button" name="" class="btn custom-btn-rtype btn-lg d-flex align-items-center justify-content-between mb-3" style="border-radius: 36px;">
                                 <p class="dongle-regular mt-2" style="font-size: 3rem; flex-grow: 1;">Whole Semester</p>
                                 <span class="bg-light d-flex rounded-5 align-items-center justify-content-center" style="font-size: 1.5rem;">
                                 <i class="bi bi-calendar-week primary"></i>
