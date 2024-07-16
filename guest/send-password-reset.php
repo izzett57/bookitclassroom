@@ -66,11 +66,6 @@ if ($mysqli->affected_rows) {
     $mail->Body = <<<END
     Click <a href="http://localhost:5500/guest/reset-password.php?token=$token">here</a> 
     to reset your password. This link will expire in 30 minutes.
-
-    Debug info:
-    Token: $token
-    Token Hash: $token_hash
-    Expiry: $expiry
     END;
 
     try {
