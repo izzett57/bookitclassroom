@@ -1,3 +1,14 @@
+<?php
+require_once '../assets/db_conn.php';
+require_once '../assets/IsLoggedIn.php';
+
+if (!isset($_SESSION['ID'])) {
+    header("Location: ../guest/login.php");
+    exit();
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
