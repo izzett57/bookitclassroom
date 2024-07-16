@@ -27,7 +27,7 @@ include '../assets/IsLoggedIn.php';
         <script src="../assets/js/time-select.js"></script>
         <!-- Import time select scripts end -->
 
-        <title>Map - BookItClassroom</title>
+        <title>Timetable - Map - BookItClassroom</title>
         <link rel="icon" type="image/x-icon" href="favicon.ico">
     </head>
     
