@@ -44,6 +44,20 @@ $stmt->bind_param("sss", $token_hash, $expiry, $email);
 $stmt->execute();
 
 if ($mysqli->affected_rows) {
+    // Verify the token was stored correctly
+    $verify_sql = "SELECT Reset_Token FROM user WHERE Email = ?";
+    $verify_stmt = $mysqli->prepare($verify_sql);
+    $verify_stmt->bind_param("s", $email);
+    $verify_stmt->execute();
+    $verify_result = $verify_stmt->get_result();
+    $verify_row = $verify_result->fetch_assoc();
+    
+    if ($verify_row['Reset_Token'] === $token_hash) {
+        echo "Token successfully stored in database.<br>";
+    } else {
+        echo "Error: Token not stored correctly in database.<br>";
+    }
+
     $mail = require __DIR__ . "/mailer.php";
 
     $mail->setFrom("noreply@bookitclassroom.com");
