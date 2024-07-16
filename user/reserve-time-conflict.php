@@ -17,7 +17,7 @@
         <link rel="stylesheet" href="../assets/css/entry.css"/>
         <!-- Import CSS file(s) end -->
 
-        <title>Confirm Reserve Changes - Map - BookItClassroom</title>
+        <title>Reserve - Time Conflict - BookItClassroom</title>
         <link rel="icon" type="image/x-icon" href="favicon.ico">
     </head>
     <body>
