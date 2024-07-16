@@ -1,4 +1,4 @@
-<p?php
+<?php
 require_once '../assets/db_conn.php';
 require_once '../assets/IsLoggedIn.php';
 
