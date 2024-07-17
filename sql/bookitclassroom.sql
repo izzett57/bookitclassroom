@@ -26,12 +26,21 @@ CREATE TABLE CLASSROOM (
     PRIMARY KEY(CName)
 );
 
+-- Create Semester table
+CREATE TABLE SEMESTER (
+    ID varchar(4) NOT NULL,
+    Year int(4) NOT NULL,
+    Sem int(1) NOT NULL,
+    Start_Date DATE NOT NULL,
+    End_Date DATE NOT NULL,
+    PRIMARY KEY (ID, Year, Sem)
+);
+
 -- Create ENTRY Table
 CREATE TABLE ENTRY (
     ID int(20) NOT NULL AUTO_INCREMENT,
     User_ID int(20) NOT NULL,
     EName varchar(200) NOT NULL,
-    Day enum('MONDAY','TUESDAY','WEDNESDAY','THURSDAY','FRIDAY') NOT NULL,
     Time_Start TIME NOT NULL,
     Time_End TIME NOT NULL,
     Assigned_Class varchar(200),
@@ -43,10 +52,13 @@ CREATE TABLE ENTRY (
 -- Create BOOKING Table
 CREATE TABLE BOOKING (
     ID int(20) NOT NULL AUTO_INCREMENT,
+    Type enum('SINGLE','SEMESTER') NOT NULL,
     Booking_Date DATE NOT NULL,
+    Semester varchar(4) NOT NULL,
     Entry_ID int(20) NOT NULL,
     Classroom varchar(200) NOT NULL,
     FOREIGN KEY (Entry_ID) REFERENCES ENTRY(ID),
     FOREIGN KEY (Classroom) REFERENCES CLASSROOM(CName),
+    FOREIGN KEY (Semester) REFERENCES SEMESTER(ID),
     PRIMARY KEY(ID)
 );
