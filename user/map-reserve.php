@@ -45,10 +45,6 @@ include '../assets/IsLoggedIn.php';
                     <!-- Text start -->
                         <!-- Heading -->
                         <div class="heading1" style=""><p>Map</p></div>
-                        <div class="subheading1" style="">
-                            <span>Reserving class/event:</span>
-                            <span style="font-weight: 600;">Event Name</span>
-                        </div>
                     <!-- Text end -->
                     <div class="container" style="height: 70vh;">
                         <div class="row" style="height: 100%;">
@@ -197,19 +193,32 @@ include '../assets/IsLoggedIn.php';
                                 <!-- Calendar end -->
                                 <!-- Time select start -->
                                 <div class="col d-flex justify-content-center align-items-center" style="height: 16.66%;">
+                                    <?php
+                                    function get_times($default = '00:00', $interval = '+30 minutes') {
+                                        $output = '';
+                                        $current = strtotime('00:00');
+                                        $end = strtotime('23:59');
+                                    
+                                        while ($current <= $end) {
+                                            $time = date('H:i:s', $current);
+                                            $sel = ($time == $default) ? ' selected' : '';
+                                            $output .= "<option value=\"{$time}\"{$sel}>" . date('H:i ', $current) . '</option>';
+                                            $current = strtotime($interval, $current);
+                                        }
+                                        return $output;
+                                    }
+                                    ?>
                                     <div class="d-flex flex-glow justify-content-center align-items-center" style="width: 100%;">
                                         <div class="col-5 form-group text-center" style="width: 35%; height: 60px;">
-                                        <span class="d-flex justify-content-center align-items-center timeBox text-time" style="width: 100%; user-select: none;">
-                                            <!-- <?php echo date('H:i', strtotime($entry['start_time'])); ?> -->
-                                            01:00 <!-- placeholder -->
-                                        </span>
+                                            <select class="form-control text-center text-time custom-select" style="height: 100%; user-select: none;" id="starttime" name="timeFrom" required>
+                                                <?php echo get_times(); ?>
+                                            </select>
                                         </div>
                                         <span class="col-1 text-center text-time mx-2" style="user-select: none;">-</span>
-                                        <div class="col-5 form-group text-center" style="width: 35%; height: 60px;" style="width: 100%">
-                                        <span class="d-flex justify-content-center align-items-center timeBox text-time" style="width: 100%; user-select: none;">
-                                            <!-- <?php echo date('H:i', strtotime($entry['end_time'])); ?> -->
-                                            02:00 <!-- placeholder -->
-                                        </span>
+                                        <div class="col-5 form-group text-center" style="width: 35%; height: 60px;">
+                                            <select class="form-control text-center text-time custom-select" style="height: 100%; user-select: none;" id="endtime" name="timeTo" disabled="" required>
+                                                <?php echo get_times(); ?>
+                                            </select>
                                         </div>
                                     </div>
                                 </div>
