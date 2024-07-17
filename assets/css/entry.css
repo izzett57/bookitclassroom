@@ -8,9 +8,16 @@ label.dayContainer {
     border-radius: 100%;
     cursor: pointer;
     display: inline-block; /* Adjusted for layout */
+    transition: 0.25s;
 }
+
 .dayInput {
     display: none;
+}
+
+label.dayContainer:hover {
+    background: rgba(218, 116, 34, 0.1);
+    transition: 0.25s;
 }
 
 label.dayContainer span {
