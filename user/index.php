@@ -47,7 +47,7 @@ $user = $stmt->fetch();
                             <i class="bi bi-pin-map-fill primary"></i>
                         </span>
                     </button>
-                    <button onclick="location.href='reserve-type-select.php'" type="button" class="btn custom-btn btn-lg d-flex align-items-center justify-content-between mb-3" style="border-radius: 36px;">
+                    <button onclick="location.href='reserve.php'" type="button" class="btn custom-btn btn-lg d-flex align-items-center justify-content-between mb-3" style="border-radius: 36px;">
                         <p class="dongle-regular mt-2" style="font-size: 3rem; flex-grow: 1;">Reserve</p>
                         <span class="bg-light d-flex rounded-5 align-items-center justify-content-center" style="font-size: 1.5rem;">
                             <i class="bi bi-bookmarks-fill primary"></i>
