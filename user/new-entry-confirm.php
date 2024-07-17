@@ -11,8 +11,8 @@ $entry = $_SESSION['new_entry'];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $pdo = dbConnect();
-    $stmt = $pdo->prepare("INSERT INTO ENTRY (User_ID, EName, Day, Time_Start, Time_End) VALUES (?, ?, ?, ?, ?)");
-    $stmt->execute([$_SESSION['ID'], $entry['name'], $entry['day'], $entry['start_time'], $entry['end_time']]);
+    $stmt = $pdo->prepare("INSERT INTO ENTRY (User_ID, EName, Time_Start, Time_End) VALUES (?, ?, ?, ?)");
+    $stmt->execute([$_SESSION['ID'], $entry['name'], $entry['start_time'], $entry['end_time']]);
     
     $_SESSION['last_entry_id'] = $pdo->lastInsertId();
     header("Location: new-entry-complete.php");
@@ -54,10 +54,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <div class="row-auto d-flex flex-column">
                     <div class="container" style="height: 45vh; width: 90%; align-content: center;">
                         <form method="POST">
-                            <div class="d-flex justify-content-center align-items-center">
-                                <div class="dayBox">
-                                    <span class="dayBoxText heading1"><?php echo $entry['day']; ?></span>
-                                </div>
+                            <div class="d-flex flex-column justify-content-center align-items-center pt-1">
+                                <p class="inter-regular" style="letter-spacing: 4px; color: #272937;text-transform: uppercase;">Event Name</p>
+                                <p class="subheading1" style="margin: 0px 0px 0px -2px;"><?php echo htmlspecialchars($entry['name']); ?></p>
                             </div>
                             <div class="d-flex justify-content-center text-center mt-5">
                                 <span class="d-flex justify-content-center align-items-center timeBox text-time me-5">
@@ -70,11 +69,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                     <?php echo date('H:i', strtotime($entry['end_time'])); ?>
                                 </span>
                             </div>
-                            <div class="d-flex flex-column justify-content-center align-items-center pt-4">
-                                <p class="inter-regular" style="letter-spacing: 4px; color: #272937;text-transform: uppercase;">Event Name</p>
-                                <p class="subheading1" style="margin: 0px 0px 0px -2px;"><?php echo htmlspecialchars($entry['name']); ?></p>
-                            </div>
-                            <div class="col d-flex justify-content-end align-items-center pt-2">
+                            <div class="col d-flex justify-content-end align-items-center mt-5">
                                 <a onclick="history.back()" class="dongle-regular custom-btn-inline me-3 mt-2 primary" style="text-decoration: none; font-size: 2rem; cursor: pointer;">back</a>
                                 <button type="submit" class="btn btn-lg custom-btn-noanim d-flex align-items-center justify-content-between">
                                     <p class="dongle-regular mt-2" style="font-size: 3rem; flex-grow: 1;">Next</p>

@@ -11,11 +11,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $event_name = trim($_POST['event']);
     if (!empty($event_name)) {
         $_SESSION['new_entry'] = ['name' => $event_name];
-        header("Location: new-entry-day.php");
+        header("Location: new-entry-time.php");
         exit();
     }
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -33,12 +34,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </head>
     
     <body>
-        <!-- Nav bar start -->
-        <?php 
-            include('../assets/navbar-user-back.php');
-        ?>
-        <!-- Nav bar end -->
-        <!-- Main content start -->
+        <?php include('../assets/navbar-user-back.php'); ?>
+
         <div class="container main-content bg-white rounded-3 d-flex flex-column justify-content-center">
             <div class="container">
                 <div class="row">
@@ -58,7 +55,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 <div class="col">
                                 </div>
                                 <div class="col d-flex justify-content-end align-items-center">
-                                    <a onclick="history.back()" class="dongle-regular custom-btn-inline me-3 mt-2 primary" style="text-decoration: none; font-size: 2rem; cursor: pointer;">back</a>
+                                    <a href="timetable.php" class="dongle-regular custom-btn-inline me-3 mt-2 primary" style="text-decoration: none; font-size: 2rem;">back</a>
                                     <button type="submit" class="btn btn-lg custom-btn-noanim d-flex align-items-center justify-content-between">
                                         <p class="dongle-regular mt-2" style="font-size: 3rem; flex-grow: 1;">Next</p>
                                     </button>
@@ -69,7 +66,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </div>
             </div>
         </div>
-        <!-- Main content end -->
+
         <?php include('../assets/footer.php'); ?>
     </body>
 </html>

@@ -7,18 +7,25 @@ if (!isset($_SESSION['ID'])) {
     exit();
 }
 
-// Fetch user's entries from the database
+$classroom = $_GET['classroom'] ?? null;
+
+if (!$classroom) {
+    header("Location: map.php");
+    exit();
+}
+
+// Fetch bookings for the classroom
 try {
     $pdo = dbConnect();
-    $stmt = $pdo->prepare("SELECT e.*, b.Classroom AS Reserved_Classroom 
-                           FROM ENTRY e 
-                           LEFT JOIN BOOKING b ON e.ID = b.Entry_ID 
-                           WHERE e.User_ID = ? 
-                           ORDER BY e.Day, e.Time_Start");
-    $stmt->execute([$_SESSION['ID']]);
-    $entries = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $stmt = $pdo->prepare("SELECT b.*, e.EName, e.User_ID 
+                           FROM BOOKING b 
+                           JOIN ENTRY e ON b.Entry_ID = e.ID 
+                           WHERE b.Classroom = ? 
+                           ORDER BY b.Booking_Date, b.Time_Start");
+    $stmt->execute([$classroom]);
+    $bookings = $stmt->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
-    die("Error fetching entries: " . $e->getMessage());
+    die("Error fetching bookings: " . $e->getMessage());
 }
 
 // Function to format time
@@ -33,96 +40,71 @@ function formatTime($time) {
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         
-        <!-- Import Bootstrap start -->
         <?php include('../assets/import-bootstrap.php'); ?>
-        <!-- Import Bootstrap end -->
 
-        <!-- Import CSS file(s) start -->
         <link rel="stylesheet" href="../assets/css/global.css">
         <link rel="stylesheet" href="../assets/css/font-sizing.css">
         <link rel="stylesheet" href="../assets/css/google-fonts.css">
-        <!-- Import CSS file(s) end --> 
 
-        <title>ClassroomName - Schedule - BookItClassroom</title>
+        <title><?php echo htmlspecialchars($classroom); ?> - Schedule - BookItClassroom</title>
         <link rel="icon" type="image/x-icon" href="favicon.ico">
     </head>
     
     <body>
-        <!-- Nav bar start -->
-        <?php 
-            include('../assets/navbar-user-back.php');
-        ?>
-        <!-- Nav bar end -->
+        <?php include('../assets/navbar-user-back.php'); ?>
 
-        <!-- Main content start -->
         <div class="container main-content bg-white rounded-3 d-flex flex-column justify-content-center">
             <div class="container">
                 <div class="row">
-                    <!-- Text start -->
                     <div class="col-8">
-                        <!-- Heading -->
                         <div class="heading1 ms-5"><p>Classroom Schedule</p></div>
-                        <div class="subheading1 ms-5"><p>Here is a list of classes/event in Classroom Name.</p></div>
+                        <div class="subheading1 ms-5"><p>Here is a list of bookings for <?php echo htmlspecialchars($classroom); ?>.</p></div>
                     </div>
-                    <!-- Text end -->
                 </div>
-                <!-- Table data start -->
                 <div class="row">
                 <table class="table table-striped table-hover text-center inter-regular">
                     <thead>
                         <tr>
                         <th scope="col" style="width: 3%;">#</th>
-                        <th scope="col" style="width: 45%;">Event</th>
-                        <th scope="col" style="width: 10%;">Date</th>
-                        <th scope="col" style="width: 14%;">Time</th>
-                        <th scope="col" style="width: 14%;">By</th>
-                        <th scope="col" style="width: 14%;">Action</th>
+                        <th scope="col" style="width: 30%;">Event</th>
+                        <th scope="col" style="width: 15%;">Date</th>
+                        <th scope="col" style="width: 15%;">Time</th>
+                        <th scope="col" style="width: 22%;">Booked By</th>
+                        <th scope="col" style="width: 15%;">Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <?php if (empty($entries)): ?>
+                        <?php if (empty($bookings)): ?>
                             <tr>
-                                <td colspan="6">No entries found. Click "New Entry" to add one.</td>
+                                <td colspan="6">No bookings found for this classroom.</td>
                             </tr>
                         <?php else: ?>
-                            <?php foreach ($entries as $index => $entry): ?>
+                            <?php foreach ($bookings as $index => $booking): ?>
                             <tr>
                                 <th scope="row"><?php echo $index + 1; ?></th>
-                                <td><?php echo htmlspecialchars($entry['EName']); ?></td>
-                                <td><?php echo htmlspecialchars($entry['Day']); ?></td>
-                                <td><?php echo formatTime($entry['Time_Start']) . ' - ' . formatTime($entry['Time_End']); ?></td>
-                                <td><?php echo htmlspecialchars($entry['Reserved_Classroom'] ?? $entry['Assigned_Class'] ?? '-'); ?></td>
-                                <!-- Action start -->
-                                <td class="d-flex justify-content-evenly">
-                                <?php if ($entry['Reserved_Classroom'] || $entry['Assigned_Class']): ?>
-                                    <a class="custom-btn-inline" href="unreserve.php?id=<?php echo $entry['ID']; ?>" style="text-decoration: none;">
+                                <td><?php echo htmlspecialchars($booking['EName']); ?></td>
+                                <td><?php echo date('Y-m-d', strtotime($booking['Booking_Date'])); ?></td>
+                                <td><?php echo formatTime($booking['Time_Start']) . ' - ' . formatTime($booking['Time_End']); ?></td>
+                                <td><?php echo ($booking['User_ID'] == $_SESSION['ID']) ? 'You' : 'Another user'; ?></td>
+                                <td>
+                                <?php if ($booking['User_ID'] == $_SESSION['ID']): ?>
+                                    <a class="custom-btn-inline" href="unreserve.php?id=<?php echo $booking['ID']; ?>" style="text-decoration: none;">
                                         Unreserve
                                         <i class="bi bi-bookmark-dash-fill"></i>    
                                     </a>
                                 <?php else: ?>
-                                    <a class="custom-btn-inline" href="edit-entry-name.php?id=<?php echo $entry['ID']; ?>" style="text-decoration: none;">
-                                        Edit
-                                        <i class="bi bi-pencil-fill"></i>    
-                                    </a>
-                                    <a class="custom-btn-inline" href="reserve.php?id=<?php echo $entry['ID']; ?>" style="text-decoration: none;">
-                                        Reserve
-                                        <i class="bi bi-bookmark-plus-fill"></i>
-                                    </a>
+                                    -
                                 <?php endif; ?>
                                 </td>
-                                <!-- Action end -->
                             </tr>
                             <?php endforeach; ?>
                         <?php endif; ?>
                     </tbody>
                 </table>
                 </div>
-                <!-- Table data end -->
             </div>
         </div>
-        <!-- Main content end -->
-        <!-- Footer -->
+
         <?php include('../assets/footer.php'); ?>
-        <!-- Footer end -->
     </body>
 </html>

@@ -28,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!empty($new_name)) {
         $update_stmt = $pdo->prepare("UPDATE ENTRY SET EName = ? WHERE ID = ?");
         $update_stmt->execute([$new_name, $entry_id]);
-        header("Location: edit-entry-day.php?id=" . $entry_id);
+        header("Location: edit-entry-time.php?id=" . $entry_id);
         exit();
     }
 }
@@ -51,9 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </head>
     
     <body>
-        <?php 
-            include('../assets/navbar-user-back.php');
-        ?>
+        <?php include('../assets/navbar-user-back.php'); ?>
 
         <div class="container main-content bg-white rounded-3 d-flex flex-column justify-content-center">
             <div class="container">

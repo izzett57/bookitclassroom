@@ -7,6 +7,15 @@ if (!isset($_SESSION['ID'])) {
     exit();
 }
 
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $reserve = $_POST['reserve'] === 'yes';
+    if ($reserve) {
+        header("Location: reserve-type-select.php");
+    } else {
+        header("Location: timetable.php");
+    }
+    exit();
+}
 ?>
 
 <!DOCTYPE html>
@@ -25,9 +34,7 @@ if (!isset($_SESSION['ID'])) {
         <link rel="icon" type="image/x-icon" href="favicon.ico">
     </head>
     <body>
-        <?php 
-            include('../assets/navbar-user.php');
-        ?>
+        <?php include('../assets/navbar-user.php'); ?>
 
         <div class="container main-content bg-white rounded-3 d-flex flex-column justify-content-center">
             <div class="row justify-content-evenly">
@@ -39,7 +46,7 @@ if (!isset($_SESSION['ID'])) {
                 </div>
                 <div class="col d-flex">
                     <div class="container d-flex justify-content-center align-items-center text-center">
-                        <form method="POST">
+                        <form method="POST" action="index.php">
                             <div class="row">
                                 <div class="col">
                                     <button type="submit" name="reserve" value="yes" class="btn btn-lg custom-btn-noanim d-flex align-items-center">

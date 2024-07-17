@@ -54,11 +54,11 @@ CREATE TABLE BOOKING (
     ID int(20) NOT NULL AUTO_INCREMENT,
     Type enum('SINGLE','SEMESTER') NOT NULL,
     Booking_Date DATE NOT NULL,
-    Semester varchar(4) NOT NULL,
+    Semester_ID varchar(4) NOT NULL,
     Entry_ID int(20) NOT NULL,
     Classroom varchar(200) NOT NULL,
     FOREIGN KEY (Entry_ID) REFERENCES ENTRY(ID),
     FOREIGN KEY (Classroom) REFERENCES CLASSROOM(CName),
-    FOREIGN KEY (Semester) REFERENCES SEMESTER(ID),
+    FOREIGN KEY (Semester_ID) REFERENCES SEMESTER(ID),
     PRIMARY KEY(ID)
 );
