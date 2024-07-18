@@ -89,12 +89,23 @@ INSERT INTO CLASSROOM (CName, Floor) VALUES
 -- Create Semester table
 CREATE TABLE SEMESTER (
     ID varchar(4) NOT NULL,
-    Year int(4) NOT NULL,
+    Year YEAR NOT NULL,
     Sem int(1) NOT NULL,
     Start_Date DATE NOT NULL,
     End_Date DATE NOT NULL,
     PRIMARY KEY (ID, Year, Sem)
 );
+
+INSERT INTO SEMESTER (ID, Year, Sem, Start_Date, End_Date) VALUES 
+('Y1S1', 2024, 1, '2024-01-01', '2024-04-01'),
+('Y1S2', 2024, 2, '2024-04-02', '2024-08-02'),
+('Y1S3', 2024, 3, '2024-08-03', '2024-12-03'),
+('Y2S1', 2025, 1, '2025-01-01', '2025-04-01'),
+('Y2S2', 2025, 2, '2025-04-02', '2025-08-02'),
+('Y2S3', 2025, 3, '2025-08-03', '2025-12-03'),
+('Y3S1', 2026, 1, '2026-01-01', '2026-04-01'),
+('Y3S2', 2026, 2, '2026-04-02', '2026-08-02'),
+('Y3S3', 2026, 3, '2026-08-03', '2026-12-03');
 
 -- Create ENTRY Table
 CREATE TABLE ENTRY (
