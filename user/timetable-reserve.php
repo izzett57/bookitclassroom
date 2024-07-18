@@ -25,7 +25,8 @@ function formatTime($time) {
 function checkTimeConflict($entry, $selected_date, $selected_time_start, $selected_time_end) {
     return (
         $entry['Time_Start'] < $selected_time_end &&
-        $entry['Time_End'] > $selected_time_start
+        $entry['Time_End'] > $selected_time_start &&
+        date('Y-m-d', strtotime($entry['Time_Start'])) == $selected_date
     );
 }
 

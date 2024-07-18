@@ -7,29 +7,43 @@ if (!isset($_SESSION['ID'])) {
     exit();
 }
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $_SESSION['reserve_data'] = [
-        'classroom' => $_POST['selected_classroom'],
-        'date' => $_POST['selected_date'],
-        'time_start' => $_POST['timeFrom'],
-        'time_end' => $_POST['timeTo']
-    ];
-    if (!isset($_SESSION['reserve_data'])) {
-        die("Failed to set session data");
-    }
-    header("Location: timetable-reserve.php");
+// Check if selected_floor is set in the session, if not, redirect to select-floor.php
+if (!isset($_SESSION['selected_floor'])) {
+    header("Location: select-floor.php");
     exit();
 }
 
-// Fetch classrooms
+$selected_floor = $_SESSION['selected_floor'];
+
+// Connect to the database
 $pdo = dbConnect();
-$stmt = $pdo->query("SELECT CName, Floor FROM CLASSROOM ORDER BY Floor, CName");
+
+// Fetch classrooms for the selected floor
+$stmt = $pdo->prepare("SELECT CName, Floor FROM CLASSROOM WHERE Floor = ? ORDER BY CName");
+$stmt->execute([$selected_floor]);
 $classrooms = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-// Group classrooms by floor
-$classroomsByFloor = [];
-foreach ($classrooms as $classroom) {
-    $classroomsByFloor[$classroom['Floor']][] = $classroom['CName'];
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Validate and sanitize inputs
+    $selected_classroom = filter_input(INPUT_POST, 'selected_classroom', FILTER_SANITIZE_STRING);
+    $selected_date = filter_input(INPUT_POST, 'selected_date', FILTER_SANITIZE_STRING);
+    $time_from = filter_input(INPUT_POST, 'timeFrom', FILTER_SANITIZE_STRING);
+    $time_to = filter_input(INPUT_POST, 'timeTo', FILTER_SANITIZE_STRING);
+
+    // Validate date format (assuming YYYY-MM-DD)
+    if (!preg_match("/^\d{4}-\d{2}-\d{2}$/", $selected_date)) {
+        die("Invalid date format");
+    }
+
+    $_SESSION['reserve_data'] = [
+        'classroom' => $selected_classroom,
+        'date' => $selected_date,
+        'time_start' => $time_from,
+        'time_end' => $time_to
+    ];
+
+    header("Location: timetable-reserve.php");
+    exit();
 }
 ?>
 
@@ -70,116 +84,45 @@ foreach ($classrooms as $classroom) {
                                 </div>
                                 <script src="https://cdn.jsdelivr.net/npm/svg-pan-zoom@latest/dist/svg-pan-zoom.min.js"></script>
                                 <script>
-                                                                  function injectCSS(svgDocument) {
-                                    const style = document.createElementNS("http://www.w3.org/2000/svg", "style");
-                                    // 1001 example of available
-                                    // 1002 example of unavailable
-                                    style.textContent = `
-                                        [id="1001"] rect { 
-                                            stroke: rgba(69, 218, 34, 1.0);
-                                            fill: rgba(69, 218, 34, 0.3);
-                                        }
-                                        [id="1001"] tspan {
-                                            user-select: none;
-                                            fill: rgba(49, 136, 28, 1.0);
-                                        }
-                                        [id="1001"]:hover rect {
-                                            stroke: rgba(69, 218, 34, 0.7);
-                                            fill: rgba(69, 218, 34, 0.2);
-                                            tspan {
-                                                fill: rgba(49, 136, 28, 0.8);
+                                    function injectCSS(svgDocument) {
+                                        const style = document.createElementNS("http://www.w3.org/2000/svg", "style");
+                                        style.textContent = `
+                                            [id^="<?php echo $selected_floor; ?>"] rect { 
+                                                stroke: rgba(69, 218, 34, 1.0);
+                                                fill: rgba(69, 218, 34, 0.3);
                                             }
-                                            cursor: pointer;
-                                        }
-                                        [id="1002"] rect{
-                                            stroke: rgba(218, 34, 34, 0.8);
-                                            fill: rgba(244, 196, 196, 0.3);
-                                        }
-                                        [id="1002"] tspan {
-                                            user-select: none;
-                                            fill: rgba(136, 28, 28, 1.0);
-                                        }
-                                        [id="1002"]:hover rect {
-                                            stroke: rgba(218, 34, 34, 0.5);
-                                            fill: rgba(244, 196, 196, 0.2);
-                                            tspan {
-                                                fill: rgba(136, 28, 28, 0.8);
-                                        }
-                                            cursor: pointer;
-                                        }
-
-                                        [id="1003"] rect{
-                                            stroke: rgba(69, 218, 34, 1.0);
-                                            fill: rgba(69, 218, 34, 0.3);
-                                        }
-                                        [id="1003"] tspan {
-                                            user-select: none;
-                                            fill: rgba(49, 136, 28, 1.0);
-                                        }
-                                        [id="1003"]:hover rect {
-                                            stroke: rgba(69, 218, 34, 0.7);
-                                            fill: rgba(69, 218, 34, 0.2);
-                                            tspan {
-                                                fill: rgba(49, 136, 28, 0.8);
+                                            [id^="<?php echo $selected_floor; ?>"] tspan {
+                                                user-select: none;
+                                                fill: rgba(49, 136, 28, 1.0);
                                             }
-                                            cursor: pointer;
-                                        }
+                                            [id^="<?php echo $selected_floor; ?>"]:hover rect {
+                                                stroke: rgba(69, 218, 34, 0.7);
+                                                fill: rgba(69, 218, 34, 0.2);
+                                                tspan {
+                                                    fill: rgba(49, 136, 28, 0.8);
+                                                }
+                                                cursor: pointer;
+                                            }
+                                        `;
+                                        svgDocument.querySelector('svg').appendChild(style);
+                                    }
 
-                                        [id="1004"] rect{
-                                            stroke: rgba(218, 34, 34, 0.8);
-                                            fill: rgba(244, 196, 196, 0.3);
-                                        }
-                                        [id="1004"] tspan {
-                                            user-select: none;
-                                            fill: rgba(136, 28, 28, 1.0);
-                                        }
-                                        [id="1004"]:hover rect {
-                                            stroke: rgba(218, 34, 34, 0.5);
-                                            fill: rgba(244, 196, 196, 0.2);
-                                            tspan {
-                                                fill: rgba(136, 28, 28, 0.8);
-                                        }
-                                            cursor: pointer;
-                                        }
-                                            
-                                        [id="1005"] rect{
-                                            stroke: rgba(218, 34, 34, 0.8);
-                                            fill: rgba(244, 196, 196, 0.3);
-                                        }
-                                        [id="1005"] tspan {
-                                            user-select: none;
-                                            fill: rgba(136, 28, 28, 1.0);
-                                        }
-                                        [id="1005"]:hover rect {
-                                            stroke: rgba(218, 34, 34, 0.5);
-                                            fill: rgba(244, 196, 196, 0.2);
-                                            tspan {
-                                                fill: rgba(136, 28, 28, 0.8);
-                                        }
-                                            cursor: pointer;
-                                        }
-                                    `;
-                                    svgDocument.querySelector('svg').appendChild(style);
-                                }
-
-                                function initPanZoom(svgDocument) {
-                                    injectCSS(svgDocument);
-                                    svgPanZoom(svgDocument.querySelector('svg'), {
-                                        zoomEnabled: true,
-                                        controlIconsEnabled: true,
-                                        fit: true,
-                                        center: true,
-                                        minZoom: 0.7, // Minimum zoom level
-                                        maxZoom: 2,   // Maximum zoom level
-                                        panEnabled: true,
-                                        contain: true // Prevents panning outside the SVG viewport
-                                    });
-                                }
+                                    function initPanZoom(svgDocument) {
+                                        injectCSS(svgDocument);
+                                        svgPanZoom(svgDocument.querySelector('svg'), {
+                                            zoomEnabled: true,
+                                            controlIconsEnabled: true,
+                                            fit: true,
+                                            center: true,
+                                            minZoom: 0.7,
+                                            maxZoom: 2,
+                                            panEnabled: true,
+                                            contain: true
+                                        });
+                                    }
                                 </script>
                             </div>
                             <div class="col">
-                                <!-- Calendar start -->
-                                <div class="col calendar inter-light" style="margin: auto;">
                                 <div class="col calendar inter-light" style="margin: auto;">
                                     <div class="">
                                     <header>
@@ -202,11 +145,7 @@ foreach ($classrooms as $classroom) {
                                         <ul class="calendar-dates" style="font-weight: 500;"></ul>
                                     </section>
                                     </div>
-                                    <script src="../assets/js/calendar.js" defer></script>
                                 </div>
-                                </div>
-                                <!-- Calendar end -->
-                                <!-- Time select start -->
                                 <div class="col d-flex justify-content-center align-items-center" style="height: 16.66%;">
                                     <?php
                                     function get_times($default = '00:00', $interval = '+30 minutes') {
@@ -237,22 +176,17 @@ foreach ($classrooms as $classroom) {
                                         </div>
                                     </div>
                                 </div>
-                                <!-- Time select end -->
-                                <!-- Selected class start -->
                                 <div class="col d-flex justify-content-center align-items-center" style="height: 16.66%;">
                                     <div class="d-flex flex-column justify-content-center align-items-center pt-4">
                                         <p class="inter-regular" style="letter-spacing: 4px; color: #272937;text-transform: uppercase;">Selected class</p>
                                         <p id="selectedClassroom" class="subheading1" style="margin: 0px 0px 0px -2px;">Class Name</p>
                                     </div>
                                 </div>
-                                <!-- Selected class end -->
-                                <!-- Reserve button start -->
                                 <div class="col d-flex justify-content-center align-items-center" style="height: 16.66%;">
                                     <button type="submit" class="btn btn-lg custom-btn-noanim d-flex align-items-center justify-content-between">
                                         <p class="dongle-regular mt-2" style="font-size: 3rem; flex-grow: 1;">Reserve</p>
                                     </button>
                                 </div>
-                                <!-- Reserve button end -->
                             </div>
                         </div>
                     </div>
@@ -264,6 +198,7 @@ foreach ($classrooms as $classroom) {
 
         <?php include('../assets/footer.php'); ?>
 
+        <script src="../assets/js/calendar.js"></script>
         <script>
         document.addEventListener('DOMContentLoaded', function() {
             const svgObject = document.getElementById('svg-object');
@@ -285,11 +220,21 @@ foreach ($classrooms as $classroom) {
                 });
             });
 
-            document.querySelectorAll('.calendar-date').forEach(date => {
-                date.addEventListener('click', function() {
-                    selectedDateInput.value = this.dataset.date;
-                });
+            // Update the selected date when a date is clicked in the calendar
+            dates.addEventListener("click", (e) => {
+                e.preventDefault();
+                if (e.target.tagName === "LI" && !e.target.classList.contains("inactive")) {
+                    selectedDate = new Date(year, month, parseInt(e.target.textContent));
+                    const formattedDate = selectedDate.toISOString().split("T")[0];
+                    selectedDateInput.value = formattedDate;
+                    console.log(`Selected date: ${formattedDate}`);
+                    renderCalendar();
+                }
             });
+
+            // Set initial date to today
+            const today = new Date();
+            selectedDateInput.value = today.toISOString().split("T")[0];
         });
         </script>
     </body>

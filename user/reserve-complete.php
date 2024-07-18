@@ -56,6 +56,7 @@ try {
 }
 
 // Clear the session data
+unset($_SESSION['selected_floor']);
 unset($_SESSION['reserve_data']);
 ?>
 

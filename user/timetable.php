@@ -10,11 +10,11 @@ if (!isset($_SESSION['ID'])) {
 // Fetch user's entries from the database
 try {
     $pdo = dbConnect();
-    $stmt = $pdo->prepare("SELECT e.*, b.Classroom AS Reserved_Classroom 
+    $stmt = $pdo->prepare("SELECT e.*, b.Classroom AS Reserved_Classroom, b.Booking_Date 
                            FROM ENTRY e 
                            LEFT JOIN BOOKING b ON e.ID = b.Entry_ID 
                            WHERE e.User_ID = ? 
-                           ORDER BY e.Time_Start");
+                           ORDER BY b.Booking_Date, e.Time_Start");
     $stmt->execute([$_SESSION['ID']]);
     $entries = $stmt->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
@@ -24,6 +24,11 @@ try {
 // Function to format time
 function formatTime($time) {
     return date('H:i', strtotime($time));
+}
+
+// Function to format date
+function formatDate($date) {
+    return date('Y-m-d', strtotime($date));
 }
 ?>
 
@@ -69,10 +74,10 @@ function formatTime($time) {
                     <thead>
                         <tr>
                         <th scope="col" style="width: 3%;">#</th>
-                        <th scope="col" style="width: 45%;">Event</th>
-                        <th scope="col" style="width: 14%;">Date</th>
+                        <th scope="col" style="width: 40%;">Event</th>
+                        <th scope="col" style="width: 15%;">Date</th>
                         <th scope="col" style="width: 14%;">Time</th>
-                        <th scope="col" style="width: 10%;">Classroom</th>
+                        <th scope="col" style="width: 14%;">Classroom</th>
                         <th scope="col" style="width: 14%;">Action</th>
                         </tr>
                     </thead>
@@ -86,7 +91,7 @@ function formatTime($time) {
                             <tr>
                                 <th scope="row"><?php echo $index + 1; ?></th>
                                 <td><?php echo htmlspecialchars($entry['EName']); ?></td>
-                                <td><?php echo date('Y-m-d', strtotime($entry['Time_Start'])); ?></td>
+                                <td><?php echo $entry['Booking_Date'] ? formatDate($entry['Booking_Date']) : 'Not booked'; ?></td>
                                 <td><?php echo formatTime($entry['Time_Start']) . ' - ' . formatTime($entry['Time_End']); ?></td>
                                 <td><?php echo htmlspecialchars($entry['Reserved_Classroom'] ?? '-'); ?></td>
                                 <td class="d-flex justify-content-evenly">

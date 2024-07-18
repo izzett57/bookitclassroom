@@ -21,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $reserve_data['day'] = $day;
         $reserve_data['type'] = 'semester';
         $_SESSION['reserve_data'] = $reserve_data;
-        header("Location: reserve-semester-confirm.php?id=" . $entry_id);
+        header("Location: reserve-semester-confirm.php?id=" . $entry_id . "&semester_id=" . $semester_id);
         exit();
     }
 }
