@@ -6,6 +6,44 @@ if (!isset($_SESSION['ID'])) {
     header("Location: ../guest/login.php");
     exit();
 }
+
+$entry_id = $_GET['id'] ?? null;
+$classroom = $_GET['classroom'] ?? null;
+$date = $_GET['date'] ?? null;
+$time_start = $_GET['time_start'] ?? null;
+$time_end = $_GET['time_end'] ?? null;
+$type = $_GET['type'] ?? null;
+$day = $_GET['day'] ?? null;
+
+if (!$entry_id || !$classroom || !$date || !$time_start || !$time_end || !$type) {
+    header("Location: timetable.php");
+    exit();
+}
+
+$pdo = dbConnect();
+
+if ($type === 'single') {
+    $stmt = $pdo->prepare("INSERT INTO BOOKING (Entry_ID, Classroom, Booking_Date, Time_Start, Time_End, Type) VALUES (?, ?, ?, ?, ?, ?)");
+    $stmt->execute([$entry_id, $classroom, $date, $time_start, $time_end, $type]);
+} elseif ($type === 'semester') {
+    // Get the current semester dates (you'll need to implement this logic)
+    $semester_start = '2023-09-01'; // Example start date
+    $semester_end = '2023-12-31'; // Example end date
+
+    $stmt = $pdo->prepare("INSERT INTO BOOKING (Entry_ID, Classroom, Booking_Date, Time_Start, Time_End, Type) VALUES (?, ?, ?, ?, ?, ?)");
+    
+    $current_date = new DateTime($semester_start);
+    $end_date = new DateTime($semester_end);
+    $interval = new DateInterval('P1W'); // 1 week interval
+
+    while ($current_date <= $end_date) {
+        if ($current_date->format('l') === $day) {
+            $booking_date = $current_date->format('Y-m-d');
+            $stmt->execute([$entry_id, $classroom, $booking_date, $time_start, $time_end, $type]);
+        }
+        $current_date->add($interval);
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -20,18 +58,18 @@ if (!isset($_SESSION['ID'])) {
         <link rel="stylesheet" href="../assets/css/font-sizing.css">
         <link rel="stylesheet" href="../assets/css/google-fonts.css">
 
-        <title>Reservation Complete - BookItClassroom</title>
+        <title>Reserve Complete! - BookItClassroom</title>
         <link rel="icon" type="image/x-icon" href="favicon.ico">
     </head>
     <body>
-        <?php include('../assets/navbar-user-back.php'); ?>
+        <?php include('../assets/navbar-user.php'); ?>
 
         <div class="container main-content bg-white rounded-3 d-flex flex-column justify-content-center">
             <div class="row justify-content-evenly">
-                <div class="col-7 d-flex justify-content-center align-items-center">
+                <div class="col-8 d-flex justify-content-center align-items-center">
                     <div>
-                        <div class="heading1 ms-5"><p>Reservation Complete!</p></div>
-                        <div class="subheading1 ms-5"><p>Your reservation has been successfully processed.</p></div>
+                        <div class="heading1" style="font-size: 5rem;"><p>Reserve complete!</p></div>
+                        <div class="subheading1"><p>Your reservation has been successfully processed.</p></div>
                     </div>
                 </div>
                 <div class="col d-flex flex-column align-items-center justify-content-center">

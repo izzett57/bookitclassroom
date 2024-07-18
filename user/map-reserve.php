@@ -39,7 +39,7 @@ include '../assets/IsLoggedIn.php';
         <!-- Nav bar end -->
 
         <!-- Main content start -->
-        <form class="container main-content bg-white rounded-3 d-flex flex-column justify-content-center py-3">
+        <form class="container main-content bg-white rounded-3 d-flex flex-column justify-content-center py-3" method="POST" action="timetable-reserve.php">
             <div class="container">
                 <div class="row">
                     <!-- Text start -->
@@ -227,7 +227,7 @@ include '../assets/IsLoggedIn.php';
                                 <div class="col d-flex justify-content-center align-items-center" style="height: 16.66%;">
                                 <div class="d-flex flex-column justify-content-center align-items-center pt-4">
                                     <p class="inter-regular" style="letter-spacing: 4px; color: #272937;text-transform: uppercase;">Selected class</p>
-                                    <p class="subheading1" style="margin: 0px 0px 0px -2px;">Class Name</p>
+                                    <p id="selectedClassroom" class="subheading1" style="margin: 0px 0px 0px -2px;">Class Name</p>
                                 </div>
                                 </div>
                                 <!-- Selected class end -->
@@ -243,10 +243,41 @@ include '../assets/IsLoggedIn.php';
                     </div>
                 </div>
             </div>
+            <input type="hidden" id="selectedClassroomInput" name="selected_classroom" value="">
+            <input type="hidden" id="selectedDateInput" name="selected_date" value="">
         </form>
         <!-- Main content end -->
         <!-- Footer -->
         <?php include('../assets/footer.php'); ?>
         <!-- Footer end -->
+
+        <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const svgObject = document.getElementById('svg-object');
+            const selectedClassroomElement = document.getElementById('selectedClassroom');
+            const selectedClassroomInput = document.getElementById('selectedClassroomInput');
+            const selectedDateInput = document.getElementById('selectedDateInput');
+
+            svgObject.addEventListener('load', function() {
+                const svgDoc = svgObject.contentDocument;
+                const svgElement = svgDoc.querySelector('svg');
+
+                svgElement.addEventListener('click', function(event) {
+                    const clickedElement = event.target.closest('[id]');
+                    if (clickedElement) {
+                        const classroomName = clickedElement.id;
+                        selectedClassroomElement.textContent = classroomName;
+                        selectedClassroomInput.value = classroomName;
+                    }
+                });
+            });
+
+            document.querySelectorAll('.calendar-date').forEach(date => {
+                date.addEventListener('click', function() {
+                    selectedDateInput.value = this.dataset.date;
+                });
+            });
+        });
+        </script>
     </body>
 </html>

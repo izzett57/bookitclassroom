@@ -26,7 +26,11 @@ function formatTime($time) {
     return date('H:i', strtotime($time));
 }
 
-// Function to check for time conflicts
+$selected_classroom = $_POST['selected_classroom'] ?? null;
+$selected_date = $_POST['selected_date'] ?? null;
+$selected_time_start = $_POST['timeFrom'] ?? null;
+$selected_time_end = $_POST['timeTo'] ?? null;
+
 function checkTimeConflict($entry, $selected_date, $selected_time_start, $selected_time_end) {
     return (
         $entry['Time_Start'] < $selected_time_end &&
@@ -34,11 +38,6 @@ function checkTimeConflict($entry, $selected_date, $selected_time_start, $select
         date('Y-m-d', strtotime($entry['Time_Start'])) == $selected_date
     );
 }
-
-$selected_classroom = $_POST['selected_classroom'] ?? null;
-$selected_date = $_POST['selected_date'] ?? null;
-$selected_time_start = $_POST['timeFrom'] ?? null;
-$selected_time_end = $_POST['timeTo'] ?? null;
 ?>
 
 <!DOCTYPE html>

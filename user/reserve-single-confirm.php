@@ -2,24 +2,27 @@
 include '../assets/db_conn.php';
 include '../assets/IsLoggedIn.php';
 
-if (!isset($_SESSION['ID']) || !isset($_SESSION['reservation'])) {
+if (!isset($_SESSION['ID'])) {
     header("Location: ../guest/login.php");
     exit();
 }
 
-$reservation = $_SESSION['reservation'];
+$entry_id = $_GET['id'] ?? null;
+$classroom = $_GET['classroom'] ?? null;
+$date = $_GET['date'] ?? null;
+$time_start = $_GET['time_start'] ?? null;
+$time_end = $_GET['time_end'] ?? null;
+$type = $_GET['type'] ?? null;
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $pdo = dbConnect();
-    $stmt = $pdo->prepare("INSERT INTO BOOKING (User_ID, Classroom, Booking_Date, Time_Start, Time_End, Type) VALUES (?, ?, ?, ?, ?, 'SINGLE')");
-    $time_end = date('H:i:s', strtotime($reservation['time'] . ' +1 hour'));
-    $stmt->execute([$_SESSION['ID'], $reservation['classroom'], $reservation['date'], $reservation['time'], $time_end]);
-
-    unset($_SESSION['reservation']);
-    header("Location: reserve-complete.php");
+if (!$entry_id || !$classroom || !$date || !$time_start || !$time_end || !$type) {
+    header("Location: timetable.php");
     exit();
 }
 
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    header("Location: reserve-complete.php?" . http_build_query($_GET));
+    exit();
+}
 ?>
 
 <!DOCTYPE html>
@@ -33,38 +36,52 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <link rel="stylesheet" href="../assets/css/global.css">
         <link rel="stylesheet" href="../assets/css/font-sizing.css">
         <link rel="stylesheet" href="../assets/css/google-fonts.css">
+        <link rel="stylesheet" href="../assets/css/entry.css"/>
 
-        <title>Confirm Single Reservation - BookItClassroom</title>
+        <title>Reserve - Single - Confirm - BookItClassroom</title>
         <link rel="icon" type="image/x-icon" href="favicon.ico">
     </head>
     <body>
         <?php include('../assets/navbar-user-back.php'); ?>
 
         <div class="container main-content bg-white rounded-3 d-flex flex-column justify-content-center">
-            <div class="row justify-content-evenly">
-                <div class="col-7 d-flex justify-content-center align-items-center">
-                    <div>
-                        <div class="heading1 ms-5"><p>Confirm Single Reservation</p></div>
-                        <div class="subheading1 ms-5">
-                            <p>Please confirm the following reservation details:</p>
-                            <ul>
-                                <li>Classroom: <?php echo htmlspecialchars($reservation['classroom']); ?></li>
-                                <li>Date: <?php echo date('F j, Y', strtotime($reservation['date'])); ?></li>
-                                <li>Time: <?php echo date('g:i A', strtotime($reservation['time'])) . ' - ' . date('g:i A', strtotime($reservation['time'] . ' +1 hour')); ?></li>
-                            </ul>
-                        </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-9">
+                        <div class="heading1 ms-5"><p>Single Reservation Entry</p></div>
+                        <div class="subheading1 ms-5"><p>Would you like to confirm this reservation?</p></div>
                     </div>
                 </div>
-                <div class="col d-flex flex-column align-items-center justify-content-center">
-                    <form method="POST">
-                        <button type="submit" class="btn custom-btn btn-lg d-flex align-items-center justify-content-between mb-3" style="border-radius: 36px;">
-                            <p class="dongle-regular mt-2" style="font-size: 3rem; flex-grow: 1;">Confirm Reservation</p>
-                            <span class="bg-light d-flex rounded-5 align-items-center justify-content-center" style="font-size: 1.5rem;">
-                                <i class="bi bi-check-circle primary"></i>
-                            </span>
-                        </button>
-                    </form>
-                    <a href="map-timetable.php?classroom=<?php echo urlencode($reservation['classroom']); ?>" class="btn btn-secondary">Cancel</a>
+                <div class="row-auto d-flex flex-column">
+                    <div class="container mt-5" style="width: 90%; align-content: center;">
+                        <form method="POST">
+                            <div class="d-flex flex-column justify-content-center align-items-center mb-4">
+                                <p class="inter-regular" style="letter-spacing: 4px; color: #272937;text-transform: uppercase;">Classroom</p>
+                                <p class="subheading1" style="margin: 0px 0px 0px -2px;"><?php echo htmlspecialchars($classroom); ?></p>
+                            </div>
+                            <div class="col d-flex justify-content-center align-items-center" style="height: 16.66%;">
+                                <div class="d-flex flex-glow justify-content-center align-items-center" style="width: 100%;">
+                                    <div class="col-5 form-group text-center" style="width: 15%; height: 60px;">
+                                    <span class="d-flex justify-content-center align-items-center timeBox text-time" style="width: 100%; user-select: none;">
+                                        <?php echo date('H:i', strtotime($time_start)); ?>
+                                    </span>
+                                    </div>
+                                    <span class="col-1 text-center text-time mx-2" style="user-select: none;">-</span>
+                                    <div class="col-5 form-group text-center" style="width: 15%; height: 60px;" style="width: 100%">
+                                    <span class="d-flex justify-content-center align-items-center timeBox text-time" style="width: 100%; user-select: none;">
+                                        <?php echo date('H:i', strtotime($time_end)); ?>
+                                    </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col d-flex justify-content-end align-items-center mt-5">
+                                <a onclick="history.back()" class="dongle-regular custom-btn-inline px-3 ms-4 me-3 mt-2 primary" style="text-decoration: none; font-size: 2rem; cursor: pointer;">back</a>
+                                <button type="submit" name="confirm" class="btn btn-lg custom-btn-noanim d-flex align-items-center justify-content-between">
+                                    <p class="dongle-regular mt-2" style="font-size: 3rem; flex-grow: 1;">Reserve</p>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
