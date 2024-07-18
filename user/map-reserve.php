@@ -61,15 +61,15 @@ include '../assets/IsLoggedIn.php';
                                     // A1 example of available
                                     // A2 example of unavailable
                                     style.textContent = `
-                                        #A1 rect { 
+                                        [id="1001"] rect { 
                                             stroke: rgba(69, 218, 34, 1.0);
                                             fill: rgba(69, 218, 34, 0.3);
                                         }
-                                        #A1 tspan {
+                                        [id="1001"] tspan {
                                             user-select: none;
                                             fill: rgba(49, 136, 28, 1.0);
                                         }
-                                        #A1:hover rect {
+                                        [id="1001"]:hover rect {
                                             stroke: rgba(69, 218, 34, 0.7);
                                             fill: rgba(69, 218, 34, 0.2);
                                             tspan {
@@ -77,15 +77,15 @@ include '../assets/IsLoggedIn.php';
                                             }
                                             cursor: pointer;
                                         }
-                                        #A2 rect{
+                                        [id="1002"] rect{
                                             stroke: rgba(218, 34, 34, 0.8);
                                             fill: rgba(244, 196, 196, 0.3);
                                         }
-                                        #A2 tspan {
+                                        [id="1002"] tspan {
                                             user-select: none;
                                             fill: rgba(136, 28, 28, 1.0);
                                         }
-                                        #A2:hover rect {
+                                        [id="1002"]:hover rect {
                                             stroke: rgba(218, 34, 34, 0.5);
                                             fill: rgba(244, 196, 196, 0.2);
                                             tspan {
@@ -94,15 +94,15 @@ include '../assets/IsLoggedIn.php';
                                             cursor: pointer;
                                         }
 
-                                        #B1 rect{
+                                        [id="1003"] rect{
                                             stroke: rgba(69, 218, 34, 1.0);
                                             fill: rgba(69, 218, 34, 0.3);
                                         }
-                                        #B1 tspan {
+                                        [id="1003"] tspan {
                                             user-select: none;
                                             fill: rgba(49, 136, 28, 1.0);
                                         }
-                                        #B1:hover rect {
+                                        [id="1003"]:hover rect {
                                             stroke: rgba(69, 218, 34, 0.7);
                                             fill: rgba(69, 218, 34, 0.2);
                                             tspan {
@@ -111,15 +111,15 @@ include '../assets/IsLoggedIn.php';
                                             cursor: pointer;
                                         }
 
-                                        #B2 rect{
+                                        [id="1004"] rect{
                                             stroke: rgba(218, 34, 34, 0.8);
                                             fill: rgba(244, 196, 196, 0.3);
                                         }
-                                        #B2 tspan {
+                                        [id="1004"] tspan {
                                             user-select: none;
                                             fill: rgba(136, 28, 28, 1.0);
                                         }
-                                        #B2:hover rect {
+                                        [id="1004"]:hover rect {
                                             stroke: rgba(218, 34, 34, 0.5);
                                             fill: rgba(244, 196, 196, 0.2);
                                             tspan {
@@ -128,15 +128,15 @@ include '../assets/IsLoggedIn.php';
                                             cursor: pointer;
                                         }
                                             
-                                        #C1 rect{
+                                        [id="1005"] rect{
                                             stroke: rgba(218, 34, 34, 0.8);
                                             fill: rgba(244, 196, 196, 0.3);
                                         }
-                                        #C1 tspan {
+                                        [id="1005"] tspan {
                                             user-select: none;
                                             fill: rgba(136, 28, 28, 1.0);
                                         }
-                                        #C1:hover rect {
+                                        [id="1005"]:hover rect {
                                             stroke: rgba(218, 34, 34, 0.5);
                                             fill: rgba(244, 196, 196, 0.2);
                                             tspan {
