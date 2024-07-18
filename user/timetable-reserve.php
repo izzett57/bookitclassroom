@@ -25,6 +25,20 @@ try {
 function formatTime($time) {
     return date('H:i', strtotime($time));
 }
+
+// Function to check for time conflicts
+function checkTimeConflict($entry, $selected_date, $selected_time_start, $selected_time_end) {
+    return (
+        $entry['Time_Start'] < $selected_time_end &&
+        $entry['Time_End'] > $selected_time_start &&
+        date('Y-m-d', strtotime($entry['Time_Start'])) == $selected_date
+    );
+}
+
+$selected_classroom = $_POST['selected_classroom'] ?? null;
+$selected_date = $_POST['selected_date'] ?? null;
+$selected_time_start = $_POST['timeFrom'] ?? null;
+$selected_time_end = $_POST['timeTo'] ?? null;
 ?>
 
 <!DOCTYPE html>
@@ -100,7 +114,18 @@ function formatTime($time) {
                                         Edit
                                         <i class="bi bi-pencil-fill"></i>    
                                     </a>
-                                    <a class="custom-btn-inline" href="reserve-type-select.php?id=<?php echo $entry['ID']; ?>" style="text-decoration: none;">
+                                    <?php
+                                    $time_conflict = checkTimeConflict($entry, $selected_date, $selected_time_start, $selected_time_end);
+                                    $reserve_url = $time_conflict ? "reserve-time-conflict.php" : "reserve-type-select.php";
+                                    $params = http_build_query([
+                                        'id' => $entry['ID'],
+                                        'classroom' => $selected_classroom,
+                                        'date' => $selected_date,
+                                        'time_start' => $selected_time_start,
+                                        'time_end' => $selected_time_end
+                                    ]);
+                                    ?>
+                                    <a class="custom-btn-inline" href="<?php echo $reserve_url . '?' . $params; ?>" style="text-decoration: none;">
                                         Reserve
                                         <i class="bi bi-bookmark-plus-fill"></i>
                                     </a>
