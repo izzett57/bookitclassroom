@@ -58,8 +58,8 @@ include '../assets/IsLoggedIn.php';
                             <script>
                                 function injectCSS(svgDocument) {
                                     const style = document.createElementNS("http://www.w3.org/2000/svg", "style");
-                                    // A1 example of available
-                                    // A2 example of unavailable
+                                    // 1001 example of available
+                                    // 1002 example of unavailable
                                     style.textContent = `
                                         [id="1001"] rect { 
                                             stroke: rgba(69, 218, 34, 1.0);
