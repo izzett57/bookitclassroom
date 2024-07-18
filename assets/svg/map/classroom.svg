@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 <svg id="svg1" width="297mm" height="210mm" version="1.1" viewBox="0 0 297 210" xmlns="http://www.w3.org/2000/svg">
- <g id="floor-1">
   <g id="A1">
    <rect id="class-A1" x="19.115" y="17.824" width="91.96" height="47.272" style=""/>
    <text id="text-a1" x="48.386879" y="49.252548" style="fill:#000000;font-size:23.832px;stroke-width:1.986" xml:space="preserve"><tspan id="tspan5" x="48.386879" y="49.252548" style="">A1</tspan></text>
@@ -22,5 +21,4 @@
    <rect id="class-C1" x="45.722" y="134.32" width="98.935" height="49.338" style=""/>
    <text id="text-c1" x="77.845772" y="168.18568" style="fill:#000000;font-size:23.832px;stroke-width:1.986" xml:space="preserve"><tspan id="tspan9" x="77.845772" y="168.18568" style="">C1</tspan></text>
   </g>
- </g>
 </svg>

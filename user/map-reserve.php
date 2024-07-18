@@ -263,8 +263,8 @@ include '../assets/IsLoggedIn.php';
                 const svgElement = svgDoc.querySelector('svg');
 
                 svgElement.addEventListener('click', function(event) {
-                    const clickedElement = event.target.closest('[id]');
-                    if (clickedElement) {
+                    const clickedElement = event.target.closest('g[id]');
+                    if (clickedElement && clickedElement.nodeName === 'g') {
                         const classroomName = clickedElement.id;
                         selectedClassroomElement.textContent = classroomName;
                         selectedClassroomInput.value = classroomName;
