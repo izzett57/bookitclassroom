@@ -23,11 +23,25 @@ function formatTime($time) {
 }
 
 function checkTimeConflict($entry, $selected_date, $selected_time_start, $selected_time_end) {
-    return (
-        $entry['Time_Start'] < $selected_time_end &&
-        $entry['Time_End'] > $selected_time_start &&
-        date('Y-m-d', strtotime($entry['Time_Start'])) == $selected_date
-    );
+    $entry_date = date('Y-m-d', strtotime($entry['Time_Start']));
+    $entry_start = strtotime($entry['Time_Start']);
+    $entry_end = strtotime($entry['Time_End']);
+    $selected_start = strtotime($selected_date . ' ' . $selected_time_start);
+    $selected_end = strtotime($selected_date . ' ' . $selected_time_end);
+
+    // Debug logging
+    error_log("Entry Date: " . $entry_date . ", Selected Date: " . $selected_date);
+    error_log("Entry Start: " . date('Y-m-d H:i:s', $entry_start) . ", Selected Start: " . date('Y-m-d H:i:s', $selected_start));
+    error_log("Entry End: " . date('Y-m-d H:i:s', $entry_end) . ", Selected End: " . date('Y-m-d H:i:s', $selected_end));
+
+    $date_match = ($entry_date == $selected_date);
+    $time_overlap = ($entry_start < $selected_end && $entry_end > $selected_start);
+
+    $conflict = $date_match && $time_overlap;
+
+    error_log("Conflict detected: " . ($conflict ? "Yes" : "No"));
+
+    return $conflict;
 }
 
 // Get current semester

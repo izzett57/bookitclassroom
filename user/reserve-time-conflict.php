@@ -26,9 +26,22 @@ if (!$entry) {
     exit();
 }
 
+// Check if there's a time conflict
+$is_conflict = ($entry['Time_Start'] != $reserve_data['time_start'] || $entry['Time_End'] != $reserve_data['time_end']);
+
+if (!$is_conflict) {
+    // If there's no conflict, redirect to the next page
+    header("Location: reserve-type-select.php?id=" . $entry_id . "&semester_id=" . $semester_id);
+    exit();
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $choice = $_POST['choice'];
     if ($choice === 'new') {
+        // User chose to use the new time
+        // No need to change $reserve_data as it already contains the new time
+    } else {
+        // User chose to keep the original time
         $reserve_data['time_start'] = $entry['Time_Start'];
         $reserve_data['time_end'] = $entry['Time_End'];
     }
@@ -60,7 +73,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div class="row">
                 <div class="col-9">
                     <div class="heading1 ms-5"><p>Time Conflict</p></div>
-                    <div class="subheading1 ms-5"><p>This event has a different timing than the one selected on the map, continuing will update the selected event to the respective timing.</p></div>
+                    <div class="subheading1 ms-5"><p>There is a time conflict between the selected event and the time you provided. Please choose which time you want to use.</p></div>
                 </div>
             </div>
             <div class="row-auto d-flex flex-column">
@@ -71,24 +84,43 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <p class="subheading1" style="margin: 0px 0px 0px -2px;"><?php echo htmlspecialchars($entry['EName']); ?></p>
                         </div>
                         <div class="col d-flex justify-content-center align-items-center" style="height: 16.66%;">
-                            <div class="d-flex flex-glow justify-content-center align-items-center" style="width: 100%;">
-                                <div class="col-5 form-group text-center" style="width: 15%; height: 60px;">
-                                <span class="d-flex justify-content-center align-items-center timeBox text-time" style="width: 100%; user-select: none;">
-                                    <?php echo date('H:i', strtotime($reserve_data['time_start'])); ?>
-                                </span>
+                            <div class="d-flex flex-column justify-content-center align-items-center" style="width: 100%;">
+                                <p>Original Time:</p>
+                                <div class="d-flex justify-content-center align-items-center" style="width: 100%;">
+                                    <div class="col-5 form-group text-center" style="width: 15%; height: 60px;">
+                                        <span class="d-flex justify-content-center align-items-center timeBox text-time" style="width: 100%; user-select: none;">
+                                            <?php echo date('H:i', strtotime($entry['Time_Start'])); ?>
+                                        </span>
+                                    </div>
+                                    <span class="col-1 text-center text-time mx-2" style="user-select: none;">-</span>
+                                    <div class="col-5 form-group text-center" style="width: 15%; height: 60px;">
+                                        <span class="d-flex justify-content-center align-items-center timeBox text-time" style="width: 100%; user-select: none;">
+                                            <?php echo date('H:i', strtotime($entry['Time_End'])); ?>
+                                        </span>
+                                    </div>
                                 </div>
-                                <span class="col-1 text-center text-time mx-2" style="user-select: none;">-</span>
-                                <div class="col-5 form-group text-center" style="width: 15%; height: 60px;" style="width: 100%">
-                                <span class="d-flex justify-content-center align-items-center timeBox text-time" style="width: 100%; user-select: none;">
-                                    <?php echo date('H:i', strtotime($reserve_data['time_end'])); ?>
-                                </span>
+                                <p class="mt-3">New Time:</p>
+                                <div class="d-flex justify-content-center align-items-center" style="width: 100%;">
+                                    <div class="col-5 form-group text-center" style="width: 15%; height: 60px;">
+                                        <span class="d-flex justify-content-center align-items-center timeBox text-time" style="width: 100%; user-select: none;">
+                                            <?php echo date('H:i', strtotime($reserve_data['time_start'])); ?>
+                                        </span>
+                                    </div>
+                                    <span class="col-1 text-center text-time mx-2" style="user-select: none;">-</span>
+                                    <div class="col-5 form-group text-center" style="width: 15%; height: 60px;">
+                                        <span class="d-flex justify-content-center align-items-center timeBox text-time" style="width: 100%; user-select: none;">
+                                            <?php echo date('H:i', strtotime($reserve_data['time_end'])); ?>
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                         <div class="col d-flex justify-content-end align-items-center mt-5">
-                            <a onclick="history.back()" class="dongle-regular custom-btn-inline px-3 ms-4 me-3 mt-2 primary" style="text-decoration: none; font-size: 2rem; cursor: pointer;">back</a>
-                            <button type="submit" name="choice" value="original" class="btn btn-lg custom-btn-noanim d-flex align-items-center justify-content-between">
-                                <p class="dongle-regular mt-2" style="font-size: 3rem; flex-grow: 1;">Continue</p>
+                            <button type="submit" name="choice" value="original" class="btn btn-lg custom-btn-noanim d-flex align-items-center justify-content-between me-3">
+                                <p class="dongle-regular mt-2" style="font-size: 2rem;">Keep Original Time</p>
+                            </button>
+                            <button type="submit" name="choice" value="new" class="btn btn-lg custom-btn-noanim d-flex align-items-center justify-content-between">
+                                <p class="dongle-regular mt-2" style="font-size: 2rem;">Use New Time</p>
                             </button>
                         </div>
                     </form>

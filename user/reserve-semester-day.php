@@ -8,9 +8,10 @@ if (!isset($_SESSION['ID']) || !isset($_SESSION['reserve_data'])) {
 }
 
 $entry_id = $_GET['id'] ?? null;
+$semester_id = $_GET['semester_id'] ?? null;
 $reserve_data = $_SESSION['reserve_data'];
 
-if (!$entry_id) {
+if (!$entry_id || !$semester_id) {
     header("Location: timetable.php");
     exit();
 }
@@ -19,7 +20,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $day = $_POST['day'];
     if (!empty($day)) {
         $reserve_data['day'] = $day;
-        $reserve_data['type'] = 'semester';
+        $reserve_data['type'] = 'SEMESTER';
+        $reserve_data['semester_id'] = $semester_id;
         $_SESSION['reserve_data'] = $reserve_data;
         header("Location: reserve-semester-confirm.php?id=" . $entry_id . "&semester_id=" . $semester_id);
         exit();

@@ -30,13 +30,13 @@ try {
 
         $start_date = new DateTime($semester['Start_Date']);
         $end_date = new DateTime($semester['End_Date']);
-        $interval = new DateInterval('P1D'); // 1 day interval
+        $interval = new DateInterval('P1W'); // 1 week interval
         $period = new DatePeriod($start_date, $interval, $end_date);
 
         $stmt = $pdo->prepare("INSERT INTO BOOKING (Type, Booking_Date, Semester_ID, Entry_ID, Classroom) VALUES (?, ?, ?, ?, ?)");
         
         foreach ($period as $date) {
-            if ($date->format('l') === date('l', strtotime($reserve_data['date']))) {
+            if ($date->format('l') === $reserve_data['day']) {
                 $stmt->execute(['SEMESTER', $date->format('Y-m-d'), $reserve_data['semester_id'], $entry_id, $reserve_data['classroom']]);
             }
         }
