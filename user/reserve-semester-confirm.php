@@ -2,26 +2,34 @@
 include '../assets/db_conn.php';
 include '../assets/IsLoggedIn.php';
 
-if (!isset($_SESSION['ID'])) {
+if (!isset($_SESSION['ID']) || !isset($_SESSION['reserve_data'])) {
     header("Location: ../guest/login.php");
     exit();
 }
 
 $entry_id = $_GET['id'] ?? null;
-$classroom = $_GET['classroom'] ?? null;
-$date = $_GET['date'] ?? null;
-$time_start = $_GET['time_start'] ?? null;
-$time_end = $_GET['time_end'] ?? null;
-$type = $_GET['type'] ?? null;
-$day = $_GET['day'] ?? null;
+$semester_id = $_GET['semester_id'] ?? null;
+$reserve_data = $_SESSION['reserve_data'];
 
-if (!$entry_id || !$classroom || !$date || !$time_start || !$time_end || !$type || !$day) {
+if (!$entry_id || !$semester_id) {
     header("Location: timetable.php");
     exit();
 }
 
+$pdo = dbConnect();
+$stmt = $pdo->prepare("SELECT * FROM SEMESTER WHERE ID = ?");
+$stmt->execute([$semester_id]);
+$semester = $stmt->fetch();
+
+if (!$semester) {
+    die("Invalid semester ID");
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    header("Location: reserve-complete.php?" . http_build_query($_GET));
+    $reserve_data['type'] = 'SEMESTER';
+    $reserve_data['semester_id'] = $semester_id;
+    $_SESSION['reserve_data'] = $reserve_data;
+    header("Location: reserve-complete.php?id=" . $entry_id);
     exit();
 }
 ?>
@@ -50,7 +58,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <div class="row">
                     <div class="col-9">
                         <div class="heading1 ms-5"><p>Semester Reservation</p></div>
-                        <div class="subheading1 ms-5"><p>Would you like to confirm this reservation?</p></div>
+                        <div class="subheading1 ms-5"><p>Would you like to confirm this reservation for the entire semester?</p></div>
                     </div>
                 </div>
                 <div class="row-auto d-flex flex-column">
@@ -58,23 +66,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <form method="POST">
                             <div class="d-flex flex-column justify-content-center align-items-center mb-4">
                                 <p class="inter-regular" style="letter-spacing: 4px; color: #272937;text-transform: uppercase;">Classroom</p>
-                                <p class="subheading1" style="margin: 0px 0px 0px -2px;"><?php echo htmlspecialchars($classroom); ?></p>
+                                <p class="subheading1" style="margin: 0px 0px 0px -2px;"><?php echo htmlspecialchars($reserve_data['classroom']); ?></p>
                             </div>
                             <div class="d-flex flex-column justify-content-center align-items-center mb-4">
-                                <p class="inter-regular" style="letter-spacing: 4px; color: #272937;text-transform: uppercase;">Day</p>
-                                <p class="subheading1" style="margin: 0px 0px 0px -2px;"><?php echo htmlspecialchars($day); ?></p>
+                                <p class="inter-regular" style="letter-spacing: 4px; color: #272937;text-transform: uppercase;">Semester</p>
+                                <p class="subheading1" style="margin: 0px 0px 0px -2px;"><?php echo htmlspecialchars($semester['ID'] . " - " . $semester['Year']); ?></p>
                             </div>
                             <div class="col d-flex justify-content-center align-items-center" style="height: 16.66%;">
                                 <div class="d-flex flex-glow justify-content-center align-items-center" style="width: 100%;">
                                     <div class="col-5 form-group text-center" style="width: 15%; height: 60px;">
                                     <span class="d-flex justify-content-center align-items-center timeBox text-time" style="width: 100%; user-select: none;">
-                                        <?php echo date('H:i', strtotime($time_start)); ?>
+                                        <?php echo date('H:i', strtotime($reserve_data['time_start'])); ?>
                                     </span>
                                     </div>
                                     <span class="col-1 text-center text-time mx-2" style="user-select: none;">-</span>
                                     <div class="col-5 form-group text-center" style="width: 15%; height: 60px;" style="width: 100%">
                                     <span class="d-flex justify-content-center align-items-center timeBox text-time" style="width: 100%; user-select: none;">
-                                        <?php echo date('H:i', strtotime($time_end)); ?>
+                                        <?php echo date('H:i', strtotime($reserve_data['time_end'])); ?>
                                     </span>
                                     </div>
                                 </div>

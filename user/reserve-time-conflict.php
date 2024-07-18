@@ -2,40 +2,38 @@
 require_once '../assets/db_conn.php';
 require_once '../assets/IsLoggedIn.php';
 
-if (!isset($_SESSION['ID'])) {
+if (!isset($_SESSION['ID']) || !isset($_SESSION['reserve_data'])) {
     header("Location: ../guest/login.php");
     exit();
 }
 
 $entry_id = $_GET['id'] ?? null;
-$classroom = $_GET['classroom'] ?? null;
-$date = $_GET['date'] ?? null;
-$time_start = $_GET['time_start'] ?? null;
-$time_end = $_GET['time_end'] ?? null;
+$reserve_data = $_SESSION['reserve_data'];
+$semester_id = $_GET['semester_id'] ?? null;
 
-if (!$entry_id || !$classroom || !$date || !$time_start || !$time_end) {
+if (!$entry_id || !$semester_id) {
     header("Location: timetable.php");
     exit();
 }
 
 $pdo = dbConnect();
-$stmt = $pdo->prepare("SELECT * FROM ENTRY WHERE ID = ?");
-$stmt->execute([$entry_id]);
+$stmt = $pdo->prepare("SELECT * FROM ENTRY WHERE ID = ? AND User_ID = ?");
+$stmt->execute([$entry_id, $_SESSION['ID']]);
 $entry = $stmt->fetch();
+
+if (!$entry) {
+    header("Location: timetable.php");
+    exit();
+}
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $choice = $_POST['choice'];
     if ($choice === 'new') {
-        $time_start = $entry['Time_Start'];
-        $time_end = $entry['Time_End'];
+        $reserve_data['time_start'] = $entry['Time_Start'];
+        $reserve_data['time_end'] = $entry['Time_End'];
     }
-    header("Location: reserve-type-select.php?" . http_build_query([
-        'id' => $entry_id,
-        'classroom' => $classroom,
-        'date' => $date,
-        'time_start' => $time_start,
-        'time_end' => $time_end
-    ]));
+    $_SESSION['reserve_data'] = $reserve_data;
+    header("Location: reserve-type-select.php?id=" . $entry_id . "&semester_id=" . $semester_id);
     exit();
 }
 ?>
@@ -76,13 +74,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <div class="d-flex flex-glow justify-content-center align-items-center" style="width: 100%;">
                                 <div class="col-5 form-group text-center" style="width: 15%; height: 60px;">
                                 <span class="d-flex justify-content-center align-items-center timeBox text-time" style="width: 100%; user-select: none;">
-                                    <?php echo date('H:i', strtotime($time_start)); ?>
+                                    <?php echo date('H:i', strtotime($reserve_data['time_start'])); ?>
                                 </span>
                                 </div>
                                 <span class="col-1 text-center text-time mx-2" style="user-select: none;">-</span>
                                 <div class="col-5 form-group text-center" style="width: 15%; height: 60px;" style="width: 100%">
                                 <span class="d-flex justify-content-center align-items-center timeBox text-time" style="width: 100%; user-select: none;">
-                                    <?php echo date('H:i', strtotime($time_end)); ?>
+                                    <?php echo date('H:i', strtotime($reserve_data['time_end'])); ?>
                                 </span>
                                 </div>
                             </div>

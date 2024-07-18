@@ -2,35 +2,28 @@
 include '../assets/db_conn.php';
 include '../assets/IsLoggedIn.php';
 
-if (!isset($_SESSION['ID'])) {
+if (!isset($_SESSION['ID']) || !isset($_SESSION['reserve_data'])) {
     header("Location: ../guest/login.php");
     exit();
 }
 
 $entry_id = $_GET['id'] ?? null;
-$classroom = $_GET['classroom'] ?? null;
-$date = $_GET['date'] ?? null;
-$time_start = $_GET['time_start'] ?? null;
-$time_end = $_GET['time_end'] ?? null;
-$type = $_GET['type'] ?? null;
+$reserve_data = $_SESSION['reserve_data'];
 
-if (!$entry_id || !$classroom || !$date || !$time_start || !$time_end || !$type) {
+if (!$entry_id) {
     header("Location: timetable.php");
     exit();
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $day = $_POST['day'];
-    header("Location: reserve-semester-confirm.php?" . http_build_query([
-        'id' => $entry_id,
-        'classroom' => $classroom,
-        'date' => $date,
-        'time_start' => $time_start,
-        'time_end' => $time_end,
-        'type' => $type,
-        'day' => $day
-    ]));
-    exit();
+    if (!empty($day)) {
+        $reserve_data['day'] = $day;
+        $reserve_data['type'] = 'semester';
+        $_SESSION['reserve_data'] = $reserve_data;
+        header("Location: reserve-semester-confirm.php?id=" . $entry_id);
+        exit();
+    }
 }
 ?>
 

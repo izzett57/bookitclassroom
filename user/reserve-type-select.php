@@ -2,18 +2,16 @@
 include '../assets/db_conn.php';
 include '../assets/IsLoggedIn.php';
 
-if (!isset($_SESSION['ID'])) {
+if (!isset($_SESSION['ID']) || !isset($_SESSION['reserve_data'])) {
     header("Location: ../guest/login.php");
     exit();
 }
 
 $entry_id = $_GET['id'] ?? null;
-$classroom = $_GET['classroom'] ?? null;
-$date = $_GET['date'] ?? null;
-$time_start = $_GET['time_start'] ?? null;
-$time_end = $_GET['time_end'] ?? null;
+$semester_id = $_GET['semester_id'] ?? null;
+$reserve_data = $_SESSION['reserve_data'];
 
-if (!$entry_id || !$classroom || !$date || !$time_start || !$time_end) {
+if (!$entry_id || !$semester_id) {
     header("Location: timetable.php");
     exit();
 }
@@ -49,10 +47,7 @@ if (!$entry_id || !$classroom || !$date || !$time_start || !$time_end) {
                     <?php
                     $params = http_build_query([
                         'id' => $entry_id,
-                        'classroom' => $classroom,
-                        'date' => $date,
-                        'time_start' => $time_start,
-                        'time_end' => $time_end,
+                        'semester_id' => $semester_id,
                         'type' => 'single'
                     ]);
                     ?>
@@ -65,14 +60,11 @@ if (!$entry_id || !$classroom || !$date || !$time_start || !$time_end) {
                     <?php
                     $params = http_build_query([
                         'id' => $entry_id,
-                        'classroom' => $classroom,
-                        'date' => $date,
-                        'time_start' => $time_start,
-                        'time_end' => $time_end,
+                        'semester_id' => $semester_id,
                         'type' => 'semester'
                     ]);
                     ?>
-                    <button onclick="location.href='reserve-semester-day.php?<?php echo $params; ?>'" type="button" class="btn custom-btn-rtype btn-lg d-flex align-items-center justify-content-between mb-3" style="border-radius: 36px;">
+                    <button onclick="location.href='reserve-semester-confirm.php?<?php echo $params; ?>'" type="button" class="btn custom-btn-rtype btn-lg d-flex align-items-center justify-content-between mb-3" style="border-radius: 36px;">
                         <p class="dongle-regular mt-2" style="font-size: 3rem; flex-grow: 1;">Whole Semester</p>
                         <span class="bg-light d-flex rounded-5 align-items-center justify-content-center" style="font-size: 1.5rem;">
                         <i class="bi bi-calendar-week primary"></i>

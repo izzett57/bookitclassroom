@@ -2,41 +2,41 @@
 require_once '../assets/db_conn.php';
 require_once '../assets/isLoggedIn.php';
 
-if (!isset($_SESSION['ID'])) {
+if (!isset($_SESSION['ID']) || !isset($_SESSION['reserve_data'])) {
     header("Location: ../guest/login.php");
     exit();
 }
 
-// Fetch user's entries from the database
-try {
-    $pdo = dbConnect();
-    $stmt = $pdo->prepare("SELECT e.*, b.Classroom AS Reserved_Classroom 
-                           FROM ENTRY e 
-                           LEFT JOIN BOOKING b ON e.ID = b.Entry_ID 
-                           WHERE e.User_ID = ? 
-                           ORDER BY e.Time_Start");
-    $stmt->execute([$_SESSION['ID']]);
-    $entries = $stmt->fetchAll(PDO::FETCH_ASSOC);
-} catch (PDOException $e) {
-    die("Error fetching entries: " . $e->getMessage());
-}
+$reserve_data = $_SESSION['reserve_data'];
 
-// Function to format time
+$pdo = dbConnect();
+$stmt = $pdo->prepare("SELECT e.*, b.Classroom AS Reserved_Classroom 
+                       FROM ENTRY e 
+                       LEFT JOIN BOOKING b ON e.ID = b.Entry_ID 
+                       WHERE e.User_ID = ? 
+                       ORDER BY e.Time_Start");
+$stmt->execute([$_SESSION['ID']]);
+$entries = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
 function formatTime($time) {
     return date('H:i', strtotime($time));
 }
 
-$selected_classroom = $_POST['selected_classroom'] ?? null;
-$selected_date = $_POST['selected_date'] ?? null;
-$selected_time_start = $_POST['timeFrom'] ?? null;
-$selected_time_end = $_POST['timeTo'] ?? null;
-
 function checkTimeConflict($entry, $selected_date, $selected_time_start, $selected_time_end) {
     return (
         $entry['Time_Start'] < $selected_time_end &&
-        $entry['Time_End'] > $selected_time_start &&
-        date('Y-m-d', strtotime($entry['Time_Start'])) == $selected_date
+        $entry['Time_End'] > $selected_time_start
     );
+}
+
+// Get current semester
+$currentDate = date('Y-m-d');
+$stmt = $pdo->prepare("SELECT ID FROM SEMESTER WHERE Start_Date <= ? AND End_Date >= ? LIMIT 1");
+$stmt->execute([$currentDate, $currentDate]);
+$currentSemester = $stmt->fetchColumn();
+
+if (!$currentSemester) {
+    die("No active semester found.");
 }
 ?>
 
@@ -83,7 +83,6 @@ function checkTimeConflict($entry, $selected_date, $selected_time_start, $select
                         <tr>
                         <th scope="col" style="width: 3%;">#</th>
                         <th scope="col" style="width: 45%;">Event</th>
-                        <th scope="col" style="width: 14%;">Date</th>
                         <th scope="col" style="width: 14%;">Time</th>
                         <th scope="col" style="width: 10%;">Classroom</th>
                         <th scope="col" style="width: 14%;">Action</th>
@@ -92,36 +91,32 @@ function checkTimeConflict($entry, $selected_date, $selected_time_start, $select
                     <tbody>
                         <?php if (empty($entries)): ?>
                             <tr>
-                                <td colspan="6">No entries found. Click "New Entry" to add one.</td>
+                                <td colspan="5">No entries found. Click "New Entry" to add one.</td>
                             </tr>
                         <?php else: ?>
                             <?php foreach ($entries as $index => $entry): ?>
                             <tr>
                                 <th scope="row"><?php echo $index + 1; ?></th>
                                 <td><?php echo htmlspecialchars($entry['EName']); ?></td>
-                                <td><?php echo date('Y-m-d', strtotime($entry['Time_Start'])); ?></td>
                                 <td><?php echo formatTime($entry['Time_Start']) . ' - ' . formatTime($entry['Time_End']); ?></td>
-                                <td><?php echo htmlspecialchars($entry['Reserved_Classroom'] ?? '-'); ?></td>
+                                <td><?php echo htmlspecialchars($entry['Assigned_Class'] ?? '-'); ?></td>
                                 <td class="d-flex justify-content-evenly">
-                                <?php if ($entry['Reserved_Classroom']): ?>
+                                <?php if ($entry['Assigned_Class']): ?>
                                     <a class="custom-btn-inline" href="unreserve.php?id=<?php echo $entry['ID']; ?>" style="text-decoration: none;">
                                         Unreserve
                                         <i class="bi bi-bookmark-dash-fill"></i>    
                                     </a>
                                 <?php else: ?>
-                                    <a class="custom-btn-inline" href="edit-entry-name.php?id=<?php echo $entry['ID']; ?>" style="text-decoration: none;">
-                                        Edit
-                                        <i class="bi bi-pencil-fill"></i>    
-                                    </a>
                                     <?php
-                                    $time_conflict = checkTimeConflict($entry, $selected_date, $selected_time_start, $selected_time_end);
+                                    $time_conflict = checkTimeConflict($entry, $reserve_data['date'], $reserve_data['time_start'], $reserve_data['time_end']);
                                     $reserve_url = $time_conflict ? "reserve-time-conflict.php" : "reserve-type-select.php";
                                     $params = http_build_query([
                                         'id' => $entry['ID'],
-                                        'classroom' => $selected_classroom,
-                                        'date' => $selected_date,
-                                        'time_start' => $selected_time_start,
-                                        'time_end' => $selected_time_end
+                                        'classroom' => $reserve_data['classroom'],
+                                        'date' => $reserve_data['date'],
+                                        'time_start' => $reserve_data['time_start'],
+                                        'time_end' => $reserve_data['time_end'],
+                                        'semester_id' => $currentSemester
                                     ]);
                                     ?>
                                     <a class="custom-btn-inline" href="<?php echo $reserve_url . '?' . $params; ?>" style="text-decoration: none;">

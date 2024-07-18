@@ -1,6 +1,36 @@
 <?php
 include '../assets/db_conn.php';
 include '../assets/IsLoggedIn.php';
+
+if (!isset($_SESSION['ID'])) {
+    header("Location: ../guest/login.php");
+    exit();
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $_SESSION['reserve_data'] = [
+        'classroom' => $_POST['selected_classroom'],
+        'date' => $_POST['selected_date'],
+        'time_start' => $_POST['timeFrom'],
+        'time_end' => $_POST['timeTo']
+    ];
+    if (!isset($_SESSION['reserve_data'])) {
+        die("Failed to set session data");
+    }
+    header("Location: timetable-reserve.php");
+    exit();
+}
+
+// Fetch classrooms
+$pdo = dbConnect();
+$stmt = $pdo->query("SELECT CName, Floor FROM CLASSROOM ORDER BY Floor, CName");
+$classrooms = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+// Group classrooms by floor
+$classroomsByFloor = [];
+foreach ($classrooms as $classroom) {
+    $classroomsByFloor[$classroom['Floor']][] = $classroom['CName'];
+}
 ?>
 
 <!DOCTYPE html>
@@ -9,54 +39,38 @@ include '../assets/IsLoggedIn.php';
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         
-        <!-- Import Bootstrap start -->
         <?php include('../assets/import-bootstrap.php'); ?>
-        <!-- Import Bootstrap end -->
 
-        <!-- Import CSS file(s) start -->
         <link rel="stylesheet" href="../assets/css/global.css">
         <link rel="stylesheet" href="../assets/css/font-sizing.css">
         <link rel="stylesheet" href="../assets/css/google-fonts.css">
         <link rel="stylesheet" href="../assets/css/entry.css"/>
         <link rel="stylesheet" href="../assets/css/calendar.css"/>
         <link rel="stylesheet" href="../assets/css/svg-container.css"/>
-        <!-- Import CSS file(s) end --> 
 
-        <!-- Import time select scripts start -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
         <script src="../assets/js/time-select.js"></script>
-        <!-- Import time select scripts end -->
 
         <title>Reserve - Map - BookItClassroom</title>
         <link rel="icon" type="image/x-icon" href="favicon.ico">
     </head>
     
     <body>
-        <!-- Nav bar start -->
-        <?php 
-            include('../assets/navbar-user-back.php');
-        ?>
-        <!-- Nav bar end -->
+        <?php include('../assets/navbar-user-back.php'); ?>
 
-        <!-- Main content start -->
-        <form class="container main-content bg-white rounded-3 d-flex flex-column justify-content-center py-3" method="POST" action="timetable-reserve.php">
+        <form class="container main-content bg-white rounded-3 d-flex flex-column justify-content-center py-3" method="POST">
             <div class="container">
                 <div class="row">
-                    <!-- Text start -->
-                        <!-- Heading -->
-                        <div class="heading1" style=""><p>Map</p></div>
-                    <!-- Text end -->
+                    <div class="heading1"><p>Map</p></div>
                     <div class="container" style="height: 70vh;">
                         <div class="row" style="height: 100%;">
-                            <!-- Map start -->
-                            <div class="col-8" style="">
-                            <div class="svg-container">
-                                <object id="svg-object" type="image/svg+xml" data="../assets/svg/map/classroom.svg" onload="initPanZoom(this.contentDocument);"></object>
-                            </div>
-                            <!-- Include svg-pan-zoom library -->
-                            <script src="https://cdn.jsdelivr.net/npm/svg-pan-zoom@latest/dist/svg-pan-zoom.min.js"></script>
-                            <script>
-                                function injectCSS(svgDocument) {
+                            <div class="col-8">
+                                <div class="svg-container">
+                                    <object id="svg-object" type="image/svg+xml" data="../assets/svg/map/classroom.svg" onload="initPanZoom(this.contentDocument);"></object>
+                                </div>
+                                <script src="https://cdn.jsdelivr.net/npm/svg-pan-zoom@latest/dist/svg-pan-zoom.min.js"></script>
+                                <script>
+                                                                  function injectCSS(svgDocument) {
                                     const style = document.createElementNS("http://www.w3.org/2000/svg", "style");
                                     // 1001 example of available
                                     // 1002 example of unavailable
@@ -161,11 +175,11 @@ include '../assets/IsLoggedIn.php';
                                         contain: true // Prevents panning outside the SVG viewport
                                     });
                                 }
-                            </script>
+                                </script>
                             </div>
-                            <!-- Map end -->
                             <div class="col">
                                 <!-- Calendar start -->
+                                <div class="col calendar inter-light" style="margin: auto;">
                                 <div class="col calendar inter-light" style="margin: auto;">
                                     <div class="">
                                     <header>
@@ -189,6 +203,7 @@ include '../assets/IsLoggedIn.php';
                                     </section>
                                     </div>
                                     <script src="../assets/js/calendar.js" defer></script>
+                                </div>
                                 </div>
                                 <!-- Calendar end -->
                                 <!-- Time select start -->
@@ -225,17 +240,17 @@ include '../assets/IsLoggedIn.php';
                                 <!-- Time select end -->
                                 <!-- Selected class start -->
                                 <div class="col d-flex justify-content-center align-items-center" style="height: 16.66%;">
-                                <div class="d-flex flex-column justify-content-center align-items-center pt-4">
-                                    <p class="inter-regular" style="letter-spacing: 4px; color: #272937;text-transform: uppercase;">Selected class</p>
-                                    <p id="selectedClassroom" class="subheading1" style="margin: 0px 0px 0px -2px;">Class Name</p>
-                                </div>
+                                    <div class="d-flex flex-column justify-content-center align-items-center pt-4">
+                                        <p class="inter-regular" style="letter-spacing: 4px; color: #272937;text-transform: uppercase;">Selected class</p>
+                                        <p id="selectedClassroom" class="subheading1" style="margin: 0px 0px 0px -2px;">Class Name</p>
+                                    </div>
                                 </div>
                                 <!-- Selected class end -->
                                 <!-- Reserve button start -->
                                 <div class="col d-flex justify-content-center align-items-center" style="height: 16.66%;">
-                                <button type="submit" class="btn btn-lg custom-btn-noanim d-flex align-items-center justify-content-between">
-                                    <p class="dongle-regular mt-2" style="font-size: 3rem; flex-grow: 1;">Reserve</p>
-                                </button>
+                                    <button type="submit" class="btn btn-lg custom-btn-noanim d-flex align-items-center justify-content-between">
+                                        <p class="dongle-regular mt-2" style="font-size: 3rem; flex-grow: 1;">Reserve</p>
+                                    </button>
                                 </div>
                                 <!-- Reserve button end -->
                             </div>
@@ -246,10 +261,8 @@ include '../assets/IsLoggedIn.php';
             <input type="hidden" id="selectedClassroomInput" name="selected_classroom" value="">
             <input type="hidden" id="selectedDateInput" name="selected_date" value="">
         </form>
-        <!-- Main content end -->
-        <!-- Footer -->
+
         <?php include('../assets/footer.php'); ?>
-        <!-- Footer end -->
 
         <script>
         document.addEventListener('DOMContentLoaded', function() {
