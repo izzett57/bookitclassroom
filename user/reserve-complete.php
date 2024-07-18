@@ -1,19 +1,9 @@
 <?php
-require_once '../assets/db_conn.php';
-require_once '../assets/IsLoggedIn.php';
+include '../assets/db_conn.php';
+include '../assets/IsLoggedIn.php';
 
 if (!isset($_SESSION['ID'])) {
     header("Location: ../guest/login.php");
-    exit();
-}
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $reserve = $_POST['reserve'] === 'yes';
-    if ($reserve) {
-        header("Location: reserve-type-select.php");
-    } else {
-        header("Location: timetable.php");
-    }
     exit();
 }
 ?>
@@ -30,33 +20,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <link rel="stylesheet" href="../assets/css/font-sizing.css">
         <link rel="stylesheet" href="../assets/css/google-fonts.css">
 
-        <title>Reserve Complete! - BookItClassroom</title>
+        <title>Reservation Complete - BookItClassroom</title>
         <link rel="icon" type="image/x-icon" href="favicon.ico">
     </head>
     <body>
-        <?php include('../assets/navbar-user.php'); ?>
+        <?php include('../assets/navbar-user-back.php'); ?>
 
         <div class="container main-content bg-white rounded-3 d-flex flex-column justify-content-center">
             <div class="row justify-content-evenly">
-                <div class="col-8 d-flex justify-content-center align-items-center">
+                <div class="col-7 d-flex justify-content-center align-items-center">
                     <div>
-                        <div class="heading1" style="font-size: 5rem;"><p>Reserve complete!</p></div>
-                        <div class="subheading1"><p>Would you like to reserve another class/event?</p></div>
+                        <div class="heading1 ms-5"><p>Reservation Complete!</p></div>
+                        <div class="subheading1 ms-5"><p>Your reservation has been successfully processed.</p></div>
                     </div>
                 </div>
-                <div class="col d-flex">
-                    <div class="container d-flex justify-content-center align-items-center text-center">
-                        <form method="POST" action="index.php">
-                            <div class="row">
-                                <div class="col">
-                                    <button type="submit" name="reserve" value="yes" class="btn btn-lg custom-btn-noanim d-flex align-items-center">
-                                        <p class="dongle-regular mt-2" style="font-size: 3rem; flex-grow: 1;">Yes</p>
-                                    </button>
-                                    <button type="submit" name="reserve" value="no" class="dongle-regular custom-btn-inline primary" style="text-decoration: none; font-size: 2rem; cursor: pointer; background-color: #FFF; border: none;">no</button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
+                <div class="col d-flex flex-column align-items-center justify-content-center">
+                    <a href="timetable.php" class="btn custom-btn btn-lg d-flex align-items-center justify-content-between mb-3" style="border-radius: 36px;">
+                        <p class="dongle-regular mt-2" style="font-size: 3rem; flex-grow: 1;">View Timetable</p>
+                        <span class="bg-light d-flex rounded-5 align-items-center justify-content-center" style="font-size: 1.5rem;">
+                            <i class="bi bi-calendar3 primary"></i>
+                        </span>
+                    </a>
+                    <a href="reserve.php" class="btn custom-btn btn-lg d-flex align-items-center justify-content-between mb-3" style="border-radius: 36px;">
+                        <p class="dongle-regular mt-2" style="font-size: 3rem; flex-grow: 1;">Make Another Reservation</p>
+                        <span class="bg-light d-flex rounded-5 align-items-center justify-content-center" style="font-size: 1.5rem;">
+                            <i class="bi bi-plus-circle primary"></i>
+                        </span>
+                    </a>
                 </div>
             </div>
         </div>

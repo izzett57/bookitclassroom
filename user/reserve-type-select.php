@@ -7,22 +7,21 @@ if (!isset($_SESSION['ID'])) {
     exit();
 }
 
-$entry_id = $_GET['id'] ?? null;
+$classroom = $_GET['classroom'] ?? null;
+$date = $_GET['date'] ?? null;
+$time = $_GET['time'] ?? null;
 
-if (!$entry_id) {
-    header("Location: timetable.php");
+if (!$classroom || !$date || !$time) {
+    header("Location: reserve.php");
     exit();
 }
 
-$pdo = dbConnect();
-$stmt = $pdo->prepare("SELECT * FROM ENTRY WHERE ID = ? AND User_ID = ?");
-$stmt->execute([$entry_id, $_SESSION['ID']]);
-$entry = $stmt->fetch();
+$_SESSION['reservation'] = [
+    'classroom' => $classroom,
+    'date' => $date,
+    'time' => $time
+];
 
-if (!$entry) {
-    header("Location: timetable.php");
-    exit();
-}
 ?>
 
 <!DOCTYPE html>
@@ -37,7 +36,7 @@ if (!$entry) {
         <link rel="stylesheet" href="../assets/css/font-sizing.css">
         <link rel="stylesheet" href="../assets/css/google-fonts.css">
 
-        <title>Reserve - Type - BookItClassroom</title>
+        <title>Select Reservation Type - BookItClassroom</title>
         <link rel="icon" type="image/x-icon" href="favicon.ico">
     </head>
     <body>
@@ -47,23 +46,23 @@ if (!$entry) {
             <div class="row justify-content-evenly">
                 <div class="col-7 d-flex justify-content-center align-items-center">
                     <div>
-                        <div class="heading1 ms-5"><p>Choose Reserve Type</p></div>
-                        <div class="subheading1 ms-5" style="width: 70%;"><p>Would you like to reserve for a single timeslot or the whole semester?</p></div>
+                        <div class="heading1 ms-5"><p>Select Reservation Type</p></div>
+                        <div class="subheading1 ms-5"><p>Choose between a single reservation or a semester-long reservation:</p></div>
                     </div>
                 </div>
                 <div class="col d-flex flex-column align-items-center justify-content-center">
-                    <button onclick="location.href='map-reserve.php?id=<?php echo $entry_id; ?>'" type="button" class="btn custom-btn-rtype btn-lg d-flex align-items-center justify-content-between mb-3" style="border-radius: 36px;">
-                        <p class="dongle-regular mt-2" style="font-size: 3rem; flex-grow: 1;">Single Booking</p>
+                    <a href="reserve-single-confirm.php" class="btn custom-btn btn-lg d-flex align-items-center justify-content-between mb-3" style="border-radius: 36px;">
+                        <p class="dongle-regular mt-2" style="font-size: 3rem; flex-grow: 1;">Single Reservation</p>
                         <span class="bg-light d-flex rounded-5 align-items-center justify-content-center" style="font-size: 1.5rem;">
-                        <i class="bi bi-1-circle-fill primary"></i>
+                            <i class="bi bi-calendar-event primary"></i>
                         </span>
-                    </button>
-                    <button onclick="location.href='reserve-semester-day.php?id=<?php echo $entry_id; ?>'" type="button" class="btn custom-btn-rtype btn-lg d-flex align-items-center justify-content-between mb-3" style="border-radius: 36px;">
-                        <p class="dongle-regular mt-2" style="font-size: 3rem; flex-grow: 1;">Whole Semester</p>
+                    </a>
+                    <a href="reserve-semester-day.php" class="btn custom-btn btn-lg d-flex align-items-center justify-content-between mb-3" style="border-radius: 36px;">
+                        <p class="dongle-regular mt-2" style="font-size: 3rem; flex-grow: 1;">Semester Reservation</p>
                         <span class="bg-light d-flex rounded-5 align-items-center justify-content-center" style="font-size: 1.5rem;">
-                        <i class="bi bi-calendar-week primary"></i>
+                            <i class="bi bi-calendar-range primary"></i>
                         </span>
-                    </button>
+                    </a>
                 </div>
             </div>
         </div>
