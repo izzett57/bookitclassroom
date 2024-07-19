@@ -71,10 +71,19 @@ foreach ($classrooms as $classroom) {
                                             [id^="1"]:hover rect, [id^="2"]:hover rect, [id^="3"]:hover rect {
                                                 stroke: rgba(69, 218, 34, 0.7);
                                                 fill: rgba(69, 218, 34, 0.2);
-                                                tspan {
-                                                    fill: rgba(49, 136, 28, 0.8);
-                                                }
+                                            }
+                                            [id^="1"]:hover tspan, [id^="2"]:hover tspan, [id^="3"]:hover tspan {
+                                                fill: rgba(49, 136, 28, 0.8);
+                                            }
+                                            g {
                                                 cursor: pointer;
+                                            }
+                                            .occupied rect {
+                                                stroke: rgba(255, 0, 0, 1.0);
+                                                fill: rgba(255, 0, 0, 0.3);
+                                            }
+                                            .occupied tspan {
+                                                fill: rgba(139, 0, 0, 1.0);
                                             }
                                         `;
                                         svgDocument.querySelector('svg').appendChild(style);
@@ -178,6 +187,8 @@ foreach ($classrooms as $classroom) {
             const selectedClassroomElement = document.getElementById('selectedClassroom');
             const selectedClassroomInput = document.getElementById('selectedClassroomInput');
             const selectedDateInput = document.getElementById('selectedDateInput');
+            const startTimeSelect = document.getElementById('starttime');
+            const endTimeSelect = document.getElementById('endtime');
 
             svgObject.addEventListener('load', function() {
                 const svgDoc = svgObject.contentDocument;
@@ -189,6 +200,7 @@ foreach ($classrooms as $classroom) {
                         const classroomName = clickedElement.id;
                         selectedClassroomElement.textContent = classroomName;
                         selectedClassroomInput.value = classroomName;
+                        checkAvailability();
                     }
                 });
             });
@@ -201,12 +213,57 @@ foreach ($classrooms as $classroom) {
                     selectedDateInput.value = formattedDate;
                     console.log(`Selected date: ${formattedDate}`);
                     renderCalendar();
+                    checkAvailability();
                 }
             });
 
             // Set initial date to today
             const today = new Date();
             selectedDateInput.value = today.toISOString().split("T")[0];
+
+            startTimeSelect.addEventListener('change', checkAvailability);
+            endTimeSelect.addEventListener('change', checkAvailability);
+
+            function checkAvailability() {
+    const date = selectedDateInput.value;
+    const timeStart = startTimeSelect.value;
+    const timeEnd = endTimeSelect.value;
+
+    if (!date || !timeStart || !timeEnd) {
+        return;
+    }
+
+    fetch('check-availability.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: `date=${date}&time_start=${timeStart}&time_end=${timeEnd}`
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then(data => {
+        const svgDoc = svgObject.contentDocument;
+        data.forEach(classroom => {
+            const element = svgDoc.getElementById(classroom.name);
+            if (element) {
+                if (classroom.available) {
+                    element.classList.remove('occupied');
+                } else {
+                    element.classList.add('occupied');
+                }
+            }
+        });
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('An error occurred while checking classroom availability. Please try again.');
+    });
+}
         });
         </script>
     </body>

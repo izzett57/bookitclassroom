@@ -24,22 +24,38 @@ $pdo = dbConnect();
 try {
     $pdo->beginTransaction();
 
+    // Fetch the entry details
+    $stmt = $pdo->prepare("SELECT * FROM ENTRY WHERE ID = ?");
+    $stmt->execute([$entry_id]);
+    $entry = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if (!$entry) {
+        throw new Exception("Entry not found");
+    }
+
     if ($reserve_data['type'] === 'SINGLE') {
-        // Single booking logic (unchanged)
+        $stmt = $pdo->prepare("INSERT INTO BOOKING (Type, Booking_Date, Semester_ID, Entry_ID, Classroom) VALUES (?, ?, ?, ?, ?)");
+        $stmt->execute([
+            'SINGLE',
+            $reserve_data['date'],
+            $reserve_data['semester_id'],
+            $entry_id,
+            $reserve_data['classroom']
+        ]);
+        $booking_id = $pdo->lastInsertId();
+        error_log("Single booking inserted. ID: $booking_id");
     } elseif ($reserve_data['type'] === 'SEMESTER') {
         if (!isset($reserve_data['semester_id']) || !isset($reserve_data['day'])) {
             throw new Exception("Missing semester_id or day for semester booking");
         }
 
-        $stmt = $pdo->prepare("SELECT ID, Start_Date, End_Date FROM SEMESTER WHERE ID = ?");
+        $stmt = $pdo->prepare("SELECT Start_Date, End_Date FROM SEMESTER WHERE ID = ?");
         $stmt->execute([$reserve_data['semester_id']]);
         $semester = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if (!$semester) {
             throw new Exception("Invalid semester ID: " . $reserve_data['semester_id']);
         }
-
-        error_log("Semester data: " . print_r($semester, true));
 
         $start_date = new DateTime($semester['Start_Date']);
         $end_date = new DateTime($semester['End_Date']);
@@ -50,9 +66,7 @@ try {
         
         $insertCount = 0;
         foreach ($period as $date) {
-            $current_day = strtoupper($date->format('l'));
-            error_log("Checking date: " . $date->format('Y-m-d') . ", Day: $current_day");
-            if ($current_day === $reserve_data['day']) {
+            if (strtoupper($date->format('l')) === strtoupper($reserve_data['day'])) {
                 $booking_date = $date->format('Y-m-d');
                 $stmt->execute(['SEMESTER', $booking_date, $reserve_data['semester_id'], $entry_id, $reserve_data['classroom']]);
                 $insertCount++;
@@ -62,7 +76,7 @@ try {
         error_log("Total semester bookings inserted: $insertCount");
 
         if ($insertCount === 0) {
-            throw new Exception("No bookings were inserted for the semester. Selected day: " . $reserve_data['day']);
+            throw new Exception("No bookings were inserted for the semester");
         }
     } else {
         throw new Exception("Invalid reservation type: " . $reserve_data['type']);

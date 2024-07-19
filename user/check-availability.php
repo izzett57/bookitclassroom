@@ -25,11 +25,16 @@ $classrooms = $stmt->fetchAll(PDO::FETCH_COLUMN);
 $availability = [];
 
 foreach ($classrooms as $classroom) {
-    $stmt = $pdo->prepare("SELECT COUNT(*) FROM BOOKING 
-                           WHERE Classroom = ? AND Booking_Date = ? 
-                           AND ((Time_Start < ? AND Time_End > ?) 
-                           OR (Time_Start < ? AND Time_End > ?) 
-                           OR (Time_Start >= ? AND Time_End <= ?))");
+    $stmt = $pdo->prepare("
+        SELECT COUNT(*) 
+        FROM BOOKING b
+        JOIN ENTRY e ON b.Entry_ID = e.ID
+        WHERE b.Classroom = ? 
+        AND b.Booking_Date = ? 
+        AND ((e.Time_Start < ? AND e.Time_End > ?) 
+        OR (e.Time_Start < ? AND e.Time_End > ?) 
+        OR (e.Time_Start >= ? AND e.Time_End <= ?))
+    ");
     $stmt->execute([$classroom, $date, $time_end, $time_start, $time_start, $time_end, $time_start, $time_end]);
     $count = $stmt->fetchColumn();
     
@@ -41,3 +46,4 @@ foreach ($classrooms as $classroom) {
 
 header('Content-Type: application/json');
 echo json_encode($availability);
+?>

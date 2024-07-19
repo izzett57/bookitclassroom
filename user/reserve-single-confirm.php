@@ -20,9 +20,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $reserve_data['type'] = 'SINGLE';
     $reserve_data['semester_id'] = $semester_id;
     $_SESSION['reserve_data'] = $reserve_data;
+    
+    error_log("Single reservation data before redirect: " . print_r($reserve_data, true));
+    
     header("Location: reserve-complete.php?id=" . $entry_id);
     exit();
 }
+
+// Fetch entry details for display
+$pdo = dbConnect();
+$stmt = $pdo->prepare("SELECT * FROM ENTRY WHERE ID = ?");
+$stmt->execute([$entry_id]);
+$entry = $stmt->fetch(PDO::FETCH_ASSOC);
+
+if (!$entry) {
+    die("Invalid entry ID");
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -58,6 +72,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <div class="d-flex flex-column justify-content-center align-items-center mb-4">
                                 <p class="inter-regular" style="letter-spacing: 4px; color: #272937;text-transform: uppercase;">Classroom</p>
                                 <p class="subheading1" style="margin: 0px 0px 0px -2px;"><?php echo htmlspecialchars($reserve_data['classroom']); ?></p>
+                            </div>
+                            <div class="d-flex flex-column justify-content-center align-items-center mb-4">
+                                <p class="inter-regular" style="letter-spacing: 4px; color: #272937;text-transform: uppercase;">Date</p>
+                                <p class="subheading1" style="margin: 0px 0px 0px -2px;"><?php echo htmlspecialchars($reserve_data['date']); ?></p>
                             </div>
                             <div class="col d-flex justify-content-center align-items-center" style="height: 16.66%;">
                                 <div class="d-flex flex-glow justify-content-center align-items-center" style="width: 100%;">
