@@ -17,17 +17,27 @@ if (!$entry_id || !$semester_id) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $day = $_POST['day'];
+    $day = strtoupper($_POST['day']);
     if (!empty($day)) {
         $reserve_data['day'] = $day;
         $reserve_data['type'] = 'SEMESTER';
         $reserve_data['semester_id'] = $semester_id;
         $_SESSION['reserve_data'] = $reserve_data;
+        error_log("Semester day selected. Reserve data: " . print_r($reserve_data, true));
         header("Location: reserve-semester-confirm.php?id=" . $entry_id . "&semester_id=" . $semester_id);
         exit();
     }
 }
+
+// Fetch semester data for logging
+$pdo = dbConnect();
+$stmt = $pdo->prepare("SELECT * FROM SEMESTER WHERE ID = ?");
+$stmt->execute([$semester_id]);
+$semester = $stmt->fetch(PDO::FETCH_ASSOC);
+error_log("Semester data for ID $semester_id: " . print_r($semester, true));
+
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">

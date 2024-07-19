@@ -45,6 +45,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     header("Location: timetable-reserve.php");
     exit();
 }
+
+// Determine which SVG file to use based on the selected floor
+$svg_file = "../assets/svg/map/floor{$selected_floor}.svg";
+if (!file_exists($svg_file)) {
+    $svg_file = "../assets/svg/map/classroom.svg"; // Fallback to default if floor-specific SVG doesn't exist
+}
 ?>
 
 <!DOCTYPE html>
@@ -75,32 +81,34 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <form class="container main-content bg-white rounded-3 d-flex flex-column justify-content-center py-3" method="POST">
             <div class="container">
                 <div class="row">
-                    <div class="heading1"><p>Map</p></div>
+                    <div class="heading1"><p>Map - Floor <?php echo htmlspecialchars($selected_floor); ?></p></div>
                     <div class="container" style="height: 70vh;">
                         <div class="row" style="height: 100%;">
                             <div class="col-8">
                                 <div class="svg-container">
-                                    <object id="svg-object" type="image/svg+xml" data="../assets/svg/map/classroom.svg" onload="initPanZoom(this.contentDocument);"></object>
+                                    <object id="svg-object" type="image/svg+xml" data="<?php echo $svg_file; ?>" onload="initPanZoom(this.contentDocument);"></object>
                                 </div>
                                 <script src="https://cdn.jsdelivr.net/npm/svg-pan-zoom@latest/dist/svg-pan-zoom.min.js"></script>
                                 <script>
                                     function injectCSS(svgDocument) {
                                         const style = document.createElementNS("http://www.w3.org/2000/svg", "style");
                                         style.textContent = `
-                                            [id^="<?php echo $selected_floor; ?>"] rect { 
+                                            rect { 
                                                 stroke: rgba(69, 218, 34, 1.0);
                                                 fill: rgba(69, 218, 34, 0.3);
                                             }
-                                            [id^="<?php echo $selected_floor; ?>"] tspan {
+                                            tspan {
                                                 user-select: none;
                                                 fill: rgba(49, 136, 28, 1.0);
                                             }
-                                            [id^="<?php echo $selected_floor; ?>"]:hover rect {
+                                            g:hover rect {
                                                 stroke: rgba(69, 218, 34, 0.7);
                                                 fill: rgba(69, 218, 34, 0.2);
-                                                tspan {
-                                                    fill: rgba(49, 136, 28, 0.8);
-                                                }
+                                            }
+                                            g:hover tspan {
+                                                fill: rgba(49, 136, 28, 0.8);
+                                            }
+                                            g {
                                                 cursor: pointer;
                                             }
                                         `;
@@ -123,7 +131,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 </script>
                             </div>
                             <div class="col">
-                                <div class="col calendar inter-light" style="margin: auto;">
+                            <div class="col calendar inter-light" style="margin: auto;">
                                     <div class="">
                                     <header>
                                         <h3></h3>
@@ -144,9 +152,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                         </ul>
                                         <ul class="calendar-dates" style="font-weight: 500;"></ul>
                                     </section>
-                                    </div>
-                                </div>
-                                <div class="col d-flex justify-content-center align-items-center" style="height: 16.66%;">
+                                    <div class="col d-flex justify-content-center align-items-center" style="height: 16.66%;">
                                     <?php
                                     function get_times($default = '00:00', $interval = '+30 minutes') {
                                         $output = '';

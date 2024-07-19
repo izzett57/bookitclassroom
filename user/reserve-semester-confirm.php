@@ -33,9 +33,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $reserve_data['type'] = 'SEMESTER';
     $reserve_data['semester_id'] = $semester_id;
     $_SESSION['reserve_data'] = $reserve_data;
+
+    error_log("Semester reservation data before redirect: " . print_r($reserve_data, true));
+
     header("Location: reserve-complete.php?id=" . $entry_id);
     exit();
 }
+
+// Debug logging
+error_log("Current reserve_data: " . print_r($reserve_data, true));
+error_log("Semester data: " . print_r($semester, true));
+error_log("Entry data: " . print_r($entry, true));
 ?>
 
 <!DOCTYPE html>

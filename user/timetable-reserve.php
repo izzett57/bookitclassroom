@@ -34,10 +34,11 @@ function checkTimeConflict($entry, $selected_date, $selected_time_start, $select
     error_log("Entry Start: " . date('Y-m-d H:i:s', $entry_start) . ", Selected Start: " . date('Y-m-d H:i:s', $selected_start));
     error_log("Entry End: " . date('Y-m-d H:i:s', $entry_end) . ", Selected End: " . date('Y-m-d H:i:s', $selected_end));
 
+    // Check if the dates are the same and if the times are different
     $date_match = ($entry_date == $selected_date);
-    $time_overlap = ($entry_start < $selected_end && $entry_end > $selected_start);
+    $time_different = ($entry_start != $selected_start || $entry_end != $selected_end);
 
-    $conflict = $date_match && $time_overlap;
+    $conflict = $date_match && $time_different;
 
     error_log("Conflict detected: " . ($conflict ? "Yes" : "No"));
 
@@ -114,9 +115,9 @@ if (!$currentSemester) {
                                 <th scope="row"><?php echo $index + 1; ?></th>
                                 <td><?php echo htmlspecialchars($entry['EName']); ?></td>
                                 <td><?php echo formatTime($entry['Time_Start']) . ' - ' . formatTime($entry['Time_End']); ?></td>
-                                <td><?php echo htmlspecialchars($entry['Assigned_Class'] ?? '-'); ?></td>
+                                <td><?php echo htmlspecialchars($entry['Reserved_Classroom'] ?? '-'); ?></td>
                                 <td class="d-flex justify-content-evenly">
-                                <?php if ($entry['Assigned_Class']): ?>
+                                <?php if ($entry['Reserved_Classroom']): ?>
                                     <a class="custom-btn-inline" href="unreserve.php?id=<?php echo $entry['ID']; ?>" style="text-decoration: none;">
                                         Unreserve
                                         <i class="bi bi-bookmark-dash-fill"></i>    

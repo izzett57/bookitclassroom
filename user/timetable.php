@@ -10,14 +10,20 @@ if (!isset($_SESSION['ID'])) {
 // Fetch user's entries from the database
 try {
     $pdo = dbConnect();
-    $stmt = $pdo->prepare("SELECT e.*, b.Classroom AS Reserved_Classroom, b.Booking_Date 
-                           FROM ENTRY e 
-                           LEFT JOIN BOOKING b ON e.ID = b.Entry_ID 
-                           WHERE e.User_ID = ? 
-                           ORDER BY b.Booking_Date, e.Time_Start");
+    $stmt = $pdo->prepare("
+        SELECT e.*, b.ID as Booking_ID, b.Type as Booking_Type, b.Booking_Date, b.Classroom as Reserved_Classroom, s.ID as Semester_ID 
+        FROM ENTRY e 
+        LEFT JOIN BOOKING b ON e.ID = b.Entry_ID 
+        LEFT JOIN SEMESTER s ON b.Semester_ID = s.ID
+        WHERE e.User_ID = ? 
+        ORDER BY CASE WHEN b.Booking_Date IS NULL THEN 1 ELSE 0 END, b.Booking_Date ASC, e.Time_Start ASC
+    ");
     $stmt->execute([$_SESSION['ID']]);
     $entries = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    error_log("Fetched entries: " . print_r($entries, true));
 } catch (PDOException $e) {
+    error_log("Error fetching entries: " . $e->getMessage());
     die("Error fetching entries: " . $e->getMessage());
 }
 
@@ -52,6 +58,16 @@ function formatDate($date) {
         <?php include('../assets/navbar-user-back.php'); ?>
 
         <div class="container main-content bg-white rounded-3 d-flex flex-column justify-content-center">
+        <?php
+        if (isset($_SESSION['error'])) {
+            echo '<div class="alert alert-danger" role="alert">' . htmlspecialchars($_SESSION['error']) . '</div>';
+            unset($_SESSION['error']);
+        }
+        if (isset($_SESSION['success'])) {
+            echo '<div class="alert alert-success" role="alert">' . htmlspecialchars($_SESSION['success']) . '</div>';
+            unset($_SESSION['success']);
+        }
+        ?>
             <div class="container">
                 <div class="row">
                     <div class="col-8">
@@ -74,17 +90,18 @@ function formatDate($date) {
                     <thead>
                         <tr>
                         <th scope="col" style="width: 3%;">#</th>
-                        <th scope="col" style="width: 40%;">Event</th>
+                        <th scope="col" style="width: 30%;">Event</th>
                         <th scope="col" style="width: 15%;">Date</th>
                         <th scope="col" style="width: 14%;">Time</th>
                         <th scope="col" style="width: 14%;">Classroom</th>
+                        <th scope="col" style="width: 10%;">Type</th>
                         <th scope="col" style="width: 14%;">Action</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php if (empty($entries)): ?>
                             <tr>
-                                <td colspan="6">No entries found. Click "New Entry" to add one.</td>
+                                <td colspan="7">No entries found. Click "New Entry" to add one.</td>
                             </tr>
                         <?php else: ?>
                             <?php foreach ($entries as $index => $entry): ?>
@@ -94,17 +111,14 @@ function formatDate($date) {
                                 <td><?php echo $entry['Booking_Date'] ? formatDate($entry['Booking_Date']) : 'Not booked'; ?></td>
                                 <td><?php echo formatTime($entry['Time_Start']) . ' - ' . formatTime($entry['Time_End']); ?></td>
                                 <td><?php echo htmlspecialchars($entry['Reserved_Classroom'] ?? '-'); ?></td>
+                                <td><?php echo $entry['Booking_Type'] ?? 'Not booked'; ?></td>
                                 <td class="d-flex justify-content-evenly">
                                 <?php if ($entry['Reserved_Classroom']): ?>
-                                    <a class="custom-btn-inline" href="unreserve.php?id=<?php echo $entry['ID']; ?>" style="text-decoration: none;">
+                                    <a class="custom-btn-inline" href="unreserve.php?id=<?php echo $entry['Booking_ID']; ?>&type=booking" style="text-decoration: none;">
                                         Unreserve
                                         <i class="bi bi-bookmark-dash-fill"></i>    
                                     </a>
                                 <?php else: ?>
-                                    <a class="custom-btn-inline" href="edit-entry-name.php?id=<?php echo $entry['ID']; ?>" style="text-decoration: none;">
-                                        Edit
-                                        <i class="bi bi-pencil-fill"></i>    
-                                    </a>
                                     <a class="custom-btn-inline" href="map-timetable.php?id=<?php echo $entry['ID']; ?>" style="text-decoration: none;">
                                         Reserve
                                         <i class="bi bi-bookmark-plus-fill"></i>

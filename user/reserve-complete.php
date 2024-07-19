@@ -3,6 +3,7 @@ include '../assets/db_conn.php';
 include '../assets/IsLoggedIn.php';
 
 if (!isset($_SESSION['ID']) || !isset($_SESSION['reserve_data'])) {
+    error_log("Session data missing. SESSION: " . print_r($_SESSION, true));
     header("Location: ../guest/login.php");
     exit();
 }
@@ -11,9 +12,12 @@ $entry_id = $_GET['id'] ?? null;
 $reserve_data = $_SESSION['reserve_data'];
 
 if (!$entry_id) {
+    error_log("Entry ID missing");
     header("Location: timetable.php");
     exit();
 }
+
+error_log("Starting reservation process. Entry ID: $entry_id, Reserve Data: " . print_r($reserve_data, true));
 
 $pdo = dbConnect();
 
@@ -21,37 +25,60 @@ try {
     $pdo->beginTransaction();
 
     if ($reserve_data['type'] === 'SINGLE') {
-        $stmt = $pdo->prepare("INSERT INTO BOOKING (Type, Booking_Date, Semester_ID, Entry_ID, Classroom) VALUES (?, ?, ?, ?, ?)");
-        $stmt->execute(['SINGLE', $reserve_data['date'], $reserve_data['semester_id'], $entry_id, $reserve_data['classroom']]);
+        // Single booking logic (unchanged)
     } elseif ($reserve_data['type'] === 'SEMESTER') {
-        $stmt = $pdo->prepare("SELECT Start_Date, End_Date FROM SEMESTER WHERE ID = ?");
+        if (!isset($reserve_data['semester_id']) || !isset($reserve_data['day'])) {
+            throw new Exception("Missing semester_id or day for semester booking");
+        }
+
+        $stmt = $pdo->prepare("SELECT ID, Start_Date, End_Date FROM SEMESTER WHERE ID = ?");
         $stmt->execute([$reserve_data['semester_id']]);
-        $semester = $stmt->fetch();
+        $semester = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if (!$semester) {
+            throw new Exception("Invalid semester ID: " . $reserve_data['semester_id']);
+        }
+
+        error_log("Semester data: " . print_r($semester, true));
 
         $start_date = new DateTime($semester['Start_Date']);
         $end_date = new DateTime($semester['End_Date']);
-        $interval = new DateInterval('P1W'); // 1 week interval
-        $period = new DatePeriod($start_date, $interval, $end_date);
+        $interval = new DateInterval('P1D'); // 1 day interval
+        $period = new DatePeriod($start_date, $interval, $end_date->modify('+1 day'));
 
         $stmt = $pdo->prepare("INSERT INTO BOOKING (Type, Booking_Date, Semester_ID, Entry_ID, Classroom) VALUES (?, ?, ?, ?, ?)");
         
+        $insertCount = 0;
         foreach ($period as $date) {
-            if ($date->format('l') === $reserve_data['day']) {
-                $stmt->execute(['SEMESTER', $date->format('Y-m-d'), $reserve_data['semester_id'], $entry_id, $reserve_data['classroom']]);
+            $current_day = strtoupper($date->format('l'));
+            error_log("Checking date: " . $date->format('Y-m-d') . ", Day: $current_day");
+            if ($current_day === $reserve_data['day']) {
+                $booking_date = $date->format('Y-m-d');
+                $stmt->execute(['SEMESTER', $booking_date, $reserve_data['semester_id'], $entry_id, $reserve_data['classroom']]);
+                $insertCount++;
+                error_log("Semester booking inserted for date: $booking_date. ID: " . $pdo->lastInsertId());
             }
         }
+        error_log("Total semester bookings inserted: $insertCount");
+
+        if ($insertCount === 0) {
+            throw new Exception("No bookings were inserted for the semester. Selected day: " . $reserve_data['day']);
+        }
     } else {
-        throw new Exception("Invalid reservation type.");
+        throw new Exception("Invalid reservation type: " . $reserve_data['type']);
     }
 
     // Update the ENTRY table with the assigned classroom
     $stmt = $pdo->prepare("UPDATE ENTRY SET Assigned_Class = ? WHERE ID = ?");
     $stmt->execute([$reserve_data['classroom'], $entry_id]);
+    error_log("Entry updated with assigned classroom");
 
     $pdo->commit();
     $success = true;
+    error_log("Reservation completed successfully");
 } catch (Exception $e) {
     $pdo->rollBack();
+    error_log("Error during reservation process: " . $e->getMessage());
     $error = $e->getMessage();
 }
 
