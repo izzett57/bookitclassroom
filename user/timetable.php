@@ -58,16 +58,16 @@ function formatDate($date) {
         <?php include('../assets/navbar-user-back.php'); ?>
 
         <div class="container main-content bg-white rounded-3 d-flex flex-column justify-content-center">
-        <?php
-        if (isset($_SESSION['error'])) {
-            echo '<div class="alert alert-danger" role="alert">' . htmlspecialchars($_SESSION['error']) . '</div>';
-            unset($_SESSION['error']);
-        }
-        if (isset($_SESSION['success'])) {
-            echo '<div class="alert alert-success" role="alert">' . htmlspecialchars($_SESSION['success']) . '</div>';
-            unset($_SESSION['success']);
-        }
-        ?>
+            <?php
+            if (isset($_SESSION['error'])) {
+                echo '<div class="alert alert-danger" role="alert">' . htmlspecialchars($_SESSION['error']) . '</div>';
+                unset($_SESSION['error']);
+            }
+            if (isset($_SESSION['success'])) {
+                echo '<div class="alert alert-success" role="alert">' . htmlspecialchars($_SESSION['success']) . '</div>';
+                unset($_SESSION['success']);
+            }
+            ?>
             <div class="container">
                 <div class="row">
                     <div class="col-8">
@@ -90,12 +90,12 @@ function formatDate($date) {
                     <thead>
                         <tr>
                         <th scope="col" style="width: 3%;">#</th>
-                        <th scope="col" style="width: 30%;">Event</th>
+                        <th scope="col" style="width: 25%;">Event</th>
                         <th scope="col" style="width: 15%;">Date</th>
                         <th scope="col" style="width: 14%;">Time</th>
                         <th scope="col" style="width: 14%;">Classroom</th>
                         <th scope="col" style="width: 10%;">Type</th>
-                        <th scope="col" style="width: 14%;">Action</th>
+                        <th scope="col" style="width: 19%;">Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -113,17 +113,21 @@ function formatDate($date) {
                                 <td><?php echo htmlspecialchars($entry['Reserved_Classroom'] ?? '-'); ?></td>
                                 <td><?php echo $entry['Booking_Type'] ?? 'Not booked'; ?></td>
                                 <td class="d-flex justify-content-evenly">
-                                <?php if ($entry['Reserved_Classroom']): ?>
-                                    <a class="custom-btn-inline" href="unreserve.php?id=<?php echo $entry['Booking_ID']; ?>&type=booking" style="text-decoration: none;">
-                                        Unreserve
-                                        <i class="bi bi-bookmark-dash-fill"></i>    
+                                    <a class="custom-btn-inline" href="edit-entry-name.php?id=<?php echo $entry['ID']; ?>" style="text-decoration: none;">
+                                        Edit
+                                        <i class="bi bi-pencil-fill"></i>
                                     </a>
-                                <?php else: ?>
-                                    <a class="custom-btn-inline" href="map-timetable.php?id=<?php echo $entry['ID']; ?>" style="text-decoration: none;">
-                                        Reserve
-                                        <i class="bi bi-bookmark-plus-fill"></i>
-                                    </a>
-                                <?php endif; ?>
+                                    <?php if ($entry['Reserved_Classroom']): ?>
+                                        <a class="custom-btn-inline" href="unreserve.php?id=<?php echo $entry['Booking_ID']; ?>&type=booking" style="text-decoration: none;">
+                                            Unreserve
+                                            <i class="bi bi-bookmark-dash-fill"></i>    
+                                        </a>
+                                    <?php else: ?>
+                                        <a class="custom-btn-inline" href="map-timetable.php?id=<?php echo $entry['ID']; ?>" style="text-decoration: none;">
+                                            Reserve
+                                            <i class="bi bi-bookmark-plus-fill"></i>
+                                        </a>
+                                    <?php endif; ?>
                                 </td>
                             </tr>
                             <?php endforeach; ?>
