@@ -40,6 +40,43 @@ foreach ($classrooms as $classroom) {
 
         <title>Map - BookItClassroom</title>
         <link rel="icon" type="image/x-icon" href="favicon.ico">
+
+        <style>
+            [id^="1"] rect, [id^="2"] rect, [id^="3"] rect { 
+                stroke: rgba(69, 218, 34, 1.0);
+                fill: rgba(69, 218, 34, 0.3);
+                transition: all 0.3s ease;
+            }
+            [id^="1"] tspan, [id^="2"] tspan, [id^="3"] tspan {
+                user-select: none;
+                fill: rgba(49, 136, 28, 1.0);
+                transition: all 0.3s ease;
+            }
+            [id^="1"]:hover rect, [id^="2"]:hover rect, [id^="3"]:hover rect {
+                stroke: rgba(69, 218, 34, 0.7);
+                fill: rgba(69, 218, 34, 0.2);
+            }
+            [id^="1"]:hover tspan, [id^="2"]:hover tspan, [id^="3"]:hover tspan {
+                fill: rgba(49, 136, 28, 0.8);
+            }
+            g {
+                cursor: pointer;
+            }
+            .occupied rect {
+                stroke: rgba(255, 0, 0, 1.0);
+                fill: rgba(255, 0, 0, 0.3);
+            }
+            .occupied tspan {
+                fill: rgba(139, 0, 0, 1.0);
+            }
+            .occupied:hover rect {
+                stroke: rgba(255, 0, 0, 0.7);
+                fill: rgba(255, 0, 0, 0.2);
+            }
+            .occupied:hover tspan {
+                fill: rgba(139, 0, 0, 0.8);
+            }
+        </style>
     </head>
     
     <body>
@@ -56,53 +93,6 @@ foreach ($classrooms as $classroom) {
                                     <object id="svg-object" type="image/svg+xml" data="../assets/svg/map/classroom.svg" onload="initPanZoom(this.contentDocument);"></object>
                                 </div>
                                 <script src="https://cdn.jsdelivr.net/npm/svg-pan-zoom@latest/dist/svg-pan-zoom.min.js"></script>
-                                <script>
-                                    function injectCSS(svgDocument) {
-                                        const style = document.createElementNS("http://www.w3.org/2000/svg", "style");
-                                        style.textContent = `
-                                            [id^="1"] rect, [id^="2"] rect, [id^="3"] rect { 
-                                                stroke: rgba(69, 218, 34, 1.0);
-                                                fill: rgba(69, 218, 34, 0.3);
-                                            }
-                                            [id^="1"] tspan, [id^="2"] tspan, [id^="3"] tspan {
-                                                user-select: none;
-                                                fill: rgba(49, 136, 28, 1.0);
-                                            }
-                                            [id^="1"]:hover rect, [id^="2"]:hover rect, [id^="3"]:hover rect {
-                                                stroke: rgba(69, 218, 34, 0.7);
-                                                fill: rgba(69, 218, 34, 0.2);
-                                            }
-                                            [id^="1"]:hover tspan, [id^="2"]:hover tspan, [id^="3"]:hover tspan {
-                                                fill: rgba(49, 136, 28, 0.8);
-                                            }
-                                            g {
-                                                cursor: pointer;
-                                            }
-                                            .occupied rect {
-                                                stroke: rgba(255, 0, 0, 1.0);
-                                                fill: rgba(255, 0, 0, 0.3);
-                                            }
-                                            .occupied tspan {
-                                                fill: rgba(139, 0, 0, 1.0);
-                                            }
-                                        `;
-                                        svgDocument.querySelector('svg').appendChild(style);
-                                    }
-
-                                    function initPanZoom(svgDocument) {
-                                        injectCSS(svgDocument);
-                                        svgPanZoom(svgDocument.querySelector('svg'), {
-                                            zoomEnabled: true,
-                                            controlIconsEnabled: true,
-                                            fit: true,
-                                            center: true,
-                                            minZoom: 0.7,
-                                            maxZoom: 2,
-                                            panEnabled: true,
-                                            contain: true
-                                        });
-                                    }
-                                </script>
                             </div>
                             <div class="col">
                                 <div class="col calendar inter-light" style="margin: auto;">
@@ -182,6 +172,61 @@ foreach ($classrooms as $classroom) {
         <?php include('../assets/footer.php'); ?>
 
         <script>
+        function initPanZoom(svgDocument) {
+            injectCSS(svgDocument);
+            svgPanZoom(svgDocument.querySelector('svg'), {
+                zoomEnabled: true,
+                controlIconsEnabled: true,
+                fit: true,
+                center: true,
+                minZoom: 0.7,
+                maxZoom: 2,
+                panEnabled: true,
+                contain: true
+            });
+        }
+
+        function injectCSS(svgDocument) {
+            const style = document.createElementNS("http://www.w3.org/2000/svg", "style");
+            style.textContent = `
+                [id^="1"] rect, [id^="2"] rect, [id^="3"] rect { 
+                    stroke: rgba(69, 218, 34, 1.0);
+                    fill: rgba(69, 218, 34, 0.3);
+                    transition: all 0.3s ease;
+                }
+                [id^="1"] tspan, [id^="2"] tspan, [id^="3"] tspan {
+                    user-select: none;
+                    fill: rgba(49, 136, 28, 1.0);
+                    transition: all 0.3s ease;
+                }
+                [id^="1"]:hover rect, [id^="2"]:hover rect, [id^="3"]:hover rect {
+                    stroke: rgba(69, 218, 34, 0.7);
+                    fill: rgba(69, 218, 34, 0.2);
+                }
+                [id^="1"]:hover tspan, [id^="2"]:hover tspan, [id^="3"]:hover tspan {
+                    fill: rgba(49, 136, 28, 0.8);
+                }
+                g {
+                    cursor: pointer;
+                }
+                .occupied rect {
+                    stroke: rgba(255, 0, 0, 1.0);
+                    fill: rgba(255, 0, 0, 0.3);
+                }
+                .occupied tspan {
+                    fill: rgba(139, 0, 0, 1.0);
+                }
+                .occupied:hover rect {
+                    stroke: rgba(255, 0, 0, 0.7);
+                    fill: rgba(255, 0, 0, 0.2);
+                }
+                .occupied:hover tspan {
+                    fill: rgba(139, 0, 0, 0.8);
+                }
+            `;
+            svgDocument.querySelector('svg').appendChild(style);
+        }
+
         document.addEventListener('DOMContentLoaded', function() {
             const svgObject = document.getElementById('svg-object');
             const selectedClassroomElement = document.getElementById('selectedClassroom');
@@ -225,45 +270,51 @@ foreach ($classrooms as $classroom) {
             endTimeSelect.addEventListener('change', checkAvailability);
 
             function checkAvailability() {
-    const date = selectedDateInput.value;
-    const timeStart = startTimeSelect.value;
-    const timeEnd = endTimeSelect.value;
+                const date = selectedDateInput.value;
+                const timeStart = startTimeSelect.value;
+                const timeEnd = endTimeSelect.value;
 
-    if (!date || !timeStart || !timeEnd) {
-        return;
-    }
-
-    fetch('check-availability.php', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        body: `date=${date}&time_start=${timeStart}&time_end=${timeEnd}`
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        return response.json();
-    })
-    .then(data => {
-        const svgDoc = svgObject.contentDocument;
-        data.forEach(classroom => {
-            const element = svgDoc.getElementById(classroom.name);
-            if (element) {
-                if (classroom.available) {
-                    element.classList.remove('occupied');
-                } else {
-                    element.classList.add('occupied');
+                if (!date || !timeStart || !timeEnd) {
+                    return;
                 }
+
+                fetch('check-availability.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: `date=${date}&time_start=${timeStart}&time_end=${timeEnd}`
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    const svgDoc = svgObject.contentDocument;
+                    // Reset all classrooms to available
+                    svgDoc.querySelectorAll('g[id]').forEach(element => {
+                        element.classList.remove('occupied');
+                    });
+                    // Update classrooms based on availability data
+                    data.forEach(classroom => {
+                        const element = svgDoc.getElementById(classroom.name);
+                        if (element) {
+                            if (!classroom.available) {
+                                element.classList.add('occupied');
+                            }
+                        }
+                    });
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred while checking classroom availability. Please try again.');
+                });
             }
-        });
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        alert('An error occurred while checking classroom availability. Please try again.');
-    });
-}
+
+            // Initial availability check
+            checkAvailability();
         });
         </script>
     </body>
