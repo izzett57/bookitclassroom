@@ -40,10 +40,15 @@ if (isset($_POST['email']) && isset($_POST['password'])) {
                     $_SESSION['User_Type'] = $row['User_Type']; // Assuming you have a User_Type column
 
                     // Redirect based on user type
-                    if ($row['User_Type'] == 'MEMBER' || $row['User_Type'] == 'LECTURER' || $row['User_Type'] == 'CLUB_LEAD') {
+                    if ($row['User_Type'] == 'MEMBER' ) {
+                        header("Location: ../member/index.php");
+                        exit();
+                    } 
+                    elseif ($row['User_Type'] == 'LECTURER'|| $row['User_Type'] == 'CLUB_LEAD') {
                         header("Location: ../user/index.php");
                         exit();
-                    } elseif ($row['User_Type'] == 'ADMIN') {
+                    }
+                    elseif ($row['User_Type'] == 'ADMIN') {
                         header("Location: ../admin/index.php");
                         exit();
                     } else {

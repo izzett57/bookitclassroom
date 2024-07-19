@@ -8,23 +8,16 @@ if (!isset($_SESSION['ID'])) {
 }
 
 $pdo = dbConnect();
-$stmt = $pdo->prepare("SELECT * FROM CLASSROOM");
-$stmt->execute();
+
+// Fetch all classrooms
+$stmt = $pdo->query("SELECT CName, Floor FROM CLASSROOM ORDER BY Floor, CName");
 $classrooms = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-$date = $_GET['date'] ?? date('Y-m-d');
-$time_start = $_GET['time_start'] ?? '08:00:00';
-$time_end = $_GET['time_end'] ?? '09:00:00';
-
-// Fetch bookings for the selected date and time
-$stmt = $pdo->prepare("SELECT * FROM BOOKING WHERE Booking_Date = ? AND 
-                      ((Time_Start <= ? AND Time_End > ?) OR 
-                       (Time_Start < ? AND Time_End >= ?) OR
-                       (Time_Start >= ? AND Time_End <= ?))");
-$stmt->execute([$date, $time_start, $time_start, $time_end, $time_end, $time_start, $time_end]);
-$bookings = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-$booked_classrooms = array_column($bookings, 'Classroom');
+// Group classrooms by floor
+$classroomsByFloor = [];
+foreach ($classrooms as $classroom) {
+    $classroomsByFloor[$classroom['Floor']][] = $classroom['CName'];
+}
 ?>
 
 <!DOCTYPE html>
@@ -42,26 +35,64 @@ $booked_classrooms = array_column($bookings, 'Classroom');
         <link rel="stylesheet" href="../assets/css/calendar.css"/>
         <link rel="stylesheet" href="../assets/css/svg-container.css"/>
 
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+        <script src="../assets/js/time-select.js"></script>
+
         <title>Map - BookItClassroom</title>
         <link rel="icon" type="image/x-icon" href="favicon.ico">
 
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-        <script src="../assets/js/time-select.js"></script>
+        <style>
+            [id^="1"] rect, [id^="2"] rect, [id^="3"] rect { 
+                stroke: rgba(69, 218, 34, 1.0);
+                fill: rgba(69, 218, 34, 0.3);
+                transition: all 0.3s ease;
+            }
+            [id^="1"] tspan, [id^="2"] tspan, [id^="3"] tspan {
+                user-select: none;
+                fill: rgba(49, 136, 28, 1.0);
+                transition: all 0.3s ease;
+            }
+            [id^="1"]:hover rect, [id^="2"]:hover rect, [id^="3"]:hover rect {
+                stroke: rgba(69, 218, 34, 0.7);
+                fill: rgba(69, 218, 34, 0.2);
+            }
+            [id^="1"]:hover tspan, [id^="2"]:hover tspan, [id^="3"]:hover tspan {
+                fill: rgba(49, 136, 28, 0.8);
+            }
+            g {
+                cursor: pointer;
+            }
+            .occupied rect {
+                stroke: rgba(255, 0, 0, 1.0);
+                fill: rgba(255, 0, 0, 0.3);
+            }
+            .occupied tspan {
+                fill: rgba(139, 0, 0, 1.0);
+            }
+            .occupied:hover rect {
+                stroke: rgba(255, 0, 0, 0.7);
+                fill: rgba(255, 0, 0, 0.2);
+            }
+            .occupied:hover tspan {
+                fill: rgba(139, 0, 0, 0.8);
+            }
+        </style>
     </head>
     
     <body>
         <?php include('../assets/navbar-user-back.php'); ?>
 
-        <div class="container main-content bg-white rounded-3 d-flex flex-column justify-content-center py-3">
+        <form class="container main-content bg-white rounded-3 d-flex flex-column justify-content-center py-3">
             <div class="container">
                 <div class="row">
-                    <div class="heading1" style=""><p>Map</p></div>
+                    <div class="heading1"><p>Map</p></div>
                     <div class="container" style="height: 70vh;">
                         <div class="row" style="height: 100%;">
-                            <div class="col-8" style="">
-                            <div class="svg-container">
-                                <object id="svg-object" type="image/svg+xml" data="../assets/svg/map/classroom.svg"></object>
-                            </div>
+                            <div class="col-8">
+                                <div class="svg-container">
+                                    <object id="svg-object" type="image/svg+xml" data="../assets/svg/map/classroom.svg" onload="initPanZoom(this.contentDocument);"></object>
+                                </div>
+                                <script src="https://cdn.jsdelivr.net/npm/svg-pan-zoom@latest/dist/svg-pan-zoom.min.js"></script>
                             </div>
                             <div class="col">
                                 <div class="col calendar inter-light" style="margin: auto;">
@@ -89,31 +120,43 @@ $booked_classrooms = array_column($bookings, 'Classroom');
                                     <script src="../assets/js/calendar.js" defer></script>
                                 </div>
                                 <div class="col d-flex justify-content-center align-items-center" style="height: 16.66%;">
-                                    <form id="timeForm" method="GET">
-                                        <input type="hidden" name="date" id="selectedDate" value="<?php echo $date; ?>">
-                                        <div class="d-flex flex-glow justify-content-center align-items-center" style="width: 100%;">
-                                            <div class="col-5 form-group text-center" style="width: 35%; height: 60px;">
-                                                <select class="form-control text-center text-time custom-select" style="height: 100%; user-select: none;" id="starttime" name="time_start" required>
-                                                    <?php echo get_times($time_start); ?>
-                                                </select>
-                                            </div>
-                                            <span class="col-1 text-center text-time mx-2" style="user-select: none;">-</span>
-                                            <div class="col-5 form-group text-center" style="width: 35%; height: 60px;">
-                                                <select class="form-control text-center text-time custom-select" style="height: 100%; user-select: none;" id="endtime" name="time_end" required>
-                                                    <?php echo get_times($time_end); ?>
-                                                </select>
-                                            </div>
+                                    <?php
+                                    function get_times($default = '00:00', $interval = '+30 minutes') {
+                                        $output = '';
+                                        $current = strtotime('00:00');
+                                        $end = strtotime('23:59');
+                                    
+                                        while ($current <= $end) {
+                                            $time = date('H:i:s', $current);
+                                            $sel = ($time == $default) ? ' selected' : '';
+                                            $output .= "<option value=\"{$time}\"{$sel}>" . date('H:i ', $current) . '</option>';
+                                            $current = strtotime($interval, $current);
+                                        }
+                                        return $output;
+                                    }
+                                    ?>
+                                    <div class="d-flex flex-glow justify-content-center align-items-center" style="width: 100%;">
+                                        <div class="col-5 form-group text-center" style="width: 35%; height: 60px;">
+                                            <select class="form-control text-center text-time custom-select" style="height: 100%; user-select: none;" id="starttime" name="timeFrom" required>
+                                                <?php echo get_times(); ?>
+                                            </select>
                                         </div>
-                                    </form>
+                                        <span class="col-1 text-center text-time mx-2" style="user-select: none;">-</span>
+                                        <div class="col-5 form-group text-center" style="width: 35%; height: 60px;">
+                                            <select class="form-control text-center text-time custom-select" style="height: 100%; user-select: none;" id="endtime" name="timeTo" disabled="" required>
+                                                <?php echo get_times(); ?>
+                                            </select>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="col d-flex justify-content-center align-items-center" style="height: 16.66%;">
                                 <div class="d-flex flex-column justify-content-center align-items-center pt-4">
                                     <p class="inter-regular" style="letter-spacing: 4px; color: #272937;text-transform: uppercase;">Selected class</p>
-                                    <p id="selectedClassroom" class="subheading1" style="margin: 0px 0px 0px -2px;">No classroom selected</p>
+                                    <p id="selectedClassroom" class="subheading1" style="margin: 0px 0px 0px -2px;">Class Name</p>
                                 </div>
                                 </div>
                                 <div class="col d-flex justify-content-center align-items-center" style="height: 16.66%;">
-                                <button id="viewClassBtn" type="button" class="btn btn-lg custom-btn-noanim d-flex align-items-center justify-content-between" disabled>
+                                <button type="submit" class="btn btn-lg custom-btn-noanim d-flex align-items-center justify-content-between">
                                     <p class="dongle-regular mt-2" style="font-size: 3rem; flex-grow: 1;">View Class</p>
                                 </button>
                                 </div>
@@ -122,77 +165,156 @@ $booked_classrooms = array_column($bookings, 'Classroom');
                     </div>
                 </div>
             </div>
-        </div>
+            <input type="hidden" id="selectedClassroomInput" name="selected_classroom" value="">
+            <input type="hidden" id="selectedDateInput" name="selected_date" value="">
+        </form>
 
         <?php include('../assets/footer.php'); ?>
 
         <script>
+        function initPanZoom(svgDocument) {
+            injectCSS(svgDocument);
+            svgPanZoom(svgDocument.querySelector('svg'), {
+                zoomEnabled: true,
+                controlIconsEnabled: true,
+                fit: true,
+                center: true,
+                minZoom: 0.7,
+                maxZoom: 2,
+                panEnabled: true,
+                contain: true
+            });
+        }
+
+        function injectCSS(svgDocument) {
+            const style = document.createElementNS("http://www.w3.org/2000/svg", "style");
+            style.textContent = `
+                [id^="1"] rect, [id^="2"] rect, [id^="3"] rect { 
+                    stroke: rgba(69, 218, 34, 1.0);
+                    fill: rgba(69, 218, 34, 0.3);
+                    transition: all 0.3s ease;
+                }
+                [id^="1"] tspan, [id^="2"] tspan, [id^="3"] tspan {
+                    user-select: none;
+                    fill: rgba(49, 136, 28, 1.0);
+                    transition: all 0.3s ease;
+                }
+                [id^="1"]:hover rect, [id^="2"]:hover rect, [id^="3"]:hover rect {
+                    stroke: rgba(69, 218, 34, 0.7);
+                    fill: rgba(69, 218, 34, 0.2);
+                }
+                [id^="1"]:hover tspan, [id^="2"]:hover tspan, [id^="3"]:hover tspan {
+                    fill: rgba(49, 136, 28, 0.8);
+                }
+                g {
+                    cursor: pointer;
+                }
+                .occupied rect {
+                    stroke: rgba(255, 0, 0, 1.0);
+                    fill: rgba(255, 0, 0, 0.3);
+                }
+                .occupied tspan {
+                    fill: rgba(139, 0, 0, 1.0);
+                }
+                .occupied:hover rect {
+                    stroke: rgba(255, 0, 0, 0.7);
+                    fill: rgba(255, 0, 0, 0.2);
+                }
+                .occupied:hover tspan {
+                    fill: rgba(139, 0, 0, 0.8);
+                }
+            `;
+            svgDocument.querySelector('svg').appendChild(style);
+        }
+
         document.addEventListener('DOMContentLoaded', function() {
-            const classrooms = <?php echo json_encode($classrooms); ?>;
-            const bookedClassrooms = <?php echo json_encode($booked_classrooms); ?>;
             const svgObject = document.getElementById('svg-object');
             const selectedClassroomElement = document.getElementById('selectedClassroom');
-            const viewClassBtn = document.getElementById('viewClassBtn');
+            const selectedClassroomInput = document.getElementById('selectedClassroomInput');
+            const selectedDateInput = document.getElementById('selectedDateInput');
+            const startTimeSelect = document.getElementById('starttime');
+            const endTimeSelect = document.getElementById('endtime');
 
             svgObject.addEventListener('load', function() {
                 const svgDoc = svgObject.contentDocument;
-                classrooms.forEach(classroom => {
-                    const classroomElement = svgDoc.getElementById(classroom.CName);
-                    if (classroomElement) {
-                        if (bookedClassrooms.includes(classroom.CName)) {
-                            classroomElement.style.fill = 'red';
-                            classroomElement.style.cursor = 'not-allowed';
-                        } else {
-                            classroomElement.style.fill = 'green';
-                            classroomElement.style.cursor = 'pointer';
-                            classroomElement.addEventListener('click', function() {
-                                selectedClassroomElement.textContent = classroom.CName;
-                                viewClassBtn.disabled = false;
-                            });
-                        }
+                const svgElement = svgDoc.querySelector('svg');
+
+                svgElement.addEventListener('click', function(event) {
+                    const clickedElement = event.target.closest('g[id]');
+                    if (clickedElement && clickedElement.nodeName === 'g') {
+                        const classroomName = clickedElement.id;
+                        selectedClassroomElement.textContent = classroomName;
+                        selectedClassroomInput.value = classroomName;
+                        checkAvailability();
                     }
                 });
             });
 
-            viewClassBtn.addEventListener('click', function() {
-                const selectedClassroom = selectedClassroomElement.textContent;
-                if (selectedClassroom !== 'No classroom selected') {
-                    window.location.href = `classroom-schedule.php?classroom=${selectedClassroom}`;
+            dates.addEventListener("click", (e) => {
+                e.preventDefault();
+                if (e.target.tagName === "LI" && !e.target.classList.contains("inactive")) {
+                    selectedDate = new Date(year, month, parseInt(e.target.textContent));
+                    const formattedDate = selectedDate.toISOString().split("T")[0];
+                    selectedDateInput.value = formattedDate;
+                    console.log(`Selected date: ${formattedDate}`);
+                    renderCalendar();
+                    checkAvailability();
                 }
             });
 
-            // Time selection logic
-            const startTimeSelect = document.getElementById('starttime');
-            const endTimeSelect = document.getElementById('endtime');
-            const timeForm = document.getElementById('timeForm');
+            // Set initial date to today
+            const today = new Date();
+            selectedDateInput.value = today.toISOString().split("T")[0];
 
-            function updateEndTimeOptions() {
-                const startTime = startTimeSelect.value;
-                for (let option of endTimeSelect.options) {
-                    option.disabled = option.value <= startTime;
+            startTimeSelect.addEventListener('change', checkAvailability);
+            endTimeSelect.addEventListener('change', checkAvailability);
+
+            function checkAvailability() {
+                const date = selectedDateInput.value;
+                const timeStart = startTimeSelect.value;
+                const timeEnd = endTimeSelect.value;
+
+                if (!date || !timeStart || !timeEnd) {
+                    return;
                 }
-                if (endTimeSelect.value <= startTime) {
-                    endTimeSelect.value = endTimeSelect.querySelector('option:not(:disabled)').value;
-                }
+
+                fetch('check-availability.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: `date=${date}&time_start=${timeStart}&time_end=${timeEnd}`
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    const svgDoc = svgObject.contentDocument;
+                    // Reset all classrooms to available
+                    svgDoc.querySelectorAll('g[id]').forEach(element => {
+                        element.classList.remove('occupied');
+                    });
+                    // Update classrooms based on availability data
+                    data.forEach(classroom => {
+                        const element = svgDoc.getElementById(classroom.name);
+                        if (element) {
+                            if (!classroom.available) {
+                                element.classList.add('occupied');
+                            }
+                        }
+                    });
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred while checking classroom availability. Please try again.');
+                });
             }
 
-            startTimeSelect.addEventListener('change', updateEndTimeOptions);
-            updateEndTimeOptions();
-
-            [startTimeSelect, endTimeSelect].forEach(select => {
-                select.addEventListener('change', () => timeForm.submit());
-            });
-
-            // Calendar logic
-            const calendar = document.querySelector('.calendar');
-            const selectedDateInput = document.getElementById('selectedDate');
-
-            calendar.addEventListener('click', function(e) {
-                if (e.target.classList.contains('calendar-date')) {
-                    selectedDateInput.value = e.target.dataset.date;
-                    timeForm.submit();
-                }
-            });
+            // Initial availability check
+            checkAvailability();
         });
         </script>
     </body>
