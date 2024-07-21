@@ -47,7 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 // Determine which SVG file to use based on the selected floor
-$svg_file = "../assets/svg/map/floor{$selected_floor}.svg";
+$svg_file = "../assets/svg/map/floor-{$selected_floor}.svg";
 if (!file_exists($svg_file)) {
     $svg_file = "../assets/svg/map/classroom.svg"; // Fallback to default if floor-specific SVG doesn't exist
 }
