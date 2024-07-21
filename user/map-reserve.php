@@ -9,7 +9,7 @@ if (!isset($_SESSION['ID'])) {
 
 // Check if selected_floor is set in the session, if not, redirect to select-floor.php
 if (!isset($_SESSION['selected_floor'])) {
-    header("Location: select-floor.php");
+    header("Location: select-floor-reserve.php");
     exit();
 }
 
@@ -42,7 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         'time_end' => $time_to
     ];
 
-    header("Location: timetable-reserve.php");
+    header("Location: select-entry.php");
     exit();
 }
 
@@ -89,49 +89,9 @@ if (!file_exists($svg_file)) {
                                     <object id="svg-object" type="image/svg+xml" data="<?php echo $svg_file; ?>" onload="initPanZoom(this.contentDocument);"></object>
                                 </div>
                                 <script src="https://cdn.jsdelivr.net/npm/svg-pan-zoom@latest/dist/svg-pan-zoom.min.js"></script>
-                                <script>
-                                    function injectCSS(svgDocument) {
-                                        const style = document.createElementNS("http://www.w3.org/2000/svg", "style");
-                                        style.textContent = `
-                                            rect { 
-                                                stroke: rgba(69, 218, 34, 1.0);
-                                                fill: rgba(69, 218, 34, 0.3);
-                                            }
-                                            tspan {
-                                                user-select: none;
-                                                fill: rgba(49, 136, 28, 1.0);
-                                            }
-                                            g:hover rect {
-                                                stroke: rgba(69, 218, 34, 0.7);
-                                                fill: rgba(69, 218, 34, 0.2);
-                                            }
-                                            g:hover tspan {
-                                                fill: rgba(49, 136, 28, 0.8);
-                                            }
-                                            g {
-                                                cursor: pointer;
-                                            }
-                                        `;
-                                        svgDocument.querySelector('svg').appendChild(style);
-                                    }
-
-                                    function initPanZoom(svgDocument) {
-                                        injectCSS(svgDocument);
-                                        svgPanZoom(svgDocument.querySelector('svg'), {
-                                            zoomEnabled: true,
-                                            controlIconsEnabled: true,
-                                            fit: true,
-                                            center: true,
-                                            minZoom: 0.7,
-                                            maxZoom: 2,
-                                            panEnabled: true,
-                                            contain: true
-                                        });
-                                    }
-                                </script>
                             </div>
                             <div class="col">
-                            <div class="col calendar inter-light" style="margin: auto;">
+                                <div class="col calendar inter-light" style="margin: auto;">
                                     <div class="">
                                     <header>
                                         <h3></h3>
@@ -152,7 +112,10 @@ if (!file_exists($svg_file)) {
                                         </ul>
                                         <ul class="calendar-dates" style="font-weight: 500;"></ul>
                                     </section>
-                                    <div class="col d-flex justify-content-center align-items-center" style="height: 16.66%;">
+                                    </div>
+                                    <script src="../assets/js/calendar.js" defer></script>
+                                </div>
+                                <div class="col d-flex justify-content-center align-items-center" style="height: 16.66%;">
                                     <?php
                                     function get_times($default = '00:00', $interval = '+30 minutes') {
                                         $output = '';
@@ -183,15 +146,15 @@ if (!file_exists($svg_file)) {
                                     </div>
                                 </div>
                                 <div class="col d-flex justify-content-center align-items-center" style="height: 16.66%;">
-                                    <div class="d-flex flex-column justify-content-center align-items-center pt-4">
-                                        <p class="inter-regular" style="letter-spacing: 4px; color: #272937;text-transform: uppercase;">Selected class</p>
-                                        <p id="selectedClassroom" class="subheading1" style="margin: 0px 0px 0px -2px;">Class Name</p>
-                                    </div>
+                                <div class="d-flex flex-column justify-content-center align-items-center pt-4">
+                                    <p class="inter-regular" style="letter-spacing: 4px; color: #272937;text-transform: uppercase;">Selected class</p>
+                                    <p id="selectedClassroom" class="subheading1" style="margin: 0px 0px 0px -2px;">Class Name</p>
+                                </div>
                                 </div>
                                 <div class="col d-flex justify-content-center align-items-center" style="height: 16.66%;">
-                                    <button type="submit" class="btn btn-lg custom-btn-noanim d-flex align-items-center justify-content-between">
-                                        <p class="dongle-regular mt-2" style="font-size: 3rem; flex-grow: 1;">Reserve</p>
-                                    </button>
+                                <button type="submit" class="btn btn-lg custom-btn-noanim d-flex align-items-center justify-content-between">
+                                    <p class="dongle-regular mt-2" style="font-size: 3rem; flex-grow: 1;">Next</p>
+                                </button>
                                 </div>
                             </div>
                         </div>
@@ -204,8 +167,51 @@ if (!file_exists($svg_file)) {
 
         <?php include('../assets/footer.php'); ?>
 
-        <script src="../assets/js/calendar.js"></script>
         <script>
+        function initPanZoom(svgDocument) {
+            injectCSS(svgDocument);
+            svgPanZoom(svgDocument.querySelector('svg'), {
+                zoomEnabled: true,
+                controlIconsEnabled: true,
+                fit: true,
+                center: true,
+                minZoom: 0.7,
+                maxZoom: 2,
+                panEnabled: true,
+                contain: true
+            });
+        }
+
+        function injectCSS(svgDocument) {
+            const style = document.createElementNS("http://www.w3.org/2000/svg", "style");
+            style.textContent = `
+                .classroom { 
+                    cursor: pointer;
+                }
+                .classroom rect { 
+                    stroke: rgba(69, 218, 34, 1.0);
+                    fill: rgba(69, 218, 34, 0.3);
+                }
+                .classroom tspan {
+                    user-select: none;
+                    fill: rgba(49, 136, 28, 1.0);
+                }
+                .classroom:hover rect {
+                    stroke: rgba(69, 218, 34, 0.7);
+                    fill: rgba(69, 218, 34, 0.2);
+                }
+                .classroom:hover tspan {
+                    fill: rgba(49, 136, 28, 0.8);
+                }
+            `;
+            svgDocument.querySelector('svg').appendChild(style);
+
+            // Add 'classroom' class to clickable elements
+            svgDocument.querySelectorAll('g[id^="1"], g[id^="2"], g[id^="3"]').forEach(element => {
+                element.classList.add('classroom');
+            });
+        }
+
         document.addEventListener('DOMContentLoaded', function() {
             const svgObject = document.getElementById('svg-object');
             const selectedClassroomElement = document.getElementById('selectedClassroom');
@@ -217,8 +223,8 @@ if (!file_exists($svg_file)) {
                 const svgElement = svgDoc.querySelector('svg');
 
                 svgElement.addEventListener('click', function(event) {
-                    const clickedElement = event.target.closest('g[id]');
-                    if (clickedElement && clickedElement.nodeName === 'g') {
+                    const clickedElement = event.target.closest('.classroom');
+                    if (clickedElement) {
                         const classroomName = clickedElement.id;
                         selectedClassroomElement.textContent = classroomName;
                         selectedClassroomInput.value = classroomName;

@@ -1,13 +1,12 @@
 <?php
 require_once '../assets/db_conn.php';
-require_once '../assets/isLoggedIn.php';
+require_once '../assets/IsLoggedIn.php';
 
 if (!isset($_SESSION['ID'])) {
     header("Location: ../guest/login.php");
     exit();
 }
 
-// Fetch user's entries from the database
 try {
     $pdo = dbConnect();
     $stmt = $pdo->prepare("
@@ -27,12 +26,10 @@ try {
     die("Error fetching entries: " . $e->getMessage());
 }
 
-// Function to format time
 function formatTime($time) {
     return date('H:i', strtotime($time));
 }
 
-// Function to format date
 function formatDate($date) {
     return date('Y-m-d', strtotime($date));
 }
@@ -113,21 +110,14 @@ function formatDate($date) {
                                 <td><?php echo htmlspecialchars($entry['Reserved_Classroom'] ?? '-'); ?></td>
                                 <td><?php echo $entry['Booking_Type'] ?? 'Not booked'; ?></td>
                                 <td class="d-flex justify-content-evenly">
-                                    <a class="custom-btn-inline" href="edit-entry-name.php?id=<?php echo $entry['ID']; ?>" style="text-decoration: none;">
-                                        Edit
-                                        <i class="bi bi-pencil-fill"></i>
-                                    </a>
-                                    <?php if ($entry['Reserved_Classroom']): ?>
-                                        <a class="custom-btn-inline" href="unreserve.php?id=<?php echo $entry['Booking_ID']; ?>&type=booking" style="text-decoration: none;">
-                                            Unreserve
-                                            <i class="bi bi-bookmark-dash-fill"></i>    
+                                        <a href="edit-entry-name.php?id=<?php echo $entry['ID']; ?>" class="btn btn-sm btn-primary">
+                                            Edit
+                                            <i class="bi bi-pencil-fill"></i>
                                         </a>
-                                    <?php else: ?>
-                                        <a class="custom-btn-inline" href="map-timetable.php?id=<?php echo $entry['ID']; ?>" style="text-decoration: none;">
-                                            Reserve
-                                            <i class="bi bi-bookmark-plus-fill"></i>
+                                        <a href="delete-entry.php?id=<?php echo $entry['ID']; ?>" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this entry?');">
+                                            Delete
+                                            <i class="bi bi-trash-fill"></i>
                                         </a>
-                                    <?php endif; ?>
                                 </td>
                             </tr>
                             <?php endforeach; ?>

@@ -7,8 +7,8 @@ if (!isset($_SESSION['ID']) || !isset($_SESSION['reserve_data'])) {
     exit();
 }
 
-$entry_id = $_GET['id'] ?? null;
-$semester_id = $_GET['semester_id'] ?? null;
+$entry_id = $_SESSION['reserve_data']['entry_id'] ?? null;
+$semester_id = $_SESSION['reserve_data']['semester_id'] ?? null;
 $reserve_data = $_SESSION['reserve_data'];
 
 if (!$entry_id || !$semester_id) {
@@ -34,16 +34,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $reserve_data['semester_id'] = $semester_id;
     $_SESSION['reserve_data'] = $reserve_data;
 
-    error_log("Semester reservation data before redirect: " . print_r($reserve_data, true));
-
-    header("Location: reserve-complete.php?id=" . $entry_id);
+    header("Location: reserve-complete.php");
     exit();
 }
-
-// Debug logging
-error_log("Current reserve_data: " . print_r($reserve_data, true));
-error_log("Semester data: " . print_r($semester, true));
-error_log("Entry data: " . print_r($entry, true));
 ?>
 
 <!DOCTYPE html>

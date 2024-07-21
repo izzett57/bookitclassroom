@@ -3,21 +3,19 @@ include '../assets/db_conn.php';
 include '../assets/IsLoggedIn.php';
 
 if (!isset($_SESSION['ID']) || !isset($_SESSION['reserve_data'])) {
-    error_log("Session data missing. SESSION: " . print_r($_SESSION, true));
-    header("Location: ../guest/login.php");
+    $_SESSION['error'] = "Invalid session data. Please start the reservation process again.";
+    header("Location: reserve.php");
     exit();
 }
 
-$entry_id = $_GET['id'] ?? null;
 $reserve_data = $_SESSION['reserve_data'];
+$entry_id = $reserve_data['entry_id'] ?? null;
 
 if (!$entry_id) {
-    error_log("Entry ID missing");
-    header("Location: timetable.php");
+    $_SESSION['error'] = "No entry selected for reservation.";
+    header("Location: timetable-reserve.php");
     exit();
 }
-
-error_log("Starting reservation process. Entry ID: $entry_id, Reserve Data: " . print_r($reserve_data, true));
 
 $pdo = dbConnect();
 
@@ -25,36 +23,44 @@ try {
     $pdo->beginTransaction();
 
     // Fetch the entry details
-    $stmt = $pdo->prepare("SELECT * FROM ENTRY WHERE ID = ?");
-    $stmt->execute([$entry_id]);
+    $stmt = $pdo->prepare("SELECT * FROM ENTRY WHERE ID = ? AND User_ID = ?");
+    $stmt->execute([$entry_id, $_SESSION['ID']]);
     $entry = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if (!$entry) {
-        throw new Exception("Entry not found");
+        throw new Exception("Entry not found or doesn't belong to the current user.");
+    }
+
+    // Fetch the current semester
+    $currentDate = date('Y-m-d');
+    $stmt = $pdo->prepare("SELECT ID FROM SEMESTER WHERE Start_Date <= ? AND End_Date >= ? LIMIT 1");
+    $stmt->execute([$currentDate, $currentDate]);
+    $semester_id = $stmt->fetchColumn();
+
+    if (!$semester_id) {
+        throw new Exception("No active semester found for the current date.");
     }
 
     if ($reserve_data['type'] === 'SINGLE') {
-        $stmt = $pdo->prepare("INSERT INTO BOOKING (Type, Booking_Date, Semester_ID, Entry_ID, Classroom) VALUES (?, ?, ?, ?, ?)");
+        $stmt = $pdo->prepare("INSERT INTO BOOKING (Type, Booking_Date, Entry_ID, Classroom, Semester_ID) VALUES (?, ?, ?, ?, ?)");
         $stmt->execute([
             'SINGLE',
             $reserve_data['date'],
-            $reserve_data['semester_id'],
             $entry_id,
-            $reserve_data['classroom']
+            $reserve_data['classroom'],
+            $semester_id  // Add the semester_id for single bookings as well
         ]);
         $booking_id = $pdo->lastInsertId();
-        error_log("Single booking inserted. ID: $booking_id");
-    } elseif ($reserve_data['type'] === 'SEMESTER') {
-        if (!isset($reserve_data['semester_id']) || !isset($reserve_data['day'])) {
-            throw new Exception("Missing semester_id or day for semester booking");
+        if (!$booking_id) {
+            throw new Exception("Failed to insert booking.");
         }
-
+    } elseif ($reserve_data['type'] === 'SEMESTER') {
         $stmt = $pdo->prepare("SELECT Start_Date, End_Date FROM SEMESTER WHERE ID = ?");
-        $stmt->execute([$reserve_data['semester_id']]);
+        $stmt->execute([$semester_id]);
         $semester = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if (!$semester) {
-            throw new Exception("Invalid semester ID: " . $reserve_data['semester_id']);
+            throw new Exception("Invalid semester ID: " . $semester_id);
         }
 
         $start_date = new DateTime($semester['Start_Date']);
@@ -64,19 +70,11 @@ try {
 
         $stmt = $pdo->prepare("INSERT INTO BOOKING (Type, Booking_Date, Semester_ID, Entry_ID, Classroom) VALUES (?, ?, ?, ?, ?)");
         
-        $insertCount = 0;
         foreach ($period as $date) {
-            if (strtoupper($date->format('l')) === strtoupper($reserve_data['day'])) {
+            if (strtoupper($date->format('l')) === $reserve_data['day']) {
                 $booking_date = $date->format('Y-m-d');
-                $stmt->execute(['SEMESTER', $booking_date, $reserve_data['semester_id'], $entry_id, $reserve_data['classroom']]);
-                $insertCount++;
-                error_log("Semester booking inserted for date: $booking_date. ID: " . $pdo->lastInsertId());
+                $stmt->execute(['SEMESTER', $booking_date, $semester_id, $entry_id, $reserve_data['classroom']]);
             }
-        }
-        error_log("Total semester bookings inserted: $insertCount");
-
-        if ($insertCount === 0) {
-            throw new Exception("No bookings were inserted for the semester");
         }
     } else {
         throw new Exception("Invalid reservation type: " . $reserve_data['type']);
@@ -85,19 +83,17 @@ try {
     // Update the ENTRY table with the assigned classroom
     $stmt = $pdo->prepare("UPDATE ENTRY SET Assigned_Class = ? WHERE ID = ?");
     $stmt->execute([$reserve_data['classroom'], $entry_id]);
-    error_log("Entry updated with assigned classroom");
 
     $pdo->commit();
     $success = true;
-    error_log("Reservation completed successfully");
+    $_SESSION['success'] = "Reservation completed successfully.";
 } catch (Exception $e) {
     $pdo->rollBack();
     error_log("Error during reservation process: " . $e->getMessage());
-    $error = $e->getMessage();
+    $_SESSION['error'] = "An error occurred during the reservation process: " . $e->getMessage();
 }
 
 // Clear the session data
-unset($_SESSION['selected_floor']);
 unset($_SESSION['reserve_data']);
 ?>
 
@@ -126,25 +122,25 @@ unset($_SESSION['reserve_data']);
                         <?php if (isset($success)): ?>
                             <div class="heading1" style="font-size: 5rem;"><p>Reservation Complete!</p></div>
                             <div class="subheading1"><p>Your reservation has been successfully processed.</p></div>
-                        <?php elseif (isset($error)): ?>
+                        <?php else: ?>
                             <div class="heading1" style="font-size: 5rem;"><p>Reservation Failed</p></div>
-                            <div class="subheading1"><p>An error occurred: <?php echo htmlspecialchars($error); ?></p></div>
+                            <div class="subheading1"><p>An error occurred: <?php echo htmlspecialchars($_SESSION['error']); ?></p></div>
                         <?php endif; ?>
                     </div>
                 </div>
                 <div class="col d-flex flex-column align-items-center justify-content-center">
-                    <a href="timetable.php" class="btn custom-btn btn-lg d-flex align-items-center justify-content-between mb-3" style="border-radius: 36px;">
+                    <button onclick="location.href='timetable.php'" type="button" class="btn custom-btn btn-lg d-flex align-items-center justify-content-between mb-3" style="border-radius: 36px;">
                         <p class="dongle-regular mt-2" style="font-size: 3rem; flex-grow: 1;">View Timetable</p>
                         <span class="bg-light d-flex rounded-5 align-items-center justify-content-center" style="font-size: 1.5rem;">
                             <i class="bi bi-calendar3 primary"></i>
                         </span>
-                    </a>
-                    <a href="reserve.php" class="btn custom-btn btn-lg d-flex align-items-center justify-content-between mb-3" style="border-radius: 36px;">
+                    </button>
+                    <button onclick="location.href='reserve.php'" type="button" class="btn custom-btn btn-lg d-flex align-items-center justify-content-between mb-3" style="border-radius: 36px;">
                         <p class="dongle-regular mt-2" style="font-size: 3rem; flex-grow: 1;">Make Another Reservation</p>
                         <span class="bg-light d-flex rounded-5 align-items-center justify-content-center" style="font-size: 1.5rem;">
                             <i class="bi bi-plus-circle primary"></i>
                         </span>
-                    </a>
+                    </button>
                 </div>
             </div>
         </div>

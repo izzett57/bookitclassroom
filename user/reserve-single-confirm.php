@@ -7,23 +7,19 @@ if (!isset($_SESSION['ID']) || !isset($_SESSION['reserve_data'])) {
     exit();
 }
 
-$entry_id = $_GET['id'] ?? null;
-$semester_id = $_GET['semester_id'] ?? null;
+$entry_id = $_SESSION['reserve_data']['entry_id'] ?? null;
 $reserve_data = $_SESSION['reserve_data'];
 
-if (!$entry_id || !$semester_id) {
+if (!$entry_id) {
     header("Location: timetable.php");
     exit();
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $reserve_data['type'] = 'SINGLE';
-    $reserve_data['semester_id'] = $semester_id;
     $_SESSION['reserve_data'] = $reserve_data;
     
-    error_log("Single reservation data before redirect: " . print_r($reserve_data, true));
-    
-    header("Location: reserve-complete.php?id=" . $entry_id);
+    header("Location: reserve-complete.php");
     exit();
 }
 
@@ -36,7 +32,6 @@ $entry = $stmt->fetch(PDO::FETCH_ASSOC);
 if (!$entry) {
     die("Invalid entry ID");
 }
-
 ?>
 
 <!DOCTYPE html>

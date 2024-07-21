@@ -7,13 +7,21 @@ if (!isset($_SESSION['ID']) || !isset($_SESSION['reserve_data'])) {
     exit();
 }
 
-$entry_id = $_GET['id'] ?? null;
-$semester_id = $_GET['semester_id'] ?? null;
+$entry_id = $_SESSION['reserve_data']['entry_id'] ?? null;
 $reserve_data = $_SESSION['reserve_data'];
 
-if (!$entry_id || !$semester_id) {
+if (!$entry_id) {
     header("Location: timetable.php");
     exit();
+}
+
+$pdo = dbConnect();
+$stmt = $pdo->prepare("SELECT * FROM SEMESTER WHERE CURDATE() BETWEEN Start_Date AND End_Date LIMIT 1");
+$stmt->execute();
+$current_semester = $stmt->fetch(PDO::FETCH_ASSOC);
+
+if (!$current_semester) {
+    die("No active semester found");
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -21,23 +29,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!empty($day)) {
         $reserve_data['day'] = $day;
         $reserve_data['type'] = 'SEMESTER';
-        $reserve_data['semester_id'] = $semester_id;
+        $reserve_data['semester_id'] = $current_semester['ID'];
         $_SESSION['reserve_data'] = $reserve_data;
-        error_log("Semester day selected. Reserve data: " . print_r($reserve_data, true));
-        header("Location: reserve-semester-confirm.php?id=" . $entry_id . "&semester_id=" . $semester_id);
+        header("Location: reserve-semester-confirm.php");
         exit();
     }
 }
-
-// Fetch semester data for logging
-$pdo = dbConnect();
-$stmt = $pdo->prepare("SELECT * FROM SEMESTER WHERE ID = ?");
-$stmt->execute([$semester_id]);
-$semester = $stmt->fetch(PDO::FETCH_ASSOC);
-error_log("Semester data for ID $semester_id: " . print_r($semester, true));
-
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -80,7 +78,7 @@ error_log("Semester data for ID $semester_id: " . print_r($semester, true));
                                 <?php endforeach; ?>
                             </div>
                             <div class="col d-flex justify-content-end align-items-center mt-5">
-                                <a onclick="history.back()" class="dongle-regular custom-btn-inline me-3 mt-2 primary" style="text-decoration: none; font-size: 2rem;">back</a>
+                                <a onclick="history.back()" class="dongle-regular custom-btn-inline me-3 mt-2 primary" style="text-decoration: none; font-size: 2rem; cursor: pointer;">back</a>
                                 <button type="submit" class="btn btn-lg custom-btn-noanim d-flex align-items-center justify-content-between">
                                     <p class="dongle-regular mt-2" style="font-size: 3rem; flex-grow: 1;">Next</p>
                                 </button>

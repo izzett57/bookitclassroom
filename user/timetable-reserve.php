@@ -1,20 +1,28 @@
 <?php
-require_once '../assets/db_conn.php';
-require_once '../assets/isLoggedIn.php';
+include '../assets/db_conn.php';
+include '../assets/IsLoggedIn.php';
 
-if (!isset($_SESSION['ID']) || !isset($_SESSION['reserve_data'])) {
+if (!isset($_SESSION['ID'])) {
     header("Location: ../guest/login.php");
     exit();
 }
 
-$reserve_data = $_SESSION['reserve_data'];
-
 $pdo = dbConnect();
-$stmt = $pdo->prepare("SELECT e.*, b.Classroom AS Reserved_Classroom 
-                       FROM ENTRY e 
-                       LEFT JOIN BOOKING b ON e.ID = b.Entry_ID 
-                       WHERE e.User_ID = ? 
-                       ORDER BY e.Time_Start");
+
+// Fetch entries with their most recent booking date
+$stmt = $pdo->prepare("
+    SELECT e.*, 
+           b.Booking_Date,
+           b.Classroom AS Reserved_Classroom
+    FROM ENTRY e
+    LEFT JOIN (
+        SELECT Entry_ID, Booking_Date, Classroom,
+               ROW_NUMBER() OVER (PARTITION BY Entry_ID ORDER BY Booking_Date DESC) as rn
+        FROM BOOKING
+    ) b ON e.ID = b.Entry_ID AND b.rn = 1
+    WHERE e.User_ID = ?
+    ORDER BY COALESCE(b.Booking_Date, e.Time_Start) ASC, e.Time_Start ASC
+");
 $stmt->execute([$_SESSION['ID']]);
 $entries = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
@@ -22,37 +30,8 @@ function formatTime($time) {
     return date('H:i', strtotime($time));
 }
 
-function checkTimeConflict($entry, $selected_date, $selected_time_start, $selected_time_end) {
-    $entry_date = date('Y-m-d', strtotime($entry['Time_Start']));
-    $entry_start = strtotime($entry['Time_Start']);
-    $entry_end = strtotime($entry['Time_End']);
-    $selected_start = strtotime($selected_date . ' ' . $selected_time_start);
-    $selected_end = strtotime($selected_date . ' ' . $selected_time_end);
-
-    // Debug logging
-    error_log("Entry Date: " . $entry_date . ", Selected Date: " . $selected_date);
-    error_log("Entry Start: " . date('Y-m-d H:i:s', $entry_start) . ", Selected Start: " . date('Y-m-d H:i:s', $selected_start));
-    error_log("Entry End: " . date('Y-m-d H:i:s', $entry_end) . ", Selected End: " . date('Y-m-d H:i:s', $selected_end));
-
-    // Check if the dates are the same and if the times are different
-    $date_match = ($entry_date == $selected_date);
-    $time_different = ($entry_start != $selected_start || $entry_end != $selected_end);
-
-    $conflict = $date_match && $time_different;
-
-    error_log("Conflict detected: " . ($conflict ? "Yes" : "No"));
-
-    return $conflict;
-}
-
-// Get current semester
-$currentDate = date('Y-m-d');
-$stmt = $pdo->prepare("SELECT ID FROM SEMESTER WHERE Start_Date <= ? AND End_Date >= ? LIMIT 1");
-$stmt->execute([$currentDate, $currentDate]);
-$currentSemester = $stmt->fetchColumn();
-
-if (!$currentSemester) {
-    die("No active semester found.");
+function formatDate($date) {
+    return $date ? date('Y-m-d', strtotime($date)) : 'Not booked';
 }
 ?>
 
@@ -68,7 +47,7 @@ if (!$currentSemester) {
         <link rel="stylesheet" href="../assets/css/font-sizing.css">
         <link rel="stylesheet" href="../assets/css/google-fonts.css">
 
-        <title>Timetable - BookItClassroom</title>
+        <title>Reserve from Timetable - BookItClassroom</title>
         <link rel="icon" type="image/x-icon" href="favicon.ico">
     </head>
     
@@ -78,74 +57,47 @@ if (!$currentSemester) {
         <div class="container main-content bg-white rounded-3 d-flex flex-column justify-content-center">
             <div class="container">
                 <div class="row">
-                    <div class="col-8">
-                        <div class="heading1 ms-5"><p>Timetable</p></div>
-                        <div class="subheading1 ms-5"><p>Here is a list of your classes/events.</p></div>
-                    </div>
-                    <div class="col d-flex justify-content-center">
-                        <div class="pt-3">
-                        <button onclick="location.href='new-entry-name.php'" type="button" class="btn custom-btn btn-lg d-flex align-items-center justify-content-between mb-3" style="border-radius: 36px;">
-                            <p class="dongle-regular mt-2" style="font-size: 3rem; flex-grow: 1;">New Entry</p>
-                            <span class="bg-light d-flex rounded-5 align-items-center justify-content-center" style="font-size: 1.5rem;">
-                                <i class="bi bi-plus-circle-fill primary"></i>
-                            </span>
-                        </button>
-                        </div>
+                    <div class="col-9">
+                        <div class="heading1 ms-5"><p>Select Entry to Reserve</p></div>
+                        <div class="subheading1 ms-5"><p>Choose an entry from your timetable to make a reservation.</p></div>
                     </div>
                 </div>
                 <div class="row">
-                <table class="table table-striped table-hover text-center inter-regular">
-                    <thead>
-                        <tr>
-                        <th scope="col" style="width: 3%;">#</th>
-                        <th scope="col" style="width: 45%;">Event</th>
-                        <th scope="col" style="width: 14%;">Time</th>
-                        <th scope="col" style="width: 10%;">Classroom</th>
-                        <th scope="col" style="width: 14%;">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php if (empty($entries)): ?>
+                    <table class="table table-striped table-hover text-center inter-regular">
+                        <thead>
                             <tr>
-                                <td colspan="5">No entries found. Click "New Entry" to add one.</td>
+                                <th scope="col" style="width: 3%;">#</th>
+                                <th scope="col" style="width: 25%;">Event</th>
+                                <th scope="col" style="width: 15%;">Date</th>
+                                <th scope="col" style="width: 14%;">Time</th>
+                                <th scope="col" style="width: 14%;">Classroom</th>
+                                <th scope="col" style="width: 14%;">Action</th>
                             </tr>
-                        <?php else: ?>
-                            <?php foreach ($entries as $index => $entry): ?>
-                            <tr>
-                                <th scope="row"><?php echo $index + 1; ?></th>
-                                <td><?php echo htmlspecialchars($entry['EName']); ?></td>
-                                <td><?php echo formatTime($entry['Time_Start']) . ' - ' . formatTime($entry['Time_End']); ?></td>
-                                <td><?php echo htmlspecialchars($entry['Reserved_Classroom'] ?? '-'); ?></td>
-                                <td class="d-flex justify-content-evenly">
-                                <?php if ($entry['Reserved_Classroom']): ?>
-                                    <a class="custom-btn-inline" href="unreserve.php?id=<?php echo $entry['ID']; ?>" style="text-decoration: none;">
-                                        Unreserve
-                                        <i class="bi bi-bookmark-dash-fill"></i>    
-                                    </a>
-                                <?php else: ?>
-                                    <?php
-                                    $time_conflict = checkTimeConflict($entry, $reserve_data['date'], $reserve_data['time_start'], $reserve_data['time_end']);
-                                    $reserve_url = $time_conflict ? "reserve-time-conflict.php" : "reserve-type-select.php";
-                                    $params = http_build_query([
-                                        'id' => $entry['ID'],
-                                        'classroom' => $reserve_data['classroom'],
-                                        'date' => $reserve_data['date'],
-                                        'time_start' => $reserve_data['time_start'],
-                                        'time_end' => $reserve_data['time_end'],
-                                        'semester_id' => $currentSemester
-                                    ]);
-                                    ?>
-                                    <a class="custom-btn-inline" href="<?php echo $reserve_url . '?' . $params; ?>" style="text-decoration: none;">
-                                        Reserve
-                                        <i class="bi bi-bookmark-plus-fill"></i>
-                                    </a>
-                                <?php endif; ?>
-                                </td>
-                            </tr>
-                            <?php endforeach; ?>
-                        <?php endif; ?>
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            <?php if (empty($entries)): ?>
+                                <tr>
+                                    <td colspan="6">No entries found. Add an entry to your timetable first.</td>
+                                </tr>
+                            <?php else: ?>
+                                <?php foreach ($entries as $index => $entry): ?>
+                                <tr>
+                                    <th scope="row"><?php echo $index + 1; ?></th>
+                                    <td><?php echo htmlspecialchars($entry['EName']); ?></td>
+                                    <td><?php echo formatDate($entry['Booking_Date']); ?></td>
+                                    <td><?php echo formatTime($entry['Time_Start']) . ' - ' . formatTime($entry['Time_End']); ?></td>
+                                    <td><?php echo $entry['Reserved_Classroom'] ?? 'Not assigned'; ?></td>
+                                    <td>
+                                        <a href="select-floor.php?entry_id=<?php echo $entry['ID']; ?>" class="btn btn-primary btn-sm">
+                                            <?php echo $entry['Booking_Date'] ? 'Change' : 'Reserve'; ?>
+                                            <i class="bi bi-calendar-plus"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>

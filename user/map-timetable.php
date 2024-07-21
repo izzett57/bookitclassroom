@@ -7,21 +7,32 @@ if (!isset($_SESSION['ID'])) {
     exit();
 }
 
-$entry_id = $_GET['id'] ?? null;
+$pdo = dbConnect();
 
-if (!$entry_id) {
-    header("Location: timetable.php");
-    exit();
+// Check if entry_id is in the GET parameters or in the session
+$entry_id = $_GET['id'] ?? $_SESSION['entry_id'] ?? null;
+
+if ($entry_id) {
+    $stmt = $pdo->prepare("SELECT * FROM ENTRY WHERE ID = ? AND User_ID = ?");
+    $stmt->execute([$entry_id, $_SESSION['ID']]);
+    $entry = $stmt->fetch();
+
+    if ($entry) {
+        $_SESSION['entry_id'] = $entry_id; // Store the entry_id in the session
+    } else {
+        $entry = null; // Set entry to null if not found
+    }
+} else {
+    $entry = null; // Set entry to null if no entry_id is provided
 }
 
-$pdo = dbConnect();
-$stmt = $pdo->prepare("SELECT * FROM ENTRY WHERE ID = ? AND User_ID = ?");
-$stmt->execute([$entry_id, $_SESSION['ID']]);
-$entry = $stmt->fetch();
+// Get the selected floor from the session, or set it to 1 if not set
+$selected_floor = $_SESSION['selected_floor'] ?? 1;
 
-if (!$entry) {
-    header("Location: timetable.php");
-    exit();
+// Determine which SVG file to use based on the selected floor
+$svg_file = "../assets/svg/map/floor-{$selected_floor}.svg";
+if (!file_exists($svg_file)) {
+    $svg_file = "../assets/svg/map/classroom.svg"; // Fallback to default if floor-specific SVG doesn't exist
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -32,22 +43,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         'entry_id' => $entry_id,
         'classroom' => $selected_classroom,
         'date' => $selected_date,
-        'time_start' => $entry['Time_Start'],
-        'time_end' => $entry['Time_End']
+        'time_start' => $entry ? $entry['Time_Start'] : null,
+        'time_end' => $entry ? $entry['Time_End'] : null
     ];
     
-    header("Location: timetable-reserve.php");
+    header("Location: reserve-time-conflict.php?id=" . $entry_id);
     exit();
-}
-
-// Fetch all classrooms
-$stmt = $pdo->query("SELECT CName, Floor FROM CLASSROOM ORDER BY Floor, CName");
-$classrooms = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-// Group classrooms by floor
-$classroomsByFloor = [];
-foreach ($classrooms as $classroom) {
-    $classroomsByFloor[$classroom['Floor']][] = $classroom['CName'];
 }
 ?>
 
@@ -79,56 +80,20 @@ foreach ($classrooms as $classroom) {
         <form class="container main-content bg-white rounded-3 d-flex flex-column justify-content-center py-3" method="POST">
             <div class="container">
                 <div class="row">
-                    <div class="heading1"><p>Map</p></div>
+                    <div class="heading1"><p>Map - Floor <?php echo $selected_floor; ?></p></div>
+                    <?php if ($entry): ?>
                     <div class="subheading1">
                         <span>Reserving class/event:</span>
                         <span style="font-weight: 600;"><?php echo htmlspecialchars($entry['EName']); ?></span>
                     </div>
+                    <?php endif; ?>
                     <div class="container" style="height: 70vh;">
                         <div class="row" style="height: 100%;">
                             <div class="col-8">
                                 <div class="svg-container">
-                                    <object id="svg-object" type="image/svg+xml" data="../assets/svg/map/classroom.svg" onload="initPanZoom(this.contentDocument);"></object>
+                                    <object id="svg-object" type="image/svg+xml" data="<?php echo $svg_file; ?>" onload="initPanZoom(this.contentDocument);"></object>
                                 </div>
                                 <script src="https://cdn.jsdelivr.net/npm/svg-pan-zoom@latest/dist/svg-pan-zoom.min.js"></script>
-                                <script>
-                                    function injectCSS(svgDocument) {
-                                        const style = document.createElementNS("http://www.w3.org/2000/svg", "style");
-                                        style.textContent = `
-                                            [id^="1"] rect, [id^="2"] rect, [id^="3"] rect { 
-                                                stroke: rgba(69, 218, 34, 1.0);
-                                                fill: rgba(69, 218, 34, 0.3);
-                                            }
-                                            [id^="1"] tspan, [id^="2"] tspan, [id^="3"] tspan {
-                                                user-select: none;
-                                                fill: rgba(49, 136, 28, 1.0);
-                                            }
-                                            [id^="1"]:hover rect, [id^="2"]:hover rect, [id^="3"]:hover rect {
-                                                stroke: rgba(69, 218, 34, 0.7);
-                                                fill: rgba(69, 218, 34, 0.2);
-                                                tspan {
-                                                    fill: rgba(49, 136, 28, 0.8);
-                                                }
-                                                cursor: pointer;
-                                            }
-                                        `;
-                                        svgDocument.querySelector('svg').appendChild(style);
-                                    }
-
-                                    function initPanZoom(svgDocument) {
-                                        injectCSS(svgDocument);
-                                        svgPanZoom(svgDocument.querySelector('svg'), {
-                                            zoomEnabled: true,
-                                            controlIconsEnabled: true,
-                                            fit: true,
-                                            center: true,
-                                            minZoom: 0.7,
-                                            maxZoom: 2,
-                                            panEnabled: true,
-                                            contain: true
-                                        });
-                                    }
-                                </script>
                             </div>
                             <div class="col">
                                 <div class="col calendar inter-light" style="margin: auto;">
@@ -155,6 +120,7 @@ foreach ($classrooms as $classroom) {
                                     </div>
                                     <script src="../assets/js/calendar.js" defer></script>
                                 </div>
+                                <?php if ($entry): ?>
                                 <div class="col d-flex justify-content-center align-items-center" style="height: 16.66%;">
                                     <div class="d-flex flex-glow justify-content-center align-items-center" style="width: 100%;">
                                         <div class="col-5 form-group text-center" style="width: 35%; height: 60px;">
@@ -170,6 +136,7 @@ foreach ($classrooms as $classroom) {
                                         </div>
                                     </div>
                                 </div>
+                                <?php endif; ?>
                                 <div class="col d-flex justify-content-center align-items-center" style="height: 16.66%;">
                                 <div class="d-flex flex-column justify-content-center align-items-center pt-4">
                                     <p class="inter-regular" style="letter-spacing: 4px; color: #272937;text-transform: uppercase;">Selected class</p>
@@ -193,6 +160,50 @@ foreach ($classrooms as $classroom) {
         <?php include('../assets/footer.php'); ?>
 
         <script>
+        function initPanZoom(svgDocument) {
+            injectCSS(svgDocument);
+            svgPanZoom(svgDocument.querySelector('svg'), {
+                zoomEnabled: true,
+                controlIconsEnabled: true,
+                fit: true,
+                center: true,
+                minZoom: 0.7,
+                maxZoom: 2,
+                panEnabled: true,
+                contain: true
+            });
+        }
+
+        function injectCSS(svgDocument) {
+            const style = document.createElementNS("http://www.w3.org/2000/svg", "style");
+            style.textContent = `
+                .classroom { 
+                    cursor: pointer;
+                }
+                .classroom rect { 
+                    stroke: rgba(69, 218, 34, 1.0);
+                    fill: rgba(69, 218, 34, 0.3);
+                }
+                .classroom tspan {
+                    user-select: none;
+                    fill: rgba(49, 136, 28, 1.0);
+                }
+                .classroom:hover rect {
+                    stroke: rgba(69, 218, 34, 0.7);
+                    fill: rgba(69, 218, 34, 0.2);
+                }
+                .classroom:hover tspan {
+                    fill: rgba(49, 136, 28, 0.8);
+                }
+            `;
+            svgDocument.querySelector('svg').appendChild(style);
+
+            // Add 'classroom' class to clickable elements
+            svgDocument.querySelectorAll('g[id^="1"], g[id^="2"], g[id^="3"]').forEach(element => {
+                element.classList.add('classroom');
+            });
+        }
+
         document.addEventListener('DOMContentLoaded', function() {
             const svgObject = document.getElementById('svg-object');
             const selectedClassroomElement = document.getElementById('selectedClassroom');
@@ -204,8 +215,8 @@ foreach ($classrooms as $classroom) {
                 const svgElement = svgDoc.querySelector('svg');
 
                 svgElement.addEventListener('click', function(event) {
-                    const clickedElement = event.target.closest('g[id]');
-                    if (clickedElement && clickedElement.nodeName === 'g') {
+                    const clickedElement = event.target.closest('.classroom');
+                    if (clickedElement) {
                         const classroomName = clickedElement.id;
                         selectedClassroomElement.textContent = classroomName;
                         selectedClassroomInput.value = classroomName;

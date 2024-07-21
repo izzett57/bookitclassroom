@@ -7,10 +7,15 @@ if (!isset($_SESSION['ID'])) {
     exit();
 }
 
+$entry_id = $_GET['entry_id'] ?? null;
+if ($entry_id) {
+    $_SESSION['entry_id'] = $entry_id;
+}
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $selected_floor = $_POST['floor'];
     $_SESSION['selected_floor'] = $selected_floor;
-    header("Location: map-reserve.php");
+    header("Location: map-timetable.php");
     exit();
 }
 ?>

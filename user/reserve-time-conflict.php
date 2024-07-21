@@ -7,11 +7,10 @@ if (!isset($_SESSION['ID']) || !isset($_SESSION['reserve_data'])) {
     exit();
 }
 
-$entry_id = $_GET['id'] ?? null;
+$entry_id = $_SESSION['reserve_data']['entry_id'] ?? null;
 $reserve_data = $_SESSION['reserve_data'];
-$semester_id = $_GET['semester_id'] ?? null;
 
-if (!$entry_id || !$semester_id) {
+if (!$entry_id) {
     header("Location: timetable.php");
     exit();
 }
@@ -31,7 +30,7 @@ $is_conflict = ($entry['Time_Start'] != $reserve_data['time_start'] || $entry['T
 
 if (!$is_conflict) {
     // If there's no conflict, redirect to the next page
-    header("Location: reserve-type-select.php?id=" . $entry_id . "&semester_id=" . $semester_id);
+    header("Location: reserve-type-select.php?id=" . $entry_id);
     exit();
 }
 
@@ -46,7 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $reserve_data['time_end'] = $entry['Time_End'];
     }
     $_SESSION['reserve_data'] = $reserve_data;
-    header("Location: reserve-type-select.php?id=" . $entry_id . "&semester_id=" . $semester_id);
+    header("Location: reserve-type-select.php?id=" . $entry_id);
     exit();
 }
 ?>
