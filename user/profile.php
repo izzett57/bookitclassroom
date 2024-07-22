@@ -46,7 +46,7 @@ if ($user['User_Type'] === 'MEMBER') {
     $userRole = 'Admin';
 } elseif ($user['User_Type'] === 'LECTURER') {
     $userRole = 'Lecturer';
-} elseif ($user['User_Type'] === 'CLUB_LEADER') {
+} elseif ($user['User_Type'] === 'CLUB_LEAD') {
     $userRole = 'Student Club Leader';
 }
 
