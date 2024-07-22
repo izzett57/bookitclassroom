@@ -18,6 +18,17 @@ $classroomsByFloor = [];
 foreach ($classrooms as $classroom) {
     $classroomsByFloor[$classroom['Floor']][] = $classroom['CName'];
 }
+
+// Get the selected floor from the session, or set it to 1 if not set
+$selected_floor = $_SESSION['selected_floor'] ?? 1;
+
+// Determine which SVG file to use based on the selected floor
+$svg_file = "../assets/svg/map/floor-{$selected_floor}.svg";
+if (!file_exists($svg_file)) {
+    $svg_file = "../assets/svg/map/classroom.svg"; // Fallback to default if floor-specific SVG doesn't exist
+}
+
+header('classroom-schedule.php');
 ?>
 
 <!DOCTYPE html>
@@ -46,11 +57,13 @@ foreach ($classrooms as $classroom) {
                 stroke: rgba(69, 218, 34, 1.0);
                 fill: rgba(69, 218, 34, 0.3);
                 transition: all 0.3s ease;
+                cursor: pointer;
             }
             [id^="1"] tspan, [id^="2"] tspan, [id^="3"] tspan {
                 user-select: none;
                 fill: rgba(49, 136, 28, 1.0);
                 transition: all 0.3s ease;
+                pointer-events: none;
             }
             [id^="1"]:hover rect, [id^="2"]:hover rect, [id^="3"]:hover rect {
                 stroke: rgba(69, 218, 34, 0.7);
@@ -58,9 +71,6 @@ foreach ($classrooms as $classroom) {
             }
             [id^="1"]:hover tspan, [id^="2"]:hover tspan, [id^="3"]:hover tspan {
                 fill: rgba(49, 136, 28, 0.8);
-            }
-            g {
-                cursor: pointer;
             }
             .occupied rect {
                 stroke: rgba(255, 0, 0, 1.0);
@@ -82,15 +92,15 @@ foreach ($classrooms as $classroom) {
     <body>
         <?php include('../assets/navbar-user-back.php'); ?>
 
-        <form class="container main-content bg-white rounded-3 d-flex flex-column justify-content-center py-3">
+        <form id="classroomForm" action="classroom-schedule.php" method="GET" class="container main-content bg-white rounded-3 d-flex flex-column justify-content-center py-3">
             <div class="container">
                 <div class="row">
-                    <div class="heading1"><p>Map</p></div>
+                    <div class="heading1"><p>Map - Floor <?php echo $selected_floor; ?></p></div>
                     <div class="container" style="height: 70vh;">
                         <div class="row" style="height: 100%;">
                             <div class="col-8">
                                 <div class="svg-container">
-                                    <object id="svg-object" type="image/svg+xml" data="../assets/svg/map/classroom.svg" onload="initPanZoom(this.contentDocument);"></object>
+                                    <object id="svg-object" type="image/svg+xml" data="<?php echo $svg_file; ?>" onload="initPanZoom(this.contentDocument);"></object>
                                 </div>
                                 <script src="https://cdn.jsdelivr.net/npm/svg-pan-zoom@latest/dist/svg-pan-zoom.min.js"></script>
                             </div>
@@ -165,68 +175,13 @@ foreach ($classrooms as $classroom) {
                     </div>
                 </div>
             </div>
-            <input type="hidden" id="selectedClassroomInput" name="selected_classroom" value="">
-            <input type="hidden" id="selectedDateInput" name="selected_date" value="">
+            <input type="hidden" id="selectedClassroomInput" name="classroom" value="">
+            <input type="hidden" id="selectedDateInput" name="date" value="">
         </form>
 
         <?php include('../assets/footer.php'); ?>
 
         <script>
-        function initPanZoom(svgDocument) {
-            injectCSS(svgDocument);
-            svgPanZoom(svgDocument.querySelector('svg'), {
-                zoomEnabled: true,
-                controlIconsEnabled: true,
-                fit: true,
-                center: true,
-                minZoom: 0.7,
-                maxZoom: 2,
-                panEnabled: true,
-                contain: true
-            });
-        }
-
-        function injectCSS(svgDocument) {
-            const style = document.createElementNS("http://www.w3.org/2000/svg", "style");
-            style.textContent = `
-                [id^="1"] rect, [id^="2"] rect, [id^="3"] rect { 
-                    stroke: rgba(69, 218, 34, 1.0);
-                    fill: rgba(69, 218, 34, 0.3);
-                    transition: all 0.3s ease;
-                }
-                [id^="1"] tspan, [id^="2"] tspan, [id^="3"] tspan {
-                    user-select: none;
-                    fill: rgba(49, 136, 28, 1.0);
-                    transition: all 0.3s ease;
-                }
-                [id^="1"]:hover rect, [id^="2"]:hover rect, [id^="3"]:hover rect {
-                    stroke: rgba(69, 218, 34, 0.7);
-                    fill: rgba(69, 218, 34, 0.2);
-                }
-                [id^="1"]:hover tspan, [id^="2"]:hover tspan, [id^="3"]:hover tspan {
-                    fill: rgba(49, 136, 28, 0.8);
-                }
-                g {
-                    cursor: pointer;
-                }
-                .occupied rect {
-                    stroke: rgba(255, 0, 0, 1.0);
-                    fill: rgba(255, 0, 0, 0.3);
-                }
-                .occupied tspan {
-                    fill: rgba(139, 0, 0, 1.0);
-                }
-                .occupied:hover rect {
-                    stroke: rgba(255, 0, 0, 0.7);
-                    fill: rgba(255, 0, 0, 0.2);
-                }
-                .occupied:hover tspan {
-                    fill: rgba(139, 0, 0, 0.8);
-                }
-            `;
-            svgDocument.querySelector('svg').appendChild(style);
-        }
-
         document.addEventListener('DOMContentLoaded', function() {
             const svgObject = document.getElementById('svg-object');
             const selectedClassroomElement = document.getElementById('selectedClassroom');
@@ -234,32 +189,77 @@ foreach ($classrooms as $classroom) {
             const selectedDateInput = document.getElementById('selectedDateInput');
             const startTimeSelect = document.getElementById('starttime');
             const endTimeSelect = document.getElementById('endtime');
+            const classroomForm = document.getElementById('classroomForm');
+
+            function initPanZoom(svgDocument) {
+                injectCSS(svgDocument);
+                window.panZoom = svgPanZoom(svgDocument.querySelector('svg'), {
+                    zoomEnabled: true,
+                    controlIconsEnabled: true,
+                    fit: true,
+                    center: true,
+                    minZoom: 0.7,
+                    maxZoom: 2,
+                    panEnabled: true,
+                    contain: true
+                });
+            }
+
+            function injectCSS(svgDocument) {
+                const style = document.createElementNS("http://www.w3.org/2000/svg", "style");
+                style.textContent = `
+                    [id^="1"] rect, [id^="2"] rect, [id^="3"] rect { 
+                        stroke: rgba(69, 218, 34, 1.0);
+                        fill: rgba(69, 218, 34, 0.3);
+                        transition: all 0.3s ease;
+                        cursor: pointer;
+                    }
+                    [id^="1"] tspan, [id^="2"] tspan, [id^="3"] tspan {
+                        user-select: none;
+                        fill: rgba(49, 136, 28, 1.0);
+                        transition: all 0.3s ease;
+                        pointer-events: none;
+                    }
+                    [id^="1"]:hover rect, [id^="2"]:hover rect, [id^="3"]:hover rect {
+                        stroke: rgba(69, 218, 34, 0.7);
+                        fill: rgba(69, 218, 34, 0.2);
+                    }
+                    [id^="1"]:hover tspan, [id^="2"]:hover tspan, [id^="3"]:hover tspan {
+                        fill: rgba(49, 136, 28, 0.8);
+                    }
+                    .occupied rect {
+                        stroke: rgba(255, 0, 0, 1.0);
+                        fill: rgba(255, 0, 0, 0.3);
+                    }
+                    .occupied tspan {
+                        fill: rgba(139, 0, 0, 1.0);
+                    }
+                    .occupied:hover rect {
+                        stroke: rgba(255, 0, 0, 0.7);
+                        fill: rgba(255, 0, 0, 0.2);
+                    }
+                    .occupied:hover tspan {
+                        fill: rgba(139, 0, 0, 0.8);
+                    }
+                `;
+                svgDocument.querySelector('svg').appendChild(style);
+            }
 
             svgObject.addEventListener('load', function() {
                 const svgDoc = svgObject.contentDocument;
                 const svgElement = svgDoc.querySelector('svg');
+                initPanZoom(svgDoc);
 
                 svgElement.addEventListener('click', function(event) {
-                    const clickedElement = event.target.closest('g[id]');
-                    if (clickedElement && clickedElement.nodeName === 'g') {
-                        const classroomName = clickedElement.id;
+                    event.preventDefault();
+                    if (event.target.tagName.toLowerCase() === 'rect' && event.target.parentNode.id.match(/^[123]/)) {
+                        const classroomGroup = event.target.parentNode;
+                        const classroomName = classroomGroup.id;
                         selectedClassroomElement.textContent = classroomName;
                         selectedClassroomInput.value = classroomName;
                         checkAvailability();
                     }
                 });
-            });
-
-            dates.addEventListener("click", (e) => {
-                e.preventDefault();
-                if (e.target.tagName === "LI" && !e.target.classList.contains("inactive")) {
-                    selectedDate = new Date(year, month, parseInt(e.target.textContent));
-                    const formattedDate = selectedDate.toISOString().split("T")[0];
-                    selectedDateInput.value = formattedDate;
-                    console.log(`Selected date: ${formattedDate}`);
-                    renderCalendar();
-                    checkAvailability();
-                }
             });
 
             // Set initial date to today
@@ -268,6 +268,13 @@ foreach ($classrooms as $classroom) {
 
             startTimeSelect.addEventListener('change', checkAvailability);
             endTimeSelect.addEventListener('change', checkAvailability);
+
+            classroomForm.addEventListener('submit', function(e) {
+                if (!selectedClassroomInput.value) {
+                    e.preventDefault();
+                    alert('Please select a classroom first.');
+                }
+            });
 
             function checkAvailability() {
                 const date = selectedDateInput.value;
@@ -287,34 +294,49 @@ foreach ($classrooms as $classroom) {
                 })
                 .then(response => {
                     if (!response.ok) {
-                        throw new Error('Network response was not ok');
+                        throw new Error(`HTTP error! status: ${response.status}`);
                     }
                     return response.json();
                 })
                 .then(data => {
-                    const svgDoc = svgObject.contentDocument;
-                    // Reset all classrooms to available
-                    svgDoc.querySelectorAll('g[id]').forEach(element => {
-                        element.classList.remove('occupied');
-                    });
-                    // Update classrooms based on availability data
-                    data.forEach(classroom => {
-                        const element = svgDoc.getElementById(classroom.name);
-                        if (element) {
-                            if (!classroom.available) {
-                                element.classList.add('occupied');
-                            }
-                        }
-                    });
+                    console.log('Received availability data:', data);
+                    updateClassroomAvailability(data);
                 })
                 .catch(error => {
-                    console.error('Error:', error);
-                    alert('An error occurred while checking classroom availability. Please try again.');
+                    console.error('Error in checkAvailability:', error);
+                    alert(`An error occurred while checking classroom availability: ${error.message}\nPlease check the console for more details.`);
+                });
+            }
+
+            function updateClassroomAvailability(data) {
+                const svgDoc = svgObject.contentDocument;
+                // Reset all classrooms to available
+                svgDoc.querySelectorAll('g[id]').forEach(element => {
+                    element.classList.remove('occupied');
+                });
+                // Update classrooms based on availability data
+                data.forEach(classroom => {
+                    const element = svgDoc.getElementById(classroom.name);
+                    if (element) {
+                        if (!classroom.available) {
+                            element.classList.add('occupied');
+                        }
+                    } else {
+                        console.warn(`Classroom element not found: ${classroom.name}`);
+                    }
                 });
             }
 
             // Initial availability check
             checkAvailability();
+
+            // Add event listener for calendar date changes
+            document.querySelector('.calendar-dates').addEventListener('click', function(e) {
+                if (e.target.tagName === 'LI' && !e.target.classList.contains('inactive')) {
+                    selectedDateInput.value = e.target.dataset.date;
+                    checkAvailability();
+                }
+            });
         });
         </script>
     </body>
