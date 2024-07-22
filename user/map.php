@@ -18,6 +18,15 @@ $classroomsByFloor = [];
 foreach ($classrooms as $classroom) {
     $classroomsByFloor[$classroom['Floor']][] = $classroom['CName'];
 }
+
+// Get the selected floor from the session, or set it to 1 if not set
+$selected_floor = $_SESSION['selected_floor'] ?? 1;
+
+// Determine which SVG file to use based on the selected floor
+$svg_file = "../assets/svg/map/floor-{$selected_floor}.svg";
+if (!file_exists($svg_file)) {
+    $svg_file = "../assets/svg/map/classroom.svg"; // Fallback to default if floor-specific SVG doesn't exist
+}
 ?>
 
 <!DOCTYPE html>
@@ -85,7 +94,7 @@ foreach ($classrooms as $classroom) {
         <form class="container main-content bg-white rounded-3 d-flex flex-column justify-content-center py-3">
             <div class="container">
                 <div class="row">
-                    <div class="heading1"><p>Map</p></div>
+                    <div class="heading1"><p>Map - Floor <?php echo $selected_floor; ?></p></div>
                     <div class="container" style="height: 70vh;">
                         <div class="row" style="height: 100%;">
                             <div class="col-8">
