@@ -12,11 +12,12 @@ $pdo = dbConnect();
 // Fetch entries with their most recent booking date
 $stmt = $pdo->prepare("
     SELECT e.*, 
+           b.ID as Booking_ID,
            b.Booking_Date,
            b.Classroom AS Reserved_Classroom
     FROM ENTRY e
     LEFT JOIN (
-        SELECT Entry_ID, Booking_Date, Classroom,
+        SELECT Entry_ID, ID, Booking_Date, Classroom,
                ROW_NUMBER() OVER (PARTITION BY Entry_ID ORDER BY Booking_Date DESC) as rn
         FROM BOOKING
     ) b ON e.ID = b.Entry_ID AND b.rn = 1
@@ -59,7 +60,7 @@ function formatDate($date) {
                 <div class="row">
                     <div class="col-9">
                         <div class="heading1 ms-5"><p>Select Entry to Reserve</p></div>
-                        <div class="subheading1 ms-5"><p>Choose an entry from your timetable to make a reservation.</p></div>
+                        <div class="subheading1 ms-5"><p>Choose an entry from your timetable to make a reservation or unreserve.</p></div>
                     </div>
                 </div>
                 <div class="row">
@@ -88,10 +89,17 @@ function formatDate($date) {
                                     <td><?php echo formatTime($entry['Time_Start']) . ' - ' . formatTime($entry['Time_End']); ?></td>
                                     <td><?php echo $entry['Reserved_Classroom'] ?? 'Not assigned'; ?></td>
                                     <td>
-                                        <a href="select-floor.php?entry_id=<?php echo $entry['ID']; ?>" class="btn btn-primary btn-sm">
-                                            <?php echo $entry['Booking_Date'] ? 'Change' : 'Reserve'; ?>
-                                            <i class="bi bi-calendar-plus"></i>
-                                        </a>
+                                        <?php if ($entry['Booking_ID']): ?>
+                                            <a href="unreserve.php?id=<?php echo $entry['Booking_ID']; ?>" class="btn btn-warning btn-sm" onclick="return confirm('Are you sure you want to unreserve this classroom?');">
+                                                Unreserve
+                                                <i class="bi bi-calendar-x"></i>
+                                            </a>
+                                        <?php else: ?>
+                                            <a href="select-floor.php?entry_id=<?php echo $entry['ID']; ?>" class="btn btn-primary btn-sm">
+                                                Reserve
+                                                <i class="bi bi-calendar-plus"></i>
+                                            </a>
+                                        <?php endif; ?>
                                     </td>
                                 </tr>
                                 <?php endforeach; ?>
