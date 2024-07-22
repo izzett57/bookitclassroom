@@ -72,6 +72,47 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         <title>Timetable - Map - BookItClassroom</title>
         <link rel="icon" type="image/x-icon" href="favicon.ico">
+
+        <style>
+            .classroom { 
+                cursor: pointer;
+            }
+            .classroom rect { 
+                stroke: rgba(69, 218, 34, 1.0);
+                fill: rgba(69, 218, 34, 0.3);
+                transition: all 0.3s ease;
+            }
+            .classroom tspan {
+                user-select: none;
+                fill: rgba(49, 136, 28, 1.0);
+                transition: all 0.3s ease;
+                pointer-events: none;
+            }
+            .classroom:hover rect {
+                stroke: rgba(69, 218, 34, 0.7);
+                fill: rgba(69, 218, 34, 0.2);
+            }
+            .classroom:hover tspan {
+                fill: rgba(49, 136, 28, 0.8);
+            }
+            .occupied {
+                cursor: not-allowed;
+            }
+            .occupied rect {
+                stroke: rgba(255, 0, 0, 1.0);
+                fill: rgba(255, 0, 0, 0.3);
+            }
+            .occupied tspan {
+                fill: rgba(139, 0, 0, 1.0);
+            }
+            .occupied:hover rect {
+                stroke: rgba(255, 0, 0, 0.7);
+                fill: rgba(255, 0, 0, 0.2);
+            }
+            .occupied:hover tspan {
+                fill: rgba(139, 0, 0, 0.8);
+            }
+        </style>
     </head>
     
     <body>
@@ -183,10 +224,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 .classroom rect { 
                     stroke: rgba(69, 218, 34, 1.0);
                     fill: rgba(69, 218, 34, 0.3);
+                    transition: all 0.3s ease;
                 }
                 .classroom tspan {
                     user-select: none;
                     fill: rgba(49, 136, 28, 1.0);
+                    transition: all 0.3s ease;
+                    pointer-events: none;
                 }
                 .classroom:hover rect {
                     stroke: rgba(69, 218, 34, 0.7);
@@ -194,6 +238,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 }
                 .classroom:hover tspan {
                     fill: rgba(49, 136, 28, 0.8);
+                }
+                .occupied {
+                    cursor: not-allowed;
+                }
+                .occupied rect {
+                    stroke: rgba(255, 0, 0, 1.0);
+                    fill: rgba(255, 0, 0, 0.3);
+                }
+                .occupied tspan {
+                    fill: rgba(139, 0, 0, 1.0);
+                }
+                .occupied:hover rect {
+                    stroke: rgba(255, 0, 0, 0.7);
+                    fill: rgba(255, 0, 0, 0.2);
+                }
+                .occupied:hover tspan {
+                    fill: rgba(139, 0, 0, 0.8);
                 }
             `;
             svgDocument.querySelector('svg').appendChild(style);
@@ -216,10 +277,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                 svgElement.addEventListener('click', function(event) {
                     const clickedElement = event.target.closest('.classroom');
-                    if (clickedElement) {
+                    if (clickedElement && !clickedElement.classList.contains('occupied')) {
                         const classroomName = clickedElement.id;
                         selectedClassroomElement.textContent = classroomName;
                         selectedClassroomInput.value = classroomName;
+                        checkAvailability();
                     }
                 });
             });
@@ -233,12 +295,72 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     selectedDateInput.value = formattedDate;
                     console.log(`Selected date: ${formattedDate}`);
                     renderCalendar();
+                    checkAvailability();
                 }
             });
 
             // Set initial date to today
             const today = new Date();
             selectedDateInput.value = today.toISOString().split("T")[0];
+
+            function checkAvailability() {
+                const date = selectedDateInput.value;
+                const timeStart = '<?php echo $entry ? $entry['Time_Start'] : '00:00:00'; ?>';
+                const timeEnd = '<?php echo $entry ? $entry['Time_End'] : '23:59:59'; ?>';
+
+                if (!date || !timeStart || !timeEnd) {
+                    return;
+                }
+
+                fetch('check-availability.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: `date=${date}&time_start=${timeStart}&time_end=${timeEnd}`
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log('Received availability data:', data);
+                    updateClassroomAvailability(data);
+                })
+                .catch(error => {
+                    console.error('Error in checkAvailability:', error);
+                    alert(`An error occurred while checking classroom availability: ${error.message}\nPlease check the console for more details.`);
+                });
+            }
+
+            function updateClassroomAvailability(data) {
+                const svgDoc = svgObject.contentDocument;
+                // Reset all classrooms to available
+                svgDoc.querySelectorAll('.classroom').forEach(element => {
+                    element.classList.remove('occupied');
+                });
+                // Update classrooms based on availability data
+                data.forEach(classroom => {
+                    const element = svgDoc.getElementById(classroom.name);
+                    if (element) {
+                        if (!classroom.available) {
+                            element.classList.add('occupied');
+                            // If the currently selected classroom is now occupied, deselect it
+                            if (selectedClassroomInput.value === classroom.name) {
+                                selectedClassroomElement.textContent = 'Class Name';
+                                selectedClassroomInput.value = '';
+                            }
+                        }
+                    } else {
+                        console.warn(`Classroom element not found: ${classroom.name}`);
+                    }
+                });
+            }
+
+            // Initial availability check
+            checkAvailability();
         });
         </script>
     </body>
