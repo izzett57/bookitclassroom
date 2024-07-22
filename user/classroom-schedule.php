@@ -8,21 +8,22 @@ if (!isset($_SESSION['ID'])) {
 }
 
 $classroom = $_GET['classroom'] ?? null;
+$date = $_GET['date'] ?? date('Y-m-d'); // Use current date if not provided
 
 if (!$classroom) {
     header("Location: map.php");
     exit();
 }
 
-// Fetch bookings for the classroom
+// Fetch bookings for the classroom from the given date onwards
 try {
     $pdo = dbConnect();
-    $stmt = $pdo->prepare("SELECT b.*, e.EName, e.User_ID 
+    $stmt = $pdo->prepare("SELECT b.ID as BookingID, b.Booking_Date, e.ID as EntryID, e.EName, e.Time_Start, e.Time_End, e.User_ID 
                            FROM BOOKING b 
                            JOIN ENTRY e ON b.Entry_ID = e.ID 
-                           WHERE b.Classroom = ? 
-                           ORDER BY b.Booking_Date, b.Time_Start");
-    $stmt->execute([$classroom]);
+                           WHERE b.Classroom = ? AND b.Booking_Date >= ?
+                           ORDER BY b.Booking_Date, e.Time_Start");
+    $stmt->execute([$classroom, $date]);
     $bookings = $stmt->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
     die("Error fetching bookings: " . $e->getMessage());
@@ -58,7 +59,7 @@ function formatTime($time) {
                 <div class="row">
                     <div class="col-8">
                         <div class="heading1 ms-5"><p>Classroom Schedule</p></div>
-                        <div class="subheading1 ms-5"><p>Here is a list of bookings for <?php echo htmlspecialchars($classroom); ?>.</p></div>
+                        <div class="subheading1 ms-5"><p>Here is a list of bookings for <?php echo htmlspecialchars($classroom); ?> from <?php echo date('Y-m-d', strtotime($date)); ?> onwards.</p></div>
                     </div>
                 </div>
                 <div class="row">
@@ -76,7 +77,7 @@ function formatTime($time) {
                     <tbody>
                         <?php if (empty($bookings)): ?>
                             <tr>
-                                <td colspan="6">No bookings found for this classroom.</td>
+                                <td colspan="6">No bookings found for this classroom from <?php echo date('Y-m-d', strtotime($date)); ?> onwards.</td>
                             </tr>
                         <?php else: ?>
                             <?php foreach ($bookings as $index => $booking): ?>
@@ -88,7 +89,7 @@ function formatTime($time) {
                                 <td><?php echo ($booking['User_ID'] == $_SESSION['ID']) ? 'You' : 'Another user'; ?></td>
                                 <td>
                                 <?php if ($booking['User_ID'] == $_SESSION['ID']): ?>
-                                    <a class="custom-btn-inline" href="unreserve.php?id=<?php echo $booking['ID']; ?>" style="text-decoration: none;">
+                                    <a class="custom-btn-inline" href="unreserve.php?id=<?php echo $booking['BookingID']; ?>" style="text-decoration: none;">
                                         Unreserve
                                         <i class="bi bi-bookmark-dash-fill"></i>    
                                     </a>
