@@ -42,7 +42,7 @@
                 </div>
                 <div class="col d-flex flex-column align-items-center justify-content-center">
                     <!-- View map button start -->
-                    <button onclick="location.href='#'" type="button" class="btn custom-btn btn-lg d-flex align-items-center justify-content-between mb-3" style="border-radius: 36px;">
+                    <button onclick="location.href='select-floor.php'" type="button" class="btn custom-btn btn-lg d-flex align-items-center justify-content-between mb-3" style="border-radius: 36px;">
                         <p class="dongle-regular mt-2" style="font-size: 3rem; flex-grow: 1;">View Map</p>
                         <span class="bg-light d-flex rounded-5 align-items-center justify-content-center" style="font-size: 1.5rem;">
                             <i class="bi bi-pin-map-fill primary"></i>
