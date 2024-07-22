@@ -239,7 +239,7 @@ if (!empty($user['ProfilePicture'])) {
                                 <select class="form-select" id="occupation" name="occupation">
                                     <option value="ADMIN" <?php echo $user['User_Type'] == 'ADMIN' ? 'selected' : ''; ?>>Admin</option>
                                     <option value="LECTURER" <?php echo $user['User_Type'] == 'LECTURER' ? 'selected' : ''; ?>>Lecturer</option>
-                                    <option value="CLUB_LEADER" <?php echo $user['User_Type'] == 'CLUB_LEADER' ? 'selected' : ''; ?>>Student Club Leader</option>
+                                    <option value="CLUB_LEADER" <?php echo $user['User_Type'] == 'CLUB_LEAD' ? 'selected' : ''; ?>>Student Club Leader</option>
                                     <option value="MEMBER" <?php echo $user['User_Type'] == 'MEMBER' ? 'selected' : ''; ?>>Member</option>
                                 </select>
                             </div>
