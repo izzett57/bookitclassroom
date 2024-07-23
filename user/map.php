@@ -27,8 +27,6 @@ $svg_file = "../assets/svg/map/floor-{$selected_floor}.svg";
 if (!file_exists($svg_file)) {
     $svg_file = "../assets/svg/map/classroom.svg"; // Fallback to default if floor-specific SVG doesn't exist
 }
-
-header('classroom-schedule.php');
 ?>
 
 <!DOCTYPE html>
@@ -262,20 +260,6 @@ header('classroom-schedule.php');
                 });
             });
 
-            // Set initial date to today
-            const today = new Date();
-            selectedDateInput.value = today.toISOString().split("T")[0];
-
-            startTimeSelect.addEventListener('change', checkAvailability);
-            endTimeSelect.addEventListener('change', checkAvailability);
-
-            classroomForm.addEventListener('submit', function(e) {
-                if (!selectedClassroomInput.value) {
-                    e.preventDefault();
-                    alert('Please select a classroom first.');
-                }
-            });
-
             function checkAvailability() {
                 const date = selectedDateInput.value;
                 const timeStart = startTimeSelect.value;
@@ -310,6 +294,10 @@ header('classroom-schedule.php');
 
             function updateClassroomAvailability(data) {
                 const svgDoc = svgObject.contentDocument;
+                if (!svgDoc) {
+                    console.error('SVG document not loaded');
+                    return;
+                }
                 // Reset all classrooms to available
                 svgDoc.querySelectorAll('g[id]').forEach(element => {
                     element.classList.remove('occupied');
@@ -327,16 +315,47 @@ header('classroom-schedule.php');
                 });
             }
 
-            // Initial availability check
-            checkAvailability();
+            // Set initial date to today
+            const today = new Date();
+            selectedDateInput.value = today.toISOString().split('T')[0];
+            console.log('Initial date set:', selectedDateInput.value);
+
+            startTimeSelect.addEventListener('change', checkAvailability);
+            endTimeSelect.addEventListener('change', checkAvailability);
+
+            classroomForm.addEventListener('submit', function(e) {
+                e.preventDefault(); // Prevent the default form submission
+                if (!selectedClassroomInput.value) {
+                    alert('Please select a classroom first.');
+                } else {
+                    // Ensure the selected date is being passed
+                    if (!selectedDateInput.value) {
+                        selectedDateInput.value = new Date().toISOString().split('T')[0];
+                    }
+                    console.log('Submitting form with date:', selectedDateInput.value);
+                    
+                    // Manually construct the URL and redirect
+                    const url = `classroom-schedule.php?classroom=${encodeURIComponent(selectedClassroomInput.value)}&date=${encodeURIComponent(selectedDateInput.value)}`;
+                    console.log('Redirecting to:', url);
+                    window.location.href = url;
+                }
+            });
 
             // Add event listener for calendar date changes
             document.querySelector('.calendar-dates').addEventListener('click', function(e) {
                 if (e.target.tagName === 'LI' && !e.target.classList.contains('inactive')) {
-                    selectedDateInput.value = e.target.dataset.date;
+                    // Assuming 'year' and 'month' are global variables set by your calendar.js
+                    const selectedDate = new Date(year, month, parseInt(e.target.textContent)+1);
+                    selectedDateInput.value = selectedDate.toISOString().split('T')[0];
+                    console.log('Date selected from calendar:', selectedDateInput.value);
+                    selectedDate = new Date(year, month, parseInt(e.target.textContent));
+                    rendercalendar();
                     checkAvailability();
                 }
             });
+
+            // Initial availability check
+            checkAvailability();
         });
         </script>
     </body>
