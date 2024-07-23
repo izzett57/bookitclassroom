@@ -300,10 +300,11 @@ if (!file_exists($svg_file)) {
             dates.addEventListener("click", (e) => {
                 e.preventDefault();
                 if (e.target.tagName === "LI" && !e.target.classList.contains("inactive")) {
-                    selectedDate = new Date(year, month, parseInt(e.target.textContent));
+                    selectedDate = new Date(year, month, parseInt(e.target.textContent) + 1);
                     const formattedDate = selectedDate.toISOString().split("T")[0];
                     selectedDateInput.value = formattedDate;
                     console.log(`Selected date: ${formattedDate}`);
+                    selectedDate = new Date(year, month, parseInt(e.target.textContent));
                     renderCalendar();
                     checkAvailability();
                 }
