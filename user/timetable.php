@@ -112,16 +112,16 @@ function formatDate($date) {
                                 <td><?php echo $entry['Booking_Type'] ?? 'Not booked'; ?></td>
                                 <td class="d-flex justify-content-evenly">
                                     <?php if ($entry['Booking_ID']): ?>
-                                        <a href="unreserve.php?id=<?php echo $entry['Booking_ID']; ?>&type=<?php echo $entry['Booking_Type']; ?>" class="btn btn-sm btn-warning" onclick="return confirm('Are you sure you want to unreserve this classroom?');">
+                                        <a href="unreserve.php?id=<?php echo $entry['Booking_ID']; ?>&type=<?php echo $entry['Booking_Type']; ?>" class="custom-btn-inline" style="text-decoration: none;" onclick="return confirm('Are you sure you want to unreserve this classroom?');">
                                             Unreserve
                                             <i class="bi bi-calendar-x"></i>
                                         </a>
                                     <?php else: ?>
-                                        <a href="edit-entry-name.php?id=<?php echo $entry['ID']; ?>" class="btn btn-sm btn-primary">
+                                        <a href="edit-entry-name.php?id=<?php echo $entry['ID']; ?>" class="custom-btn-inline" style="text-decoration: none;">
                                             Edit
                                             <i class="bi bi-pencil-fill"></i>
                                         </a>
-                                        <a href="delete-entry.php?id=<?php echo $entry['ID']; ?>" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this entry?');">
+                                        <a href="delete-entry.php?id=<?php echo $entry['ID']; ?>" class="custom-btn-inline" style="text-decoration: none;" onclick="return confirm('Are you sure you want to delete this entry?');">
                                             Delete
                                             <i class="bi bi-trash-fill"></i>
                                         </a>

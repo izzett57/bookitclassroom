@@ -95,12 +95,12 @@ $conn->close();
                                 <td><?php echo htmlspecialchars($user['User_Type']); ?></td>
                                 <td><?php echo htmlspecialchars($user['Email']); ?></td>
                                 <td class="d-flex justify-content-evenly">
-                                    <a class="custom-btn-inline" href="edit-userprofile.php?id=<?php echo $user['ID']; ?>" style="text-decoration: none;">
+                                    <a class="custom-btn-inline" href="edit-userprofile.php?id=<?php echo $user['ID']; ?>" style="text-decoration: none; padding-top: 1px;">
                                         Edit
                                         <i class="bi bi-pencil-fill"></i>    
                                     </a>
                                     <form method="POST" onsubmit="return confirm('Are you sure you want to delete this user?');">
-                                        <button type="submit" name="delete_user" value="<?php echo $user['ID']; ?>" class="custom-btn-inline" style="background: none; border: none; color: inherit; cursor: pointer; text-decoration: none;">
+                                        <button type="submit" name="delete_user" value="<?php echo $user['ID']; ?>" class="custom-btn-inline" style="background: none; border: none; cursor: pointer; text-decoration: none;">
                                             Delete
                                             <i class="bi bi-trash-fill"></i>
                                         </button>

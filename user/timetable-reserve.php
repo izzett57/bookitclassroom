@@ -91,14 +91,14 @@ function formatDate($date) {
                                     <td><?php echo $entry['Reserved_Classroom'] ?? 'Not assigned'; ?></td>
                                     <td>
                                         <?php if ($entry['Booking_ID']): ?>
-                                            <a href="unreserve.php?id=<?php echo $entry['Booking_ID']; ?>" class="btn btn-warning btn-sm" onclick="return confirm('Are you sure you want to unreserve this classroom?');">
+                                            <a href="unreserve.php?id=<?php echo $entry['Booking_ID']; ?>" class="custom-btn-inline" style="text-decoration: none;" onclick="return confirm('Are you sure you want to unreserve this classroom?');">
                                                 Unreserve
                                                 <i class="bi bi-calendar-x"></i>
                                             </a>
                                         <?php else: ?>
-                                            <a href="select-floor.php?entry_id=<?php echo $entry['ID']; ?>" class="btn btn-primary btn-sm">
+                                            <a href="select-floor.php?entry_id=<?php echo $entry['ID']; ?>" class="custom-btn-inline" style="text-decoration: none;">
                                                 Reserve
-                                                <i class="bi bi-calendar-plus"></i>
+                                                <i class="bi bi-bookmark-plus-fill"></i>
                                             </a>
                                         <?php endif; ?>
                                     </td>
