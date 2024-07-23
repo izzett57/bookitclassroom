@@ -1,12 +1,5 @@
 <?php
 include '../assets/db_conn.php';
-include '../assets/IsLoggedIn.php';
-
-if (!isset($_SESSION['ID'])) {
-    http_response_code(401);
-    echo json_encode(['error' => 'Unauthorized']);
-    exit();
-}
 
 $date = $_POST['date'] ?? null;
 $timeStart = $_POST['time_start'] ?? null;

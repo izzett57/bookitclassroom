@@ -54,7 +54,7 @@ if (isset($_POST['email']) && isset($_POST['password'])) {
                     } else {
                         // Handle unexpected User_Type
                         error_log("Unexpected User_Type: " . $row['User_Type']);
-                        header("Location: error.php");
+                        header("Location: login.php?error=Unexpected User_Type");
                         exit();
                     }
                 } else {

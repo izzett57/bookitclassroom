@@ -1,11 +1,6 @@
 <?php
 include '../assets/db_conn.php';
-include '../assets/IsLoggedIn.php';
 
-if (!isset($_SESSION['ID'])) {
-    header("Location: ../guest/login.php");
-    exit();
-}
 
 $pdo = dbConnect();
 
@@ -20,7 +15,7 @@ foreach ($classrooms as $classroom) {
 }
 
 // Get the selected floor from the session, or set it to 1 if not set
-$selected_floor = $_SESSION['selected_floor'] ?? 1;
+$selected_floor = $_GET['floor'] ?? 1;
 
 // Determine which SVG file to use based on the selected floor
 $svg_file = "../assets/svg/map/floor-{$selected_floor}.svg";
@@ -28,7 +23,9 @@ if (!file_exists($svg_file)) {
     $svg_file = "../assets/svg/map/classroom.svg"; // Fallback to default if floor-specific SVG doesn't exist
 }
 
-header('classroom-schedule.php');
+// Check if user is logged in
+$is_logged_in = isset($_SESSION['ID']);
+
 ?>
 
 <!DOCTYPE html>
@@ -96,6 +93,11 @@ header('classroom-schedule.php');
             <div class="container">
                 <div class="row">
                     <div class="heading1"><p>Map - Floor <?php echo $selected_floor; ?></p></div>
+                    <?php if (!$is_logged_in): ?>
+                        <div class="alert alert-info" role="alert">
+                            You are viewing as a guest. To make bookings, please <a href="login.php">log in</a> or <a href="register-name.php">register</a>.
+                        </div>
+                    <?php endif; ?>
                     <div class="container" style="height: 70vh;">
                         <div class="row" style="height: 100%;">
                             <div class="col-8">
@@ -166,8 +168,8 @@ header('classroom-schedule.php');
                                 </div>
                                 </div>
                                 <div class="col d-flex justify-content-center align-items-center" style="height: 16.66%;">
-                                <button type="submit" class="btn btn-lg custom-btn-noanim d-flex align-items-center justify-content-between">
-                                    <p class="dongle-regular mt-2" style="font-size: 3rem; flex-grow: 1;">View Class</p>
+                                <button type="submit" class="btn btn-lg custom-btn-noanim d-flex align-items-center justify-content-between" <?php echo $is_logged_in ? '' : 'disabled'; ?>>
+                                    <p class="dongle-regular mt-2" style="font-size: 3rem; flex-grow: 1;"><?php echo $is_logged_in ? '' : ' (Login Required)'; ?></p>
                                 </button>
                                 </div>
                             </div>
@@ -177,6 +179,7 @@ header('classroom-schedule.php');
             </div>
             <input type="hidden" id="selectedClassroomInput" name="classroom" value="">
             <input type="hidden" id="selectedDateInput" name="date" value="">
+            <input type="hidden" id="isLoggedIn" value="<?php echo $is_logged_in ? 'true' : 'false'; ?>">
         </form>
 
         <?php include('../assets/footer.php'); ?>
@@ -190,6 +193,7 @@ header('classroom-schedule.php');
             const startTimeSelect = document.getElementById('starttime');
             const endTimeSelect = document.getElementById('endtime');
             const classroomForm = document.getElementById('classroomForm');
+            const isLoggedIn = document.getElementById('isLoggedIn').value === 'true';
 
             function initPanZoom(svgDocument) {
                 injectCSS(svgDocument);
@@ -258,6 +262,10 @@ header('classroom-schedule.php');
                         selectedClassroomElement.textContent = classroomName;
                         selectedClassroomInput.value = classroomName;
                         checkAvailability();
+                        
+                        if (!isLoggedIn) {
+                            alert('To view details or make a booking, please log in or register.');
+                        }
                     }
                 });
             });
@@ -273,6 +281,10 @@ header('classroom-schedule.php');
                 if (!selectedClassroomInput.value) {
                     e.preventDefault();
                     alert('Please select a classroom first.');
+                }
+                if (!isLoggedIn) {
+                    e.preventDefault();
+                    alert('Please log in or register to view classroom details.');
                 }
             });
 

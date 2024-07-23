@@ -1,11 +1,6 @@
 <?php
 require_once '../assets/db_conn.php';
-require_once '../assets/isLoggedIn.php';
 
-if (!isset($_SESSION['ID'])) {
-    header("Location: ../guest/login.php");
-    exit();
-}
 
 $classroom = $_GET['classroom'] ?? null;
 $date = $_GET['date'] ?? date('Y-m-d'); // Use current date if not provided

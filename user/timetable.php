@@ -110,6 +110,12 @@ function formatDate($date) {
                                 <td><?php echo htmlspecialchars($entry['Reserved_Classroom'] ?? '-'); ?></td>
                                 <td><?php echo $entry['Booking_Type'] ?? 'Not booked'; ?></td>
                                 <td class="d-flex justify-content-evenly">
+                                    <?php if ($entry['Booking_ID']): ?>
+                                        <a href="unreserve.php?id=<?php echo $entry['Booking_ID']; ?>&type=<?php echo $entry['Booking_Type']; ?>" class="btn btn-sm btn-warning" onclick="return confirm('Are you sure you want to unreserve this classroom?');">
+                                            Unreserve
+                                            <i class="bi bi-calendar-x"></i>
+                                        </a>
+                                    <?php else: ?>
                                         <a href="edit-entry-name.php?id=<?php echo $entry['ID']; ?>" class="btn btn-sm btn-primary">
                                             Edit
                                             <i class="bi bi-pencil-fill"></i>
@@ -118,6 +124,7 @@ function formatDate($date) {
                                             Delete
                                             <i class="bi bi-trash-fill"></i>
                                         </a>
+                                    <?php endif; ?>
                                 </td>
                             </tr>
                             <?php endforeach; ?>
