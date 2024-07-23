@@ -62,6 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <link rel="stylesheet" href="../assets/css/global.css">
         <link rel="stylesheet" href="../assets/css/font-sizing.css">
         <link rel="stylesheet" href="../assets/css/google-fonts.css">
+        <link rel="stylesheet" href="../assets/css/entry.css">
 
         <title>Time Conflict - BookItClassroom</title>
         <link rel="icon" type="image/x-icon" href="favicon.ico">

@@ -83,7 +83,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <p class="subheading1" style="margin: 0px 0px 0px -2px;"><?php echo htmlspecialchars($semester['ID'] . " - " . $semester['Year']); ?></p>
                             </div>
                             <div class="d-flex flex-column justify-content-center align-items-center mb-4">
-                                <p class="inter-regular" style="letter-spacing: 4px; color: #272937;text-transform: uppercase;">Day</p>
+                                <p class="inter-regular" style="letter-spacing: 4px; color: #272937;text-transform: uppercase;">Every</p>
                                 <p class="subheading1" style="margin: 0px 0px 0px -2px;"><?php echo htmlspecialchars($reserve_data['day']); ?></p>
                             </div>
                             <div class="col d-flex justify-content-center align-items-center" style="height: 16.66%;">

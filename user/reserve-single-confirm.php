@@ -70,7 +70,12 @@ if (!$entry) {
                                 <p class="subheading1" style="margin: 0px 0px 0px -2px;"><?php echo htmlspecialchars($reserve_data['classroom']); ?></p>
                             </div>
                             <div class="d-flex flex-column justify-content-center align-items-center mb-4">
+                                <p class="inter-regular" style="letter-spacing: 4px; color: #272937;text-transform: uppercase;">Event Name</p>
+                                <p class="subheading1" style="margin: 0px 0px 0px -2px;"><?php echo htmlspecialchars($entry['EName']); ?></p>
+                            </div>
+                            <div class="d-flex flex-column justify-content-center align-items-center mb-4">
                                 <p class="inter-regular" style="letter-spacing: 4px; color: #272937;text-transform: uppercase;">Date</p>
+                                <p class="inter-regular" style="margin-top: -12px; letter-spacing: 4px; color: #7c7d81; text-transform: uppercase; font-size: 0.8rem;">YYYY-MM-DD</p>
                                 <p class="subheading1" style="margin: 0px 0px 0px -2px;"><?php echo htmlspecialchars($reserve_data['date']); ?></p>
                             </div>
                             <div class="col d-flex justify-content-center align-items-center" style="height: 16.66%;">
