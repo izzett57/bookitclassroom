@@ -117,7 +117,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             </div>
                         </div>
                         <div class="col d-flex justify-content-end align-items-center mt-5">
-                        <button type="submit" name="choice" value="original" class="btn btn-lg custom-btn-noanim d-flex align-items-center justify-content-between me-3">
+                        <button type="submit" name="choice" value="original" class="btn btn-lg custom-btn-inline d-flex align-items-center justify-content-between me-3">
                                 <p class="dongle-regular mt-2" style="font-size: 2rem;">Keep Original Time</p>
                             </button>
                             <button type="submit" name="choice" value="new" class="btn btn-lg custom-btn-noanim d-flex align-items-center justify-content-between">
