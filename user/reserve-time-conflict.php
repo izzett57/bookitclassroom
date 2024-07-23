@@ -1,6 +1,7 @@
 <?php
 require_once '../assets/db_conn.php';
 require_once '../assets/IsLoggedIn.php';
+require_once '../assets/check-user-type.php';
 
 if (!isset($_SESSION['ID']) || !isset($_SESSION['reserve_data'])) {
     header("Location: ../guest/login.php");

@@ -1,6 +1,7 @@
 <?php
 include '../assets/db_conn.php';
 include '../assets/IsLoggedInAdmin.php';
+require_once '../assets/check-user-type.php';
 ?>
 
 <!DOCTYPE html>

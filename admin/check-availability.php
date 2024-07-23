@@ -1,6 +1,7 @@
 <?php
 include '../assets/db_conn.php';
 include '../assets/IsLoggedIn.php';
+require_once '../assets/check-user-type.php';
 
 if (!isset($_SESSION['ID'])) {
     http_response_code(401);

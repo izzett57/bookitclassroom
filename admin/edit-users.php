@@ -1,6 +1,7 @@
 <?php
 include '../assets/db_conn.php';
 include '../assets/IsLoggedInAdmin.php';
+require_once '../assets/check-user-type.php';
 
 if (!isset($_SESSION['ID']) || $_SESSION['User_Type'] !== 'ADMIN') {
     header("Location: ../guest/login.php");

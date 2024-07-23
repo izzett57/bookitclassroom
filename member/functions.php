@@ -1,6 +1,7 @@
 <?php
 session_start();
 require_once '../assets/db_conn.php';
+require_once '../assets/check-user-type.php';
 
 define('SITE_URL', 'http://localhost:5500/guest/login.php'); // Adjust this to your local setup
 
