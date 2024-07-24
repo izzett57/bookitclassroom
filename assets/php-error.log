@@ -1,0 +1,1191 @@
+[22-Jul-2024 13:16:33 Europe/Berlin] Database error: SQLSTATE[HY093]: Invalid parameter number
+[22-Jul-2024 13:17:55 Europe/Berlin] [2024-07-22 13:17:55] DEBUG: Script started
+[22-Jul-2024 13:17:55 Europe/Berlin] [2024-07-22 13:17:55] DEBUG: Received parameters: date=2024-07-22, time_start=00:00:00, time_end=00:00:00
+[22-Jul-2024 13:17:55 Europe/Berlin] [2024-07-22 13:17:55] DEBUG: Prepared SQL query: 
+        SELECT c.CName, 
+               CASE WHEN b.ID IS NULL THEN 1 ELSE 0 END AS available
+        FROM CLASSROOM c
+        LEFT JOIN BOOKING b ON c.CName = b.Classroom
+            AND b.Booking_Date = :date
+            AND EXISTS (
+                SELECT 1 FROM ENTRY e
+                WHERE e.ID = b.Entry_ID
+                AND (
+                    (e.Time_Start <= :timeEnd AND e.Time_End > :timeStart) 
+                    OR (e.Time_Start < :timeEnd AND e.Time_End >= :timeStart)
+                    OR (e.Time_Start >= :timeStart AND e.Time_End <= :timeEnd)
+                )
+            )
+    
+[22-Jul-2024 13:17:55 Europe/Berlin] [2024-07-22 13:17:55] DEBUG: Parameters to be bound: {":date":"2024-07-22",":timeStart":"00:00:00",":timeEnd":"00:00:00"}
+[22-Jul-2024 13:17:55 Europe/Berlin] [2024-07-22 13:17:55] DEBUG: PDO Exception: SQLSTATE[HY093]: Invalid parameter number
+[22-Jul-2024 13:17:55 Europe/Berlin] Database error: SQLSTATE[HY093]: Invalid parameter number
+[22-Jul-2024 13:17:55 Europe/Berlin] [2024-07-22 13:17:55] DEBUG: Script completed
+[22-Jul-2024 13:20:11 Europe/Berlin] [2024-07-22 13:20:11] DEBUG: Script started
+[22-Jul-2024 13:20:11 Europe/Berlin] [2024-07-22 13:20:11] DEBUG: Received parameters: date=2024-07-22, time_start=00:00:00, time_end=00:00:00
+[22-Jul-2024 13:20:11 Europe/Berlin] [2024-07-22 13:20:11] DEBUG: Prepared SQL query: 
+        SELECT c.CName, 
+               CASE WHEN b.ID IS NULL THEN 1 ELSE 0 END AS available
+        FROM CLASSROOM c
+        LEFT JOIN BOOKING b ON c.CName = b.Classroom
+            AND b.Booking_Date = :date
+        LEFT JOIN ENTRY e ON e.ID = b.Entry_ID
+        WHERE b.ID IS NULL OR (
+            e.Time_Start < :timeEnd AND e.Time_End > :timeStart
+        )
+    
+[22-Jul-2024 13:20:11 Europe/Berlin] [2024-07-22 13:20:11] DEBUG: Parameters to be bound: {":date":"2024-07-22",":timeStart":"00:00:00",":timeEnd":"00:00:00"}
+[22-Jul-2024 13:20:11 Europe/Berlin] [2024-07-22 13:20:11] DEBUG: Query executed successfully. Result count: 56
+[22-Jul-2024 13:20:11 Europe/Berlin] [2024-07-22 13:20:11] DEBUG: Script completed
+[22-Jul-2024 13:20:13 Europe/Berlin] [2024-07-22 13:20:13] DEBUG: Script started
+[22-Jul-2024 13:20:13 Europe/Berlin] [2024-07-22 13:20:13] DEBUG: Received parameters: date=2024-07-22, time_start=00:00:00, time_end=00:00:00
+[22-Jul-2024 13:20:13 Europe/Berlin] [2024-07-22 13:20:13] DEBUG: Prepared SQL query: 
+        SELECT c.CName, 
+               CASE WHEN b.ID IS NULL THEN 1 ELSE 0 END AS available
+        FROM CLASSROOM c
+        LEFT JOIN BOOKING b ON c.CName = b.Classroom
+            AND b.Booking_Date = :date
+        LEFT JOIN ENTRY e ON e.ID = b.Entry_ID
+        WHERE b.ID IS NULL OR (
+            e.Time_Start < :timeEnd AND e.Time_End > :timeStart
+        )
+    
+[22-Jul-2024 13:20:13 Europe/Berlin] [2024-07-22 13:20:13] DEBUG: Parameters to be bound: {":date":"2024-07-22",":timeStart":"00:00:00",":timeEnd":"00:00:00"}
+[22-Jul-2024 13:20:13 Europe/Berlin] [2024-07-22 13:20:13] DEBUG: Query executed successfully. Result count: 56
+[22-Jul-2024 13:20:13 Europe/Berlin] [2024-07-22 13:20:13] DEBUG: Script completed
+[22-Jul-2024 13:20:27 Europe/Berlin] [2024-07-22 13:20:27] DEBUG: Script started
+[22-Jul-2024 13:20:27 Europe/Berlin] [2024-07-22 13:20:27] DEBUG: Received parameters: date=2024-07-22, time_start=00:00:00, time_end=00:00:00
+[22-Jul-2024 13:20:27 Europe/Berlin] [2024-07-22 13:20:27] DEBUG: Prepared SQL query: 
+        SELECT c.CName, 
+               CASE WHEN b.ID IS NULL THEN 1 ELSE 0 END AS available
+        FROM CLASSROOM c
+        LEFT JOIN BOOKING b ON c.CName = b.Classroom
+            AND b.Booking_Date = :date
+        LEFT JOIN ENTRY e ON e.ID = b.Entry_ID
+        WHERE b.ID IS NULL OR (
+            e.Time_Start < :timeEnd AND e.Time_End > :timeStart
+        )
+    
+[22-Jul-2024 13:20:27 Europe/Berlin] [2024-07-22 13:20:27] DEBUG: Parameters to be bound: {":date":"2024-07-22",":timeStart":"00:00:00",":timeEnd":"00:00:00"}
+[22-Jul-2024 13:20:27 Europe/Berlin] [2024-07-22 13:20:27] DEBUG: Query executed successfully. Result count: 56
+[22-Jul-2024 13:20:27 Europe/Berlin] [2024-07-22 13:20:27] DEBUG: Script completed
+[22-Jul-2024 13:20:30 Europe/Berlin] [2024-07-22 13:20:30] DEBUG: Script started
+[22-Jul-2024 13:20:30 Europe/Berlin] [2024-07-22 13:20:30] DEBUG: Received parameters: date=2024-07-22, time_start=13:30:00, time_end=00:00:00
+[22-Jul-2024 13:20:30 Europe/Berlin] [2024-07-22 13:20:30] DEBUG: Prepared SQL query: 
+        SELECT c.CName, 
+               CASE WHEN b.ID IS NULL THEN 1 ELSE 0 END AS available
+        FROM CLASSROOM c
+        LEFT JOIN BOOKING b ON c.CName = b.Classroom
+            AND b.Booking_Date = :date
+        LEFT JOIN ENTRY e ON e.ID = b.Entry_ID
+        WHERE b.ID IS NULL OR (
+            e.Time_Start < :timeEnd AND e.Time_End > :timeStart
+        )
+    
+[22-Jul-2024 13:20:30 Europe/Berlin] [2024-07-22 13:20:30] DEBUG: Parameters to be bound: {":date":"2024-07-22",":timeStart":"13:30:00",":timeEnd":"00:00:00"}
+[22-Jul-2024 13:20:30 Europe/Berlin] [2024-07-22 13:20:30] DEBUG: Query executed successfully. Result count: 56
+[22-Jul-2024 13:20:30 Europe/Berlin] [2024-07-22 13:20:30] DEBUG: Script completed
+[22-Jul-2024 13:20:32 Europe/Berlin] [2024-07-22 13:20:32] DEBUG: Script started
+[22-Jul-2024 13:20:32 Europe/Berlin] [2024-07-22 13:20:32] DEBUG: Received parameters: date=2024-07-22, time_start=13:30:00, time_end=15:30
+[22-Jul-2024 13:20:32 Europe/Berlin] [2024-07-22 13:20:32] DEBUG: Prepared SQL query: 
+        SELECT c.CName, 
+               CASE WHEN b.ID IS NULL THEN 1 ELSE 0 END AS available
+        FROM CLASSROOM c
+        LEFT JOIN BOOKING b ON c.CName = b.Classroom
+            AND b.Booking_Date = :date
+        LEFT JOIN ENTRY e ON e.ID = b.Entry_ID
+        WHERE b.ID IS NULL OR (
+            e.Time_Start < :timeEnd AND e.Time_End > :timeStart
+        )
+    
+[22-Jul-2024 13:20:32 Europe/Berlin] [2024-07-22 13:20:32] DEBUG: Parameters to be bound: {":date":"2024-07-22",":timeStart":"13:30:00",":timeEnd":"15:30"}
+[22-Jul-2024 13:20:32 Europe/Berlin] [2024-07-22 13:20:32] DEBUG: Query executed successfully. Result count: 56
+[22-Jul-2024 13:20:32 Europe/Berlin] [2024-07-22 13:20:32] DEBUG: Script completed
+[22-Jul-2024 13:20:32 Europe/Berlin] [2024-07-22 13:20:32] DEBUG: Script started
+[22-Jul-2024 13:20:32 Europe/Berlin] [2024-07-22 13:20:32] DEBUG: Received parameters: date=2024-07-22, time_start=13:30:00, time_end=15:30
+[22-Jul-2024 13:20:32 Europe/Berlin] [2024-07-22 13:20:32] DEBUG: Prepared SQL query: 
+        SELECT c.CName, 
+               CASE WHEN b.ID IS NULL THEN 1 ELSE 0 END AS available
+        FROM CLASSROOM c
+        LEFT JOIN BOOKING b ON c.CName = b.Classroom
+            AND b.Booking_Date = :date
+        LEFT JOIN ENTRY e ON e.ID = b.Entry_ID
+        WHERE b.ID IS NULL OR (
+            e.Time_Start < :timeEnd AND e.Time_End > :timeStart
+        )
+    
+[22-Jul-2024 13:20:32 Europe/Berlin] [2024-07-22 13:20:32] DEBUG: Parameters to be bound: {":date":"2024-07-22",":timeStart":"13:30:00",":timeEnd":"15:30"}
+[22-Jul-2024 13:20:32 Europe/Berlin] [2024-07-22 13:20:32] DEBUG: Query executed successfully. Result count: 56
+[22-Jul-2024 13:20:32 Europe/Berlin] [2024-07-22 13:20:32] DEBUG: Script completed
+[22-Jul-2024 13:20:33 Europe/Berlin] [2024-07-22 13:20:33] DEBUG: Script started
+[22-Jul-2024 13:20:33 Europe/Berlin] [2024-07-22 13:20:33] DEBUG: Received parameters: date=2024-07-22, time_start=13:30:00, time_end=15:30
+[22-Jul-2024 13:20:33 Europe/Berlin] [2024-07-22 13:20:33] DEBUG: Prepared SQL query: 
+        SELECT c.CName, 
+               CASE WHEN b.ID IS NULL THEN 1 ELSE 0 END AS available
+        FROM CLASSROOM c
+        LEFT JOIN BOOKING b ON c.CName = b.Classroom
+            AND b.Booking_Date = :date
+        LEFT JOIN ENTRY e ON e.ID = b.Entry_ID
+        WHERE b.ID IS NULL OR (
+            e.Time_Start < :timeEnd AND e.Time_End > :timeStart
+        )
+    
+[22-Jul-2024 13:20:33 Europe/Berlin] [2024-07-22 13:20:33] DEBUG: Parameters to be bound: {":date":"2024-07-22",":timeStart":"13:30:00",":timeEnd":"15:30"}
+[22-Jul-2024 13:20:33 Europe/Berlin] [2024-07-22 13:20:33] DEBUG: Query executed successfully. Result count: 56
+[22-Jul-2024 13:20:33 Europe/Berlin] [2024-07-22 13:20:33] DEBUG: Script completed
+[22-Jul-2024 13:20:34 Europe/Berlin] [2024-07-22 13:20:34] DEBUG: Script started
+[22-Jul-2024 13:20:34 Europe/Berlin] [2024-07-22 13:20:34] DEBUG: Received parameters: date=2024-07-22, time_start=13:30:00, time_end=15:30
+[22-Jul-2024 13:20:34 Europe/Berlin] [2024-07-22 13:20:34] DEBUG: Prepared SQL query: 
+        SELECT c.CName, 
+               CASE WHEN b.ID IS NULL THEN 1 ELSE 0 END AS available
+        FROM CLASSROOM c
+        LEFT JOIN BOOKING b ON c.CName = b.Classroom
+            AND b.Booking_Date = :date
+        LEFT JOIN ENTRY e ON e.ID = b.Entry_ID
+        WHERE b.ID IS NULL OR (
+            e.Time_Start < :timeEnd AND e.Time_End > :timeStart
+        )
+    
+[22-Jul-2024 13:20:34 Europe/Berlin] [2024-07-22 13:20:34] DEBUG: Parameters to be bound: {":date":"2024-07-22",":timeStart":"13:30:00",":timeEnd":"15:30"}
+[22-Jul-2024 13:20:34 Europe/Berlin] [2024-07-22 13:20:34] DEBUG: Query executed successfully. Result count: 56
+[22-Jul-2024 13:20:34 Europe/Berlin] [2024-07-22 13:20:34] DEBUG: Script completed
+[22-Jul-2024 13:20:34 Europe/Berlin] [2024-07-22 13:20:34] DEBUG: Script started
+[22-Jul-2024 13:20:34 Europe/Berlin] [2024-07-22 13:20:34] DEBUG: Received parameters: date=2024-07-22, time_start=13:30:00, time_end=15:30
+[22-Jul-2024 13:20:34 Europe/Berlin] [2024-07-22 13:20:34] DEBUG: Prepared SQL query: 
+        SELECT c.CName, 
+               CASE WHEN b.ID IS NULL THEN 1 ELSE 0 END AS available
+        FROM CLASSROOM c
+        LEFT JOIN BOOKING b ON c.CName = b.Classroom
+            AND b.Booking_Date = :date
+        LEFT JOIN ENTRY e ON e.ID = b.Entry_ID
+        WHERE b.ID IS NULL OR (
+            e.Time_Start < :timeEnd AND e.Time_End > :timeStart
+        )
+    
+[22-Jul-2024 13:20:34 Europe/Berlin] [2024-07-22 13:20:34] DEBUG: Parameters to be bound: {":date":"2024-07-22",":timeStart":"13:30:00",":timeEnd":"15:30"}
+[22-Jul-2024 13:20:34 Europe/Berlin] [2024-07-22 13:20:34] DEBUG: Query executed successfully. Result count: 56
+[22-Jul-2024 13:20:34 Europe/Berlin] [2024-07-22 13:20:34] DEBUG: Script completed
+[22-Jul-2024 13:20:34 Europe/Berlin] [2024-07-22 13:20:34] DEBUG: Script started
+[22-Jul-2024 13:20:34 Europe/Berlin] [2024-07-22 13:20:34] DEBUG: Received parameters: date=2024-07-22, time_start=13:30:00, time_end=15:30
+[22-Jul-2024 13:20:34 Europe/Berlin] [2024-07-22 13:20:34] DEBUG: Prepared SQL query: 
+        SELECT c.CName, 
+               CASE WHEN b.ID IS NULL THEN 1 ELSE 0 END AS available
+        FROM CLASSROOM c
+        LEFT JOIN BOOKING b ON c.CName = b.Classroom
+            AND b.Booking_Date = :date
+        LEFT JOIN ENTRY e ON e.ID = b.Entry_ID
+        WHERE b.ID IS NULL OR (
+            e.Time_Start < :timeEnd AND e.Time_End > :timeStart
+        )
+    
+[22-Jul-2024 13:20:34 Europe/Berlin] [2024-07-22 13:20:34] DEBUG: Parameters to be bound: {":date":"2024-07-22",":timeStart":"13:30:00",":timeEnd":"15:30"}
+[22-Jul-2024 13:20:34 Europe/Berlin] [2024-07-22 13:20:34] DEBUG: Query executed successfully. Result count: 56
+[22-Jul-2024 13:20:34 Europe/Berlin] [2024-07-22 13:20:34] DEBUG: Script completed
+[22-Jul-2024 13:20:34 Europe/Berlin] [2024-07-22 13:20:34] DEBUG: Script started
+[22-Jul-2024 13:20:34 Europe/Berlin] [2024-07-22 13:20:34] DEBUG: Received parameters: date=2024-07-22, time_start=13:30:00, time_end=15:30
+[22-Jul-2024 13:20:34 Europe/Berlin] [2024-07-22 13:20:34] DEBUG: Prepared SQL query: 
+        SELECT c.CName, 
+               CASE WHEN b.ID IS NULL THEN 1 ELSE 0 END AS available
+        FROM CLASSROOM c
+        LEFT JOIN BOOKING b ON c.CName = b.Classroom
+            AND b.Booking_Date = :date
+        LEFT JOIN ENTRY e ON e.ID = b.Entry_ID
+        WHERE b.ID IS NULL OR (
+            e.Time_Start < :timeEnd AND e.Time_End > :timeStart
+        )
+    
+[22-Jul-2024 13:20:34 Europe/Berlin] [2024-07-22 13:20:34] DEBUG: Parameters to be bound: {":date":"2024-07-22",":timeStart":"13:30:00",":timeEnd":"15:30"}
+[22-Jul-2024 13:20:34 Europe/Berlin] [2024-07-22 13:20:34] DEBUG: Query executed successfully. Result count: 56
+[22-Jul-2024 13:20:34 Europe/Berlin] [2024-07-22 13:20:34] DEBUG: Script completed
+[22-Jul-2024 13:20:35 Europe/Berlin] [2024-07-22 13:20:35] DEBUG: Script started
+[22-Jul-2024 13:20:35 Europe/Berlin] [2024-07-22 13:20:35] DEBUG: Received parameters: date=2024-07-22, time_start=13:30:00, time_end=15:30
+[22-Jul-2024 13:20:35 Europe/Berlin] [2024-07-22 13:20:35] DEBUG: Prepared SQL query: 
+        SELECT c.CName, 
+               CASE WHEN b.ID IS NULL THEN 1 ELSE 0 END AS available
+        FROM CLASSROOM c
+        LEFT JOIN BOOKING b ON c.CName = b.Classroom
+            AND b.Booking_Date = :date
+        LEFT JOIN ENTRY e ON e.ID = b.Entry_ID
+        WHERE b.ID IS NULL OR (
+            e.Time_Start < :timeEnd AND e.Time_End > :timeStart
+        )
+    
+[22-Jul-2024 13:20:35 Europe/Berlin] [2024-07-22 13:20:35] DEBUG: Parameters to be bound: {":date":"2024-07-22",":timeStart":"13:30:00",":timeEnd":"15:30"}
+[22-Jul-2024 13:20:35 Europe/Berlin] [2024-07-22 13:20:35] DEBUG: Query executed successfully. Result count: 56
+[22-Jul-2024 13:20:35 Europe/Berlin] [2024-07-22 13:20:35] DEBUG: Script completed
+[22-Jul-2024 13:20:35 Europe/Berlin] [2024-07-22 13:20:35] DEBUG: Script started
+[22-Jul-2024 13:20:35 Europe/Berlin] [2024-07-22 13:20:35] DEBUG: Received parameters: date=2024-07-22, time_start=13:30:00, time_end=15:30
+[22-Jul-2024 13:20:35 Europe/Berlin] [2024-07-22 13:20:35] DEBUG: Prepared SQL query: 
+        SELECT c.CName, 
+               CASE WHEN b.ID IS NULL THEN 1 ELSE 0 END AS available
+        FROM CLASSROOM c
+        LEFT JOIN BOOKING b ON c.CName = b.Classroom
+            AND b.Booking_Date = :date
+        LEFT JOIN ENTRY e ON e.ID = b.Entry_ID
+        WHERE b.ID IS NULL OR (
+            e.Time_Start < :timeEnd AND e.Time_End > :timeStart
+        )
+    
+[22-Jul-2024 13:20:35 Europe/Berlin] [2024-07-22 13:20:35] DEBUG: Parameters to be bound: {":date":"2024-07-22",":timeStart":"13:30:00",":timeEnd":"15:30"}
+[22-Jul-2024 13:20:35 Europe/Berlin] [2024-07-22 13:20:35] DEBUG: Query executed successfully. Result count: 56
+[22-Jul-2024 13:20:35 Europe/Berlin] [2024-07-22 13:20:35] DEBUG: Script completed
+[22-Jul-2024 13:20:36 Europe/Berlin] [2024-07-22 13:20:36] DEBUG: Script started
+[22-Jul-2024 13:20:36 Europe/Berlin] [2024-07-22 13:20:36] DEBUG: Received parameters: date=2024-07-22, time_start=13:30:00, time_end=15:30
+[22-Jul-2024 13:20:36 Europe/Berlin] [2024-07-22 13:20:36] DEBUG: Prepared SQL query: 
+        SELECT c.CName, 
+               CASE WHEN b.ID IS NULL THEN 1 ELSE 0 END AS available
+        FROM CLASSROOM c
+        LEFT JOIN BOOKING b ON c.CName = b.Classroom
+            AND b.Booking_Date = :date
+        LEFT JOIN ENTRY e ON e.ID = b.Entry_ID
+        WHERE b.ID IS NULL OR (
+            e.Time_Start < :timeEnd AND e.Time_End > :timeStart
+        )
+    
+[22-Jul-2024 13:20:36 Europe/Berlin] [2024-07-22 13:20:36] DEBUG: Parameters to be bound: {":date":"2024-07-22",":timeStart":"13:30:00",":timeEnd":"15:30"}
+[22-Jul-2024 13:20:36 Europe/Berlin] [2024-07-22 13:20:36] DEBUG: Query executed successfully. Result count: 56
+[22-Jul-2024 13:20:36 Europe/Berlin] [2024-07-22 13:20:36] DEBUG: Script completed
+[22-Jul-2024 13:20:36 Europe/Berlin] [2024-07-22 13:20:36] DEBUG: Script started
+[22-Jul-2024 13:20:36 Europe/Berlin] [2024-07-22 13:20:36] DEBUG: Received parameters: date=2024-07-22, time_start=13:30:00, time_end=15:30
+[22-Jul-2024 13:20:36 Europe/Berlin] [2024-07-22 13:20:36] DEBUG: Prepared SQL query: 
+        SELECT c.CName, 
+               CASE WHEN b.ID IS NULL THEN 1 ELSE 0 END AS available
+        FROM CLASSROOM c
+        LEFT JOIN BOOKING b ON c.CName = b.Classroom
+            AND b.Booking_Date = :date
+        LEFT JOIN ENTRY e ON e.ID = b.Entry_ID
+        WHERE b.ID IS NULL OR (
+            e.Time_Start < :timeEnd AND e.Time_End > :timeStart
+        )
+    
+[22-Jul-2024 13:20:36 Europe/Berlin] [2024-07-22 13:20:36] DEBUG: Parameters to be bound: {":date":"2024-07-22",":timeStart":"13:30:00",":timeEnd":"15:30"}
+[22-Jul-2024 13:20:36 Europe/Berlin] [2024-07-22 13:20:36] DEBUG: Query executed successfully. Result count: 56
+[22-Jul-2024 13:20:36 Europe/Berlin] [2024-07-22 13:20:36] DEBUG: Script completed
+[22-Jul-2024 13:20:36 Europe/Berlin] [2024-07-22 13:20:36] DEBUG: Script started
+[22-Jul-2024 13:20:36 Europe/Berlin] [2024-07-22 13:20:36] DEBUG: Received parameters: date=2024-07-22, time_start=13:30:00, time_end=15:30
+[22-Jul-2024 13:20:36 Europe/Berlin] [2024-07-22 13:20:36] DEBUG: Prepared SQL query: 
+        SELECT c.CName, 
+               CASE WHEN b.ID IS NULL THEN 1 ELSE 0 END AS available
+        FROM CLASSROOM c
+        LEFT JOIN BOOKING b ON c.CName = b.Classroom
+            AND b.Booking_Date = :date
+        LEFT JOIN ENTRY e ON e.ID = b.Entry_ID
+        WHERE b.ID IS NULL OR (
+            e.Time_Start < :timeEnd AND e.Time_End > :timeStart
+        )
+    
+[22-Jul-2024 13:20:36 Europe/Berlin] [2024-07-22 13:20:36] DEBUG: Parameters to be bound: {":date":"2024-07-22",":timeStart":"13:30:00",":timeEnd":"15:30"}
+[22-Jul-2024 13:20:36 Europe/Berlin] [2024-07-22 13:20:36] DEBUG: Query executed successfully. Result count: 56
+[22-Jul-2024 13:20:36 Europe/Berlin] [2024-07-22 13:20:36] DEBUG: Script completed
+[22-Jul-2024 13:20:38 Europe/Berlin] [2024-07-22 13:20:38] DEBUG: Script started
+[22-Jul-2024 13:20:38 Europe/Berlin] [2024-07-22 13:20:38] DEBUG: Received parameters: date=2024-07-22, time_start=13:30:00, time_end=15:30
+[22-Jul-2024 13:20:38 Europe/Berlin] [2024-07-22 13:20:38] DEBUG: Prepared SQL query: 
+        SELECT c.CName, 
+               CASE WHEN b.ID IS NULL THEN 1 ELSE 0 END AS available
+        FROM CLASSROOM c
+        LEFT JOIN BOOKING b ON c.CName = b.Classroom
+            AND b.Booking_Date = :date
+        LEFT JOIN ENTRY e ON e.ID = b.Entry_ID
+        WHERE b.ID IS NULL OR (
+            e.Time_Start < :timeEnd AND e.Time_End > :timeStart
+        )
+    
+[22-Jul-2024 13:20:38 Europe/Berlin] [2024-07-22 13:20:38] DEBUG: Parameters to be bound: {":date":"2024-07-22",":timeStart":"13:30:00",":timeEnd":"15:30"}
+[22-Jul-2024 13:20:38 Europe/Berlin] [2024-07-22 13:20:38] DEBUG: Query executed successfully. Result count: 56
+[22-Jul-2024 13:20:38 Europe/Berlin] [2024-07-22 13:20:38] DEBUG: Script completed
+[22-Jul-2024 13:20:38 Europe/Berlin] [2024-07-22 13:20:38] DEBUG: Script started
+[22-Jul-2024 13:20:38 Europe/Berlin] [2024-07-22 13:20:38] DEBUG: Received parameters: date=2024-07-22, time_start=13:30:00, time_end=15:30
+[22-Jul-2024 13:20:38 Europe/Berlin] [2024-07-22 13:20:38] DEBUG: Prepared SQL query: 
+        SELECT c.CName, 
+               CASE WHEN b.ID IS NULL THEN 1 ELSE 0 END AS available
+        FROM CLASSROOM c
+        LEFT JOIN BOOKING b ON c.CName = b.Classroom
+            AND b.Booking_Date = :date
+        LEFT JOIN ENTRY e ON e.ID = b.Entry_ID
+        WHERE b.ID IS NULL OR (
+            e.Time_Start < :timeEnd AND e.Time_End > :timeStart
+        )
+    
+[22-Jul-2024 13:20:38 Europe/Berlin] [2024-07-22 13:20:38] DEBUG: Parameters to be bound: {":date":"2024-07-22",":timeStart":"13:30:00",":timeEnd":"15:30"}
+[22-Jul-2024 13:20:38 Europe/Berlin] [2024-07-22 13:20:38] DEBUG: Query executed successfully. Result count: 56
+[22-Jul-2024 13:20:38 Europe/Berlin] [2024-07-22 13:20:38] DEBUG: Script completed
+[22-Jul-2024 13:20:38 Europe/Berlin] [2024-07-22 13:20:38] DEBUG: Script started
+[22-Jul-2024 13:20:38 Europe/Berlin] [2024-07-22 13:20:38] DEBUG: Received parameters: date=2024-07-22, time_start=13:30:00, time_end=15:30
+[22-Jul-2024 13:20:38 Europe/Berlin] [2024-07-22 13:20:38] DEBUG: Prepared SQL query: 
+        SELECT c.CName, 
+               CASE WHEN b.ID IS NULL THEN 1 ELSE 0 END AS available
+        FROM CLASSROOM c
+        LEFT JOIN BOOKING b ON c.CName = b.Classroom
+            AND b.Booking_Date = :date
+        LEFT JOIN ENTRY e ON e.ID = b.Entry_ID
+        WHERE b.ID IS NULL OR (
+            e.Time_Start < :timeEnd AND e.Time_End > :timeStart
+        )
+    
+[22-Jul-2024 13:20:38 Europe/Berlin] [2024-07-22 13:20:38] DEBUG: Parameters to be bound: {":date":"2024-07-22",":timeStart":"13:30:00",":timeEnd":"15:30"}
+[22-Jul-2024 13:20:38 Europe/Berlin] [2024-07-22 13:20:38] DEBUG: Query executed successfully. Result count: 56
+[22-Jul-2024 13:20:38 Europe/Berlin] [2024-07-22 13:20:38] DEBUG: Script completed
+[22-Jul-2024 13:32:06 Europe/Berlin] [2024-07-22 13:32:06] DEBUG: Script started
+[22-Jul-2024 13:32:06 Europe/Berlin] [2024-07-22 13:32:06] DEBUG: Received parameters: date=2024-07-22, time_start=00:00:00, time_end=00:00:00
+[22-Jul-2024 13:32:06 Europe/Berlin] [2024-07-22 13:32:06] DEBUG: Prepared SQL query: 
+        SELECT c.CName, 
+               CASE WHEN b.ID IS NULL THEN 1 ELSE 0 END AS available
+        FROM CLASSROOM c
+        LEFT JOIN BOOKING b ON c.CName = b.Classroom
+            AND b.Booking_Date = :date
+        LEFT JOIN ENTRY e ON e.ID = b.Entry_ID
+        WHERE b.ID IS NULL OR (
+            e.Time_Start < :timeEnd AND e.Time_End > :timeStart
+        )
+    
+[22-Jul-2024 13:32:06 Europe/Berlin] [2024-07-22 13:32:06] DEBUG: Parameters to be bound: {":date":"2024-07-22",":timeStart":"00:00:00",":timeEnd":"00:00:00"}
+[22-Jul-2024 13:32:06 Europe/Berlin] [2024-07-22 13:32:06] DEBUG: Query executed successfully. Result count: 56
+[22-Jul-2024 13:32:06 Europe/Berlin] [2024-07-22 13:32:06] DEBUG: Script completed
+[22-Jul-2024 13:32:08 Europe/Berlin] [2024-07-22 13:32:08] DEBUG: Script started
+[22-Jul-2024 13:32:08 Europe/Berlin] [2024-07-22 13:32:08] DEBUG: Received parameters: date=2024-07-22, time_start=00:00:00, time_end=00:00:00
+[22-Jul-2024 13:32:08 Europe/Berlin] [2024-07-22 13:32:08] DEBUG: Prepared SQL query: 
+        SELECT c.CName, 
+               CASE WHEN b.ID IS NULL THEN 1 ELSE 0 END AS available
+        FROM CLASSROOM c
+        LEFT JOIN BOOKING b ON c.CName = b.Classroom
+            AND b.Booking_Date = :date
+        LEFT JOIN ENTRY e ON e.ID = b.Entry_ID
+        WHERE b.ID IS NULL OR (
+            e.Time_Start < :timeEnd AND e.Time_End > :timeStart
+        )
+    
+[22-Jul-2024 13:32:08 Europe/Berlin] [2024-07-22 13:32:08] DEBUG: Parameters to be bound: {":date":"2024-07-22",":timeStart":"00:00:00",":timeEnd":"00:00:00"}
+[22-Jul-2024 13:32:08 Europe/Berlin] [2024-07-22 13:32:08] DEBUG: Query executed successfully. Result count: 56
+[22-Jul-2024 13:32:08 Europe/Berlin] [2024-07-22 13:32:08] DEBUG: Script completed
+[22-Jul-2024 13:32:09 Europe/Berlin] [2024-07-22 13:32:09] DEBUG: Script started
+[22-Jul-2024 13:32:09 Europe/Berlin] [2024-07-22 13:32:09] DEBUG: Received parameters: date=2024-07-22, time_start=00:00:00, time_end=00:00:00
+[22-Jul-2024 13:32:09 Europe/Berlin] [2024-07-22 13:32:09] DEBUG: Prepared SQL query: 
+        SELECT c.CName, 
+               CASE WHEN b.ID IS NULL THEN 1 ELSE 0 END AS available
+        FROM CLASSROOM c
+        LEFT JOIN BOOKING b ON c.CName = b.Classroom
+            AND b.Booking_Date = :date
+        LEFT JOIN ENTRY e ON e.ID = b.Entry_ID
+        WHERE b.ID IS NULL OR (
+            e.Time_Start < :timeEnd AND e.Time_End > :timeStart
+        )
+    
+[22-Jul-2024 13:32:09 Europe/Berlin] [2024-07-22 13:32:09] DEBUG: Parameters to be bound: {":date":"2024-07-22",":timeStart":"00:00:00",":timeEnd":"00:00:00"}
+[22-Jul-2024 13:32:09 Europe/Berlin] [2024-07-22 13:32:09] DEBUG: Query executed successfully. Result count: 56
+[22-Jul-2024 13:32:09 Europe/Berlin] [2024-07-22 13:32:09] DEBUG: Script completed
+[22-Jul-2024 13:32:12 Europe/Berlin] [2024-07-22 13:32:12] DEBUG: Script started
+[22-Jul-2024 13:32:12 Europe/Berlin] [2024-07-22 13:32:12] DEBUG: Received parameters: date=2024-07-22, time_start=13:30:00, time_end=00:00:00
+[22-Jul-2024 13:32:12 Europe/Berlin] [2024-07-22 13:32:12] DEBUG: Prepared SQL query: 
+        SELECT c.CName, 
+               CASE WHEN b.ID IS NULL THEN 1 ELSE 0 END AS available
+        FROM CLASSROOM c
+        LEFT JOIN BOOKING b ON c.CName = b.Classroom
+            AND b.Booking_Date = :date
+        LEFT JOIN ENTRY e ON e.ID = b.Entry_ID
+        WHERE b.ID IS NULL OR (
+            e.Time_Start < :timeEnd AND e.Time_End > :timeStart
+        )
+    
+[22-Jul-2024 13:32:12 Europe/Berlin] [2024-07-22 13:32:12] DEBUG: Parameters to be bound: {":date":"2024-07-22",":timeStart":"13:30:00",":timeEnd":"00:00:00"}
+[22-Jul-2024 13:32:12 Europe/Berlin] [2024-07-22 13:32:12] DEBUG: Query executed successfully. Result count: 56
+[22-Jul-2024 13:32:12 Europe/Berlin] [2024-07-22 13:32:12] DEBUG: Script completed
+[22-Jul-2024 13:32:14 Europe/Berlin] [2024-07-22 13:32:14] DEBUG: Script started
+[22-Jul-2024 13:32:14 Europe/Berlin] [2024-07-22 13:32:14] DEBUG: Received parameters: date=2024-07-22, time_start=13:30:00, time_end=15:30
+[22-Jul-2024 13:32:14 Europe/Berlin] [2024-07-22 13:32:14] DEBUG: Prepared SQL query: 
+        SELECT c.CName, 
+               CASE WHEN b.ID IS NULL THEN 1 ELSE 0 END AS available
+        FROM CLASSROOM c
+        LEFT JOIN BOOKING b ON c.CName = b.Classroom
+            AND b.Booking_Date = :date
+        LEFT JOIN ENTRY e ON e.ID = b.Entry_ID
+        WHERE b.ID IS NULL OR (
+            e.Time_Start < :timeEnd AND e.Time_End > :timeStart
+        )
+    
+[22-Jul-2024 13:32:14 Europe/Berlin] [2024-07-22 13:32:14] DEBUG: Parameters to be bound: {":date":"2024-07-22",":timeStart":"13:30:00",":timeEnd":"15:30"}
+[22-Jul-2024 13:32:14 Europe/Berlin] [2024-07-22 13:32:14] DEBUG: Query executed successfully. Result count: 56
+[22-Jul-2024 13:32:14 Europe/Berlin] [2024-07-22 13:32:14] DEBUG: Script completed
+[22-Jul-2024 13:32:14 Europe/Berlin] [2024-07-22 13:32:14] DEBUG: Script started
+[22-Jul-2024 13:32:14 Europe/Berlin] [2024-07-22 13:32:14] DEBUG: Received parameters: date=2024-07-22, time_start=13:30:00, time_end=15:30
+[22-Jul-2024 13:32:14 Europe/Berlin] [2024-07-22 13:32:14] DEBUG: Prepared SQL query: 
+        SELECT c.CName, 
+               CASE WHEN b.ID IS NULL THEN 1 ELSE 0 END AS available
+        FROM CLASSROOM c
+        LEFT JOIN BOOKING b ON c.CName = b.Classroom
+            AND b.Booking_Date = :date
+        LEFT JOIN ENTRY e ON e.ID = b.Entry_ID
+        WHERE b.ID IS NULL OR (
+            e.Time_Start < :timeEnd AND e.Time_End > :timeStart
+        )
+    
+[22-Jul-2024 13:32:14 Europe/Berlin] [2024-07-22 13:32:14] DEBUG: Parameters to be bound: {":date":"2024-07-22",":timeStart":"13:30:00",":timeEnd":"15:30"}
+[22-Jul-2024 13:32:14 Europe/Berlin] [2024-07-22 13:32:14] DEBUG: Query executed successfully. Result count: 56
+[22-Jul-2024 13:32:14 Europe/Berlin] [2024-07-22 13:32:14] DEBUG: Script completed
+[22-Jul-2024 13:32:15 Europe/Berlin] [2024-07-22 13:32:15] DEBUG: Script started
+[22-Jul-2024 13:32:15 Europe/Berlin] [2024-07-22 13:32:15] DEBUG: Received parameters: date=2024-07-22, time_start=13:30:00, time_end=15:30
+[22-Jul-2024 13:32:15 Europe/Berlin] [2024-07-22 13:32:15] DEBUG: Prepared SQL query: 
+        SELECT c.CName, 
+               CASE WHEN b.ID IS NULL THEN 1 ELSE 0 END AS available
+        FROM CLASSROOM c
+        LEFT JOIN BOOKING b ON c.CName = b.Classroom
+            AND b.Booking_Date = :date
+        LEFT JOIN ENTRY e ON e.ID = b.Entry_ID
+        WHERE b.ID IS NULL OR (
+            e.Time_Start < :timeEnd AND e.Time_End > :timeStart
+        )
+    
+[22-Jul-2024 13:32:15 Europe/Berlin] [2024-07-22 13:32:15] DEBUG: Parameters to be bound: {":date":"2024-07-22",":timeStart":"13:30:00",":timeEnd":"15:30"}
+[22-Jul-2024 13:32:15 Europe/Berlin] [2024-07-22 13:32:15] DEBUG: Query executed successfully. Result count: 56
+[22-Jul-2024 13:32:15 Europe/Berlin] [2024-07-22 13:32:15] DEBUG: Script completed
+[22-Jul-2024 13:32:15 Europe/Berlin] [2024-07-22 13:32:15] DEBUG: Script started
+[22-Jul-2024 13:32:15 Europe/Berlin] [2024-07-22 13:32:15] DEBUG: Received parameters: date=2024-07-22, time_start=13:30:00, time_end=15:30
+[22-Jul-2024 13:32:15 Europe/Berlin] [2024-07-22 13:32:15] DEBUG: Prepared SQL query: 
+        SELECT c.CName, 
+               CASE WHEN b.ID IS NULL THEN 1 ELSE 0 END AS available
+        FROM CLASSROOM c
+        LEFT JOIN BOOKING b ON c.CName = b.Classroom
+            AND b.Booking_Date = :date
+        LEFT JOIN ENTRY e ON e.ID = b.Entry_ID
+        WHERE b.ID IS NULL OR (
+            e.Time_Start < :timeEnd AND e.Time_End > :timeStart
+        )
+    
+[22-Jul-2024 13:32:15 Europe/Berlin] [2024-07-22 13:32:15] DEBUG: Parameters to be bound: {":date":"2024-07-22",":timeStart":"13:30:00",":timeEnd":"15:30"}
+[22-Jul-2024 13:32:15 Europe/Berlin] [2024-07-22 13:32:15] DEBUG: Query executed successfully. Result count: 56
+[22-Jul-2024 13:32:15 Europe/Berlin] [2024-07-22 13:32:15] DEBUG: Script completed
+[22-Jul-2024 13:32:15 Europe/Berlin] [2024-07-22 13:32:15] DEBUG: Script started
+[22-Jul-2024 13:32:15 Europe/Berlin] [2024-07-22 13:32:15] DEBUG: Received parameters: date=2024-07-22, time_start=13:30:00, time_end=15:30
+[22-Jul-2024 13:32:15 Europe/Berlin] [2024-07-22 13:32:15] DEBUG: Prepared SQL query: 
+        SELECT c.CName, 
+               CASE WHEN b.ID IS NULL THEN 1 ELSE 0 END AS available
+        FROM CLASSROOM c
+        LEFT JOIN BOOKING b ON c.CName = b.Classroom
+            AND b.Booking_Date = :date
+        LEFT JOIN ENTRY e ON e.ID = b.Entry_ID
+        WHERE b.ID IS NULL OR (
+            e.Time_Start < :timeEnd AND e.Time_End > :timeStart
+        )
+    
+[22-Jul-2024 13:32:15 Europe/Berlin] [2024-07-22 13:32:15] DEBUG: Parameters to be bound: {":date":"2024-07-22",":timeStart":"13:30:00",":timeEnd":"15:30"}
+[22-Jul-2024 13:32:15 Europe/Berlin] [2024-07-22 13:32:15] DEBUG: Query executed successfully. Result count: 56
+[22-Jul-2024 13:32:15 Europe/Berlin] [2024-07-22 13:32:15] DEBUG: Script completed
+[22-Jul-2024 13:32:16 Europe/Berlin] [2024-07-22 13:32:16] DEBUG: Script started
+[22-Jul-2024 13:32:16 Europe/Berlin] [2024-07-22 13:32:16] DEBUG: Received parameters: date=2024-07-22, time_start=13:30:00, time_end=15:30
+[22-Jul-2024 13:32:16 Europe/Berlin] [2024-07-22 13:32:16] DEBUG: Prepared SQL query: 
+        SELECT c.CName, 
+               CASE WHEN b.ID IS NULL THEN 1 ELSE 0 END AS available
+        FROM CLASSROOM c
+        LEFT JOIN BOOKING b ON c.CName = b.Classroom
+            AND b.Booking_Date = :date
+        LEFT JOIN ENTRY e ON e.ID = b.Entry_ID
+        WHERE b.ID IS NULL OR (
+            e.Time_Start < :timeEnd AND e.Time_End > :timeStart
+        )
+    
+[22-Jul-2024 13:32:16 Europe/Berlin] [2024-07-22 13:32:16] DEBUG: Parameters to be bound: {":date":"2024-07-22",":timeStart":"13:30:00",":timeEnd":"15:30"}
+[22-Jul-2024 13:32:16 Europe/Berlin] [2024-07-22 13:32:16] DEBUG: Query executed successfully. Result count: 56
+[22-Jul-2024 13:32:16 Europe/Berlin] [2024-07-22 13:32:16] DEBUG: Script completed
+[22-Jul-2024 13:32:16 Europe/Berlin] [2024-07-22 13:32:16] DEBUG: Script started
+[22-Jul-2024 13:32:16 Europe/Berlin] [2024-07-22 13:32:16] DEBUG: Received parameters: date=2024-07-22, time_start=13:30:00, time_end=15:30
+[22-Jul-2024 13:32:16 Europe/Berlin] [2024-07-22 13:32:16] DEBUG: Prepared SQL query: 
+        SELECT c.CName, 
+               CASE WHEN b.ID IS NULL THEN 1 ELSE 0 END AS available
+        FROM CLASSROOM c
+        LEFT JOIN BOOKING b ON c.CName = b.Classroom
+            AND b.Booking_Date = :date
+        LEFT JOIN ENTRY e ON e.ID = b.Entry_ID
+        WHERE b.ID IS NULL OR (
+            e.Time_Start < :timeEnd AND e.Time_End > :timeStart
+        )
+    
+[22-Jul-2024 13:32:16 Europe/Berlin] [2024-07-22 13:32:16] DEBUG: Parameters to be bound: {":date":"2024-07-22",":timeStart":"13:30:00",":timeEnd":"15:30"}
+[22-Jul-2024 13:32:16 Europe/Berlin] [2024-07-22 13:32:16] DEBUG: Query executed successfully. Result count: 56
+[22-Jul-2024 13:32:16 Europe/Berlin] [2024-07-22 13:32:16] DEBUG: Script completed
+[22-Jul-2024 13:32:16 Europe/Berlin] [2024-07-22 13:32:16] DEBUG: Script started
+[22-Jul-2024 13:32:16 Europe/Berlin] [2024-07-22 13:32:16] DEBUG: Received parameters: date=2024-07-22, time_start=13:30:00, time_end=15:30
+[22-Jul-2024 13:32:16 Europe/Berlin] [2024-07-22 13:32:16] DEBUG: Prepared SQL query: 
+        SELECT c.CName, 
+               CASE WHEN b.ID IS NULL THEN 1 ELSE 0 END AS available
+        FROM CLASSROOM c
+        LEFT JOIN BOOKING b ON c.CName = b.Classroom
+            AND b.Booking_Date = :date
+        LEFT JOIN ENTRY e ON e.ID = b.Entry_ID
+        WHERE b.ID IS NULL OR (
+            e.Time_Start < :timeEnd AND e.Time_End > :timeStart
+        )
+    
+[22-Jul-2024 13:32:16 Europe/Berlin] [2024-07-22 13:32:16] DEBUG: Parameters to be bound: {":date":"2024-07-22",":timeStart":"13:30:00",":timeEnd":"15:30"}
+[22-Jul-2024 13:32:16 Europe/Berlin] [2024-07-22 13:32:16] DEBUG: Query executed successfully. Result count: 56
+[22-Jul-2024 13:32:16 Europe/Berlin] [2024-07-22 13:32:16] DEBUG: Script completed
+[22-Jul-2024 13:32:18 Europe/Berlin] [2024-07-22 13:32:18] DEBUG: Script started
+[22-Jul-2024 13:32:18 Europe/Berlin] [2024-07-22 13:32:18] DEBUG: Received parameters: date=2024-07-22, time_start=13:30:00, time_end=15:30
+[22-Jul-2024 13:32:18 Europe/Berlin] [2024-07-22 13:32:18] DEBUG: Prepared SQL query: 
+        SELECT c.CName, 
+               CASE WHEN b.ID IS NULL THEN 1 ELSE 0 END AS available
+        FROM CLASSROOM c
+        LEFT JOIN BOOKING b ON c.CName = b.Classroom
+            AND b.Booking_Date = :date
+        LEFT JOIN ENTRY e ON e.ID = b.Entry_ID
+        WHERE b.ID IS NULL OR (
+            e.Time_Start < :timeEnd AND e.Time_End > :timeStart
+        )
+    
+[22-Jul-2024 13:32:18 Europe/Berlin] [2024-07-22 13:32:18] DEBUG: Parameters to be bound: {":date":"2024-07-22",":timeStart":"13:30:00",":timeEnd":"15:30"}
+[22-Jul-2024 13:32:18 Europe/Berlin] [2024-07-22 13:32:18] DEBUG: Query executed successfully. Result count: 56
+[22-Jul-2024 13:32:18 Europe/Berlin] [2024-07-22 13:32:18] DEBUG: Script completed
+[22-Jul-2024 13:32:19 Europe/Berlin] [2024-07-22 13:32:19] DEBUG: Script started
+[22-Jul-2024 13:32:19 Europe/Berlin] [2024-07-22 13:32:19] DEBUG: Received parameters: date=2024-07-22, time_start=13:30:00, time_end=15:30
+[22-Jul-2024 13:32:19 Europe/Berlin] [2024-07-22 13:32:19] DEBUG: Prepared SQL query: 
+        SELECT c.CName, 
+               CASE WHEN b.ID IS NULL THEN 1 ELSE 0 END AS available
+        FROM CLASSROOM c
+        LEFT JOIN BOOKING b ON c.CName = b.Classroom
+            AND b.Booking_Date = :date
+        LEFT JOIN ENTRY e ON e.ID = b.Entry_ID
+        WHERE b.ID IS NULL OR (
+            e.Time_Start < :timeEnd AND e.Time_End > :timeStart
+        )
+    
+[22-Jul-2024 13:32:19 Europe/Berlin] [2024-07-22 13:32:19] DEBUG: Parameters to be bound: {":date":"2024-07-22",":timeStart":"13:30:00",":timeEnd":"15:30"}
+[22-Jul-2024 13:32:19 Europe/Berlin] [2024-07-22 13:32:19] DEBUG: Query executed successfully. Result count: 56
+[22-Jul-2024 13:32:19 Europe/Berlin] [2024-07-22 13:32:19] DEBUG: Script completed
+[22-Jul-2024 13:32:19 Europe/Berlin] [2024-07-22 13:32:19] DEBUG: Script started
+[22-Jul-2024 13:32:19 Europe/Berlin] [2024-07-22 13:32:19] DEBUG: Received parameters: date=2024-07-22, time_start=13:30:00, time_end=15:30
+[22-Jul-2024 13:32:19 Europe/Berlin] [2024-07-22 13:32:19] DEBUG: Prepared SQL query: 
+        SELECT c.CName, 
+               CASE WHEN b.ID IS NULL THEN 1 ELSE 0 END AS available
+        FROM CLASSROOM c
+        LEFT JOIN BOOKING b ON c.CName = b.Classroom
+            AND b.Booking_Date = :date
+        LEFT JOIN ENTRY e ON e.ID = b.Entry_ID
+        WHERE b.ID IS NULL OR (
+            e.Time_Start < :timeEnd AND e.Time_End > :timeStart
+        )
+    
+[22-Jul-2024 13:32:19 Europe/Berlin] [2024-07-22 13:32:19] DEBUG: Parameters to be bound: {":date":"2024-07-22",":timeStart":"13:30:00",":timeEnd":"15:30"}
+[22-Jul-2024 13:32:19 Europe/Berlin] [2024-07-22 13:32:19] DEBUG: Query executed successfully. Result count: 56
+[22-Jul-2024 13:32:19 Europe/Berlin] [2024-07-22 13:32:19] DEBUG: Script completed
+[22-Jul-2024 13:32:20 Europe/Berlin] [2024-07-22 13:32:20] DEBUG: Script started
+[22-Jul-2024 13:32:20 Europe/Berlin] [2024-07-22 13:32:20] DEBUG: Received parameters: date=2024-07-22, time_start=13:30:00, time_end=15:30
+[22-Jul-2024 13:32:20 Europe/Berlin] [2024-07-22 13:32:20] DEBUG: Prepared SQL query: 
+        SELECT c.CName, 
+               CASE WHEN b.ID IS NULL THEN 1 ELSE 0 END AS available
+        FROM CLASSROOM c
+        LEFT JOIN BOOKING b ON c.CName = b.Classroom
+            AND b.Booking_Date = :date
+        LEFT JOIN ENTRY e ON e.ID = b.Entry_ID
+        WHERE b.ID IS NULL OR (
+            e.Time_Start < :timeEnd AND e.Time_End > :timeStart
+        )
+    
+[22-Jul-2024 13:32:20 Europe/Berlin] [2024-07-22 13:32:20] DEBUG: Parameters to be bound: {":date":"2024-07-22",":timeStart":"13:30:00",":timeEnd":"15:30"}
+[22-Jul-2024 13:32:20 Europe/Berlin] [2024-07-22 13:32:20] DEBUG: Query executed successfully. Result count: 56
+[22-Jul-2024 13:32:20 Europe/Berlin] [2024-07-22 13:32:20] DEBUG: Script completed
+[22-Jul-2024 13:32:20 Europe/Berlin] [2024-07-22 13:32:20] DEBUG: Script started
+[22-Jul-2024 13:32:20 Europe/Berlin] [2024-07-22 13:32:20] DEBUG: Received parameters: date=2024-07-22, time_start=13:30:00, time_end=15:30
+[22-Jul-2024 13:32:20 Europe/Berlin] [2024-07-22 13:32:20] DEBUG: Prepared SQL query: 
+        SELECT c.CName, 
+               CASE WHEN b.ID IS NULL THEN 1 ELSE 0 END AS available
+        FROM CLASSROOM c
+        LEFT JOIN BOOKING b ON c.CName = b.Classroom
+            AND b.Booking_Date = :date
+        LEFT JOIN ENTRY e ON e.ID = b.Entry_ID
+        WHERE b.ID IS NULL OR (
+            e.Time_Start < :timeEnd AND e.Time_End > :timeStart
+        )
+    
+[22-Jul-2024 13:32:20 Europe/Berlin] [2024-07-22 13:32:20] DEBUG: Parameters to be bound: {":date":"2024-07-22",":timeStart":"13:30:00",":timeEnd":"15:30"}
+[22-Jul-2024 13:32:20 Europe/Berlin] [2024-07-22 13:32:20] DEBUG: Query executed successfully. Result count: 56
+[22-Jul-2024 13:32:20 Europe/Berlin] [2024-07-22 13:32:20] DEBUG: Script completed
+[22-Jul-2024 13:32:20 Europe/Berlin] [2024-07-22 13:32:20] DEBUG: Script started
+[22-Jul-2024 13:32:20 Europe/Berlin] [2024-07-22 13:32:20] DEBUG: Received parameters: date=2024-07-22, time_start=13:30:00, time_end=15:30
+[22-Jul-2024 13:32:20 Europe/Berlin] [2024-07-22 13:32:20] DEBUG: Prepared SQL query: 
+        SELECT c.CName, 
+               CASE WHEN b.ID IS NULL THEN 1 ELSE 0 END AS available
+        FROM CLASSROOM c
+        LEFT JOIN BOOKING b ON c.CName = b.Classroom
+            AND b.Booking_Date = :date
+        LEFT JOIN ENTRY e ON e.ID = b.Entry_ID
+        WHERE b.ID IS NULL OR (
+            e.Time_Start < :timeEnd AND e.Time_End > :timeStart
+        )
+    
+[22-Jul-2024 13:32:20 Europe/Berlin] [2024-07-22 13:32:20] DEBUG: Parameters to be bound: {":date":"2024-07-22",":timeStart":"13:30:00",":timeEnd":"15:30"}
+[22-Jul-2024 13:32:20 Europe/Berlin] [2024-07-22 13:32:20] DEBUG: Query executed successfully. Result count: 56
+[22-Jul-2024 13:32:20 Europe/Berlin] [2024-07-22 13:32:20] DEBUG: Script completed
+[22-Jul-2024 13:32:21 Europe/Berlin] [2024-07-22 13:32:21] DEBUG: Script started
+[22-Jul-2024 13:32:21 Europe/Berlin] [2024-07-22 13:32:21] DEBUG: Received parameters: date=2024-07-22, time_start=13:30:00, time_end=15:30
+[22-Jul-2024 13:32:21 Europe/Berlin] [2024-07-22 13:32:21] DEBUG: Prepared SQL query: 
+        SELECT c.CName, 
+               CASE WHEN b.ID IS NULL THEN 1 ELSE 0 END AS available
+        FROM CLASSROOM c
+        LEFT JOIN BOOKING b ON c.CName = b.Classroom
+            AND b.Booking_Date = :date
+        LEFT JOIN ENTRY e ON e.ID = b.Entry_ID
+        WHERE b.ID IS NULL OR (
+            e.Time_Start < :timeEnd AND e.Time_End > :timeStart
+        )
+    
+[22-Jul-2024 13:32:21 Europe/Berlin] [2024-07-22 13:32:21] DEBUG: Parameters to be bound: {":date":"2024-07-22",":timeStart":"13:30:00",":timeEnd":"15:30"}
+[22-Jul-2024 13:32:21 Europe/Berlin] [2024-07-22 13:32:21] DEBUG: Query executed successfully. Result count: 56
+[22-Jul-2024 13:32:21 Europe/Berlin] [2024-07-22 13:32:21] DEBUG: Script completed
+[22-Jul-2024 13:32:21 Europe/Berlin] [2024-07-22 13:32:21] DEBUG: Script started
+[22-Jul-2024 13:32:21 Europe/Berlin] [2024-07-22 13:32:21] DEBUG: Received parameters: date=2024-07-22, time_start=13:30:00, time_end=15:30
+[22-Jul-2024 13:32:21 Europe/Berlin] [2024-07-22 13:32:21] DEBUG: Prepared SQL query: 
+        SELECT c.CName, 
+               CASE WHEN b.ID IS NULL THEN 1 ELSE 0 END AS available
+        FROM CLASSROOM c
+        LEFT JOIN BOOKING b ON c.CName = b.Classroom
+            AND b.Booking_Date = :date
+        LEFT JOIN ENTRY e ON e.ID = b.Entry_ID
+        WHERE b.ID IS NULL OR (
+            e.Time_Start < :timeEnd AND e.Time_End > :timeStart
+        )
+    
+[22-Jul-2024 13:32:21 Europe/Berlin] [2024-07-22 13:32:21] DEBUG: Parameters to be bound: {":date":"2024-07-22",":timeStart":"13:30:00",":timeEnd":"15:30"}
+[22-Jul-2024 13:32:21 Europe/Berlin] [2024-07-22 13:32:21] DEBUG: Query executed successfully. Result count: 56
+[22-Jul-2024 13:32:21 Europe/Berlin] [2024-07-22 13:32:21] DEBUG: Script completed
+[22-Jul-2024 13:32:22 Europe/Berlin] [2024-07-22 13:32:22] DEBUG: Script started
+[22-Jul-2024 13:32:22 Europe/Berlin] [2024-07-22 13:32:22] DEBUG: Received parameters: date=2024-07-22, time_start=13:30:00, time_end=15:30
+[22-Jul-2024 13:32:22 Europe/Berlin] [2024-07-22 13:32:22] DEBUG: Prepared SQL query: 
+        SELECT c.CName, 
+               CASE WHEN b.ID IS NULL THEN 1 ELSE 0 END AS available
+        FROM CLASSROOM c
+        LEFT JOIN BOOKING b ON c.CName = b.Classroom
+            AND b.Booking_Date = :date
+        LEFT JOIN ENTRY e ON e.ID = b.Entry_ID
+        WHERE b.ID IS NULL OR (
+            e.Time_Start < :timeEnd AND e.Time_End > :timeStart
+        )
+    
+[22-Jul-2024 13:32:22 Europe/Berlin] [2024-07-22 13:32:22] DEBUG: Parameters to be bound: {":date":"2024-07-22",":timeStart":"13:30:00",":timeEnd":"15:30"}
+[22-Jul-2024 13:32:22 Europe/Berlin] [2024-07-22 13:32:22] DEBUG: Query executed successfully. Result count: 56
+[22-Jul-2024 13:32:22 Europe/Berlin] [2024-07-22 13:32:22] DEBUG: Script completed
+[22-Jul-2024 13:32:25 Europe/Berlin] [2024-07-22 13:32:25] DEBUG: Script started
+[22-Jul-2024 13:32:25 Europe/Berlin] [2024-07-22 13:32:25] DEBUG: Received parameters: date=2024-07-22, time_start=00:00:00, time_end=00:00:00
+[22-Jul-2024 13:32:25 Europe/Berlin] [2024-07-22 13:32:25] DEBUG: Prepared SQL query: 
+        SELECT c.CName, 
+               CASE WHEN b.ID IS NULL THEN 1 ELSE 0 END AS available
+        FROM CLASSROOM c
+        LEFT JOIN BOOKING b ON c.CName = b.Classroom
+            AND b.Booking_Date = :date
+        LEFT JOIN ENTRY e ON e.ID = b.Entry_ID
+        WHERE b.ID IS NULL OR (
+            e.Time_Start < :timeEnd AND e.Time_End > :timeStart
+        )
+    
+[22-Jul-2024 13:32:25 Europe/Berlin] [2024-07-22 13:32:25] DEBUG: Parameters to be bound: {":date":"2024-07-22",":timeStart":"00:00:00",":timeEnd":"00:00:00"}
+[22-Jul-2024 13:32:25 Europe/Berlin] [2024-07-22 13:32:25] DEBUG: Query executed successfully. Result count: 56
+[22-Jul-2024 13:32:25 Europe/Berlin] [2024-07-22 13:32:25] DEBUG: Script completed
+[22-Jul-2024 13:32:31 Europe/Berlin] [2024-07-22 13:32:31] DEBUG: Script started
+[22-Jul-2024 13:32:31 Europe/Berlin] [2024-07-22 13:32:31] DEBUG: Received parameters: date=2024-07-22, time_start=13:30:00, time_end=00:00:00
+[22-Jul-2024 13:32:31 Europe/Berlin] [2024-07-22 13:32:31] DEBUG: Prepared SQL query: 
+        SELECT c.CName, 
+               CASE WHEN b.ID IS NULL THEN 1 ELSE 0 END AS available
+        FROM CLASSROOM c
+        LEFT JOIN BOOKING b ON c.CName = b.Classroom
+            AND b.Booking_Date = :date
+        LEFT JOIN ENTRY e ON e.ID = b.Entry_ID
+        WHERE b.ID IS NULL OR (
+            e.Time_Start < :timeEnd AND e.Time_End > :timeStart
+        )
+    
+[22-Jul-2024 13:32:31 Europe/Berlin] [2024-07-22 13:32:31] DEBUG: Parameters to be bound: {":date":"2024-07-22",":timeStart":"13:30:00",":timeEnd":"00:00:00"}
+[22-Jul-2024 13:32:31 Europe/Berlin] [2024-07-22 13:32:31] DEBUG: Query executed successfully. Result count: 56
+[22-Jul-2024 13:32:31 Europe/Berlin] [2024-07-22 13:32:31] DEBUG: Script completed
+[22-Jul-2024 13:32:33 Europe/Berlin] [2024-07-22 13:32:33] DEBUG: Script started
+[22-Jul-2024 13:32:33 Europe/Berlin] [2024-07-22 13:32:33] DEBUG: Received parameters: date=2024-07-22, time_start=13:30:00, time_end=15:30
+[22-Jul-2024 13:32:33 Europe/Berlin] [2024-07-22 13:32:33] DEBUG: Prepared SQL query: 
+        SELECT c.CName, 
+               CASE WHEN b.ID IS NULL THEN 1 ELSE 0 END AS available
+        FROM CLASSROOM c
+        LEFT JOIN BOOKING b ON c.CName = b.Classroom
+            AND b.Booking_Date = :date
+        LEFT JOIN ENTRY e ON e.ID = b.Entry_ID
+        WHERE b.ID IS NULL OR (
+            e.Time_Start < :timeEnd AND e.Time_End > :timeStart
+        )
+    
+[22-Jul-2024 13:32:33 Europe/Berlin] [2024-07-22 13:32:33] DEBUG: Parameters to be bound: {":date":"2024-07-22",":timeStart":"13:30:00",":timeEnd":"15:30"}
+[22-Jul-2024 13:32:33 Europe/Berlin] [2024-07-22 13:32:33] DEBUG: Query executed successfully. Result count: 56
+[22-Jul-2024 13:32:33 Europe/Berlin] [2024-07-22 13:32:33] DEBUG: Script completed
+[22-Jul-2024 13:32:34 Europe/Berlin] [2024-07-22 13:32:34] DEBUG: Script started
+[22-Jul-2024 13:32:34 Europe/Berlin] [2024-07-22 13:32:34] DEBUG: Received parameters: date=2024-07-22, time_start=13:30:00, time_end=15:30
+[22-Jul-2024 13:32:34 Europe/Berlin] [2024-07-22 13:32:34] DEBUG: Prepared SQL query: 
+        SELECT c.CName, 
+               CASE WHEN b.ID IS NULL THEN 1 ELSE 0 END AS available
+        FROM CLASSROOM c
+        LEFT JOIN BOOKING b ON c.CName = b.Classroom
+            AND b.Booking_Date = :date
+        LEFT JOIN ENTRY e ON e.ID = b.Entry_ID
+        WHERE b.ID IS NULL OR (
+            e.Time_Start < :timeEnd AND e.Time_End > :timeStart
+        )
+    
+[22-Jul-2024 13:32:34 Europe/Berlin] [2024-07-22 13:32:34] DEBUG: Parameters to be bound: {":date":"2024-07-22",":timeStart":"13:30:00",":timeEnd":"15:30"}
+[22-Jul-2024 13:32:34 Europe/Berlin] [2024-07-22 13:32:34] DEBUG: Query executed successfully. Result count: 56
+[22-Jul-2024 13:32:34 Europe/Berlin] [2024-07-22 13:32:34] DEBUG: Script completed
+[22-Jul-2024 13:32:35 Europe/Berlin] [2024-07-22 13:32:35] DEBUG: Script started
+[22-Jul-2024 13:32:35 Europe/Berlin] [2024-07-22 13:32:35] DEBUG: Received parameters: date=2024-07-22, time_start=13:30:00, time_end=15:30
+[22-Jul-2024 13:32:35 Europe/Berlin] [2024-07-22 13:32:35] DEBUG: Prepared SQL query: 
+        SELECT c.CName, 
+               CASE WHEN b.ID IS NULL THEN 1 ELSE 0 END AS available
+        FROM CLASSROOM c
+        LEFT JOIN BOOKING b ON c.CName = b.Classroom
+            AND b.Booking_Date = :date
+        LEFT JOIN ENTRY e ON e.ID = b.Entry_ID
+        WHERE b.ID IS NULL OR (
+            e.Time_Start < :timeEnd AND e.Time_End > :timeStart
+        )
+    
+[22-Jul-2024 13:32:35 Europe/Berlin] [2024-07-22 13:32:35] DEBUG: Parameters to be bound: {":date":"2024-07-22",":timeStart":"13:30:00",":timeEnd":"15:30"}
+[22-Jul-2024 13:32:35 Europe/Berlin] [2024-07-22 13:32:35] DEBUG: Query executed successfully. Result count: 56
+[22-Jul-2024 13:32:35 Europe/Berlin] [2024-07-22 13:32:35] DEBUG: Script completed
+[22-Jul-2024 13:32:36 Europe/Berlin] [2024-07-22 13:32:36] DEBUG: Script started
+[22-Jul-2024 13:32:36 Europe/Berlin] [2024-07-22 13:32:36] DEBUG: Received parameters: date=2024-07-22, time_start=00:00:00, time_end=00:00:00
+[22-Jul-2024 13:32:36 Europe/Berlin] [2024-07-22 13:32:36] DEBUG: Prepared SQL query: 
+        SELECT c.CName, 
+               CASE WHEN b.ID IS NULL THEN 1 ELSE 0 END AS available
+        FROM CLASSROOM c
+        LEFT JOIN BOOKING b ON c.CName = b.Classroom
+            AND b.Booking_Date = :date
+        LEFT JOIN ENTRY e ON e.ID = b.Entry_ID
+        WHERE b.ID IS NULL OR (
+            e.Time_Start < :timeEnd AND e.Time_End > :timeStart
+        )
+    
+[22-Jul-2024 13:32:36 Europe/Berlin] [2024-07-22 13:32:36] DEBUG: Parameters to be bound: {":date":"2024-07-22",":timeStart":"00:00:00",":timeEnd":"00:00:00"}
+[22-Jul-2024 13:32:36 Europe/Berlin] [2024-07-22 13:32:36] DEBUG: Query executed successfully. Result count: 56
+[22-Jul-2024 13:32:36 Europe/Berlin] [2024-07-22 13:32:36] DEBUG: Script completed
+[22-Jul-2024 13:34:52 Europe/Berlin] [2024-07-22 13:34:52] DEBUG: Script started
+[22-Jul-2024 13:34:52 Europe/Berlin] [2024-07-22 13:34:52] DEBUG: Received parameters: date=2024-07-22, time_start=00:00:00, time_end=00:00:00
+[22-Jul-2024 13:34:52 Europe/Berlin] [2024-07-22 13:34:52] DEBUG: Prepared SQL query: 
+        SELECT c.CName, 
+               CASE WHEN b.ID IS NULL THEN 1 ELSE 0 END AS available
+        FROM CLASSROOM c
+        LEFT JOIN BOOKING b ON c.CName = b.Classroom
+            AND b.Booking_Date = :date
+        LEFT JOIN ENTRY e ON e.ID = b.Entry_ID
+        WHERE b.ID IS NULL OR (
+            e.Time_Start < :timeEnd AND e.Time_End > :timeStart
+        )
+    
+[22-Jul-2024 13:34:52 Europe/Berlin] [2024-07-22 13:34:52] DEBUG: Parameters to be bound: {":date":"2024-07-22",":timeStart":"00:00:00",":timeEnd":"00:00:00"}
+[22-Jul-2024 13:34:52 Europe/Berlin] [2024-07-22 13:34:52] DEBUG: Query executed successfully. Result count: 56
+[22-Jul-2024 13:34:52 Europe/Berlin] [2024-07-22 13:34:52] DEBUG: Script completed
+[22-Jul-2024 13:34:54 Europe/Berlin] [2024-07-22 13:34:54] DEBUG: Script started
+[22-Jul-2024 13:34:54 Europe/Berlin] [2024-07-22 13:34:54] DEBUG: Received parameters: date=2024-07-22, time_start=00:00:00, time_end=00:00:00
+[22-Jul-2024 13:34:54 Europe/Berlin] [2024-07-22 13:34:54] DEBUG: Prepared SQL query: 
+        SELECT c.CName, 
+               CASE WHEN b.ID IS NULL THEN 1 ELSE 0 END AS available
+        FROM CLASSROOM c
+        LEFT JOIN BOOKING b ON c.CName = b.Classroom
+            AND b.Booking_Date = :date
+        LEFT JOIN ENTRY e ON e.ID = b.Entry_ID
+        WHERE b.ID IS NULL OR (
+            e.Time_Start < :timeEnd AND e.Time_End > :timeStart
+        )
+    
+[22-Jul-2024 13:34:54 Europe/Berlin] [2024-07-22 13:34:54] DEBUG: Parameters to be bound: {":date":"2024-07-22",":timeStart":"00:00:00",":timeEnd":"00:00:00"}
+[22-Jul-2024 13:34:54 Europe/Berlin] [2024-07-22 13:34:54] DEBUG: Query executed successfully. Result count: 56
+[22-Jul-2024 13:34:54 Europe/Berlin] [2024-07-22 13:34:54] DEBUG: Script completed
+[22-Jul-2024 13:34:57 Europe/Berlin] [2024-07-22 13:34:57] DEBUG: Script started
+[22-Jul-2024 13:34:57 Europe/Berlin] [2024-07-22 13:34:57] DEBUG: Received parameters: date=2024-07-22, time_start=13:30:00, time_end=00:00:00
+[22-Jul-2024 13:34:57 Europe/Berlin] [2024-07-22 13:34:57] DEBUG: Prepared SQL query: 
+        SELECT c.CName, 
+               CASE WHEN b.ID IS NULL THEN 1 ELSE 0 END AS available
+        FROM CLASSROOM c
+        LEFT JOIN BOOKING b ON c.CName = b.Classroom
+            AND b.Booking_Date = :date
+        LEFT JOIN ENTRY e ON e.ID = b.Entry_ID
+        WHERE b.ID IS NULL OR (
+            e.Time_Start < :timeEnd AND e.Time_End > :timeStart
+        )
+    
+[22-Jul-2024 13:34:57 Europe/Berlin] [2024-07-22 13:34:57] DEBUG: Parameters to be bound: {":date":"2024-07-22",":timeStart":"13:30:00",":timeEnd":"00:00:00"}
+[22-Jul-2024 13:34:57 Europe/Berlin] [2024-07-22 13:34:57] DEBUG: Query executed successfully. Result count: 56
+[22-Jul-2024 13:34:57 Europe/Berlin] [2024-07-22 13:34:57] DEBUG: Script completed
+[22-Jul-2024 13:34:59 Europe/Berlin] [2024-07-22 13:34:59] DEBUG: Script started
+[22-Jul-2024 13:34:59 Europe/Berlin] [2024-07-22 13:34:59] DEBUG: Received parameters: date=2024-07-22, time_start=13:30:00, time_end=15:30
+[22-Jul-2024 13:34:59 Europe/Berlin] [2024-07-22 13:34:59] DEBUG: Prepared SQL query: 
+        SELECT c.CName, 
+               CASE WHEN b.ID IS NULL THEN 1 ELSE 0 END AS available
+        FROM CLASSROOM c
+        LEFT JOIN BOOKING b ON c.CName = b.Classroom
+            AND b.Booking_Date = :date
+        LEFT JOIN ENTRY e ON e.ID = b.Entry_ID
+        WHERE b.ID IS NULL OR (
+            e.Time_Start < :timeEnd AND e.Time_End > :timeStart
+        )
+    
+[22-Jul-2024 13:34:59 Europe/Berlin] [2024-07-22 13:34:59] DEBUG: Parameters to be bound: {":date":"2024-07-22",":timeStart":"13:30:00",":timeEnd":"15:30"}
+[22-Jul-2024 13:34:59 Europe/Berlin] [2024-07-22 13:34:59] DEBUG: Query executed successfully. Result count: 56
+[22-Jul-2024 13:34:59 Europe/Berlin] [2024-07-22 13:34:59] DEBUG: Script completed
+[22-Jul-2024 13:34:59 Europe/Berlin] [2024-07-22 13:34:59] DEBUG: Script started
+[22-Jul-2024 13:34:59 Europe/Berlin] [2024-07-22 13:34:59] DEBUG: Received parameters: date=2024-07-22, time_start=13:30:00, time_end=15:30
+[22-Jul-2024 13:34:59 Europe/Berlin] [2024-07-22 13:34:59] DEBUG: Prepared SQL query: 
+        SELECT c.CName, 
+               CASE WHEN b.ID IS NULL THEN 1 ELSE 0 END AS available
+        FROM CLASSROOM c
+        LEFT JOIN BOOKING b ON c.CName = b.Classroom
+            AND b.Booking_Date = :date
+        LEFT JOIN ENTRY e ON e.ID = b.Entry_ID
+        WHERE b.ID IS NULL OR (
+            e.Time_Start < :timeEnd AND e.Time_End > :timeStart
+        )
+    
+[22-Jul-2024 13:34:59 Europe/Berlin] [2024-07-22 13:34:59] DEBUG: Parameters to be bound: {":date":"2024-07-22",":timeStart":"13:30:00",":timeEnd":"15:30"}
+[22-Jul-2024 13:34:59 Europe/Berlin] [2024-07-22 13:34:59] DEBUG: Query executed successfully. Result count: 56
+[22-Jul-2024 13:34:59 Europe/Berlin] [2024-07-22 13:34:59] DEBUG: Script completed
+[22-Jul-2024 13:35:00 Europe/Berlin] [2024-07-22 13:35:00] DEBUG: Script started
+[22-Jul-2024 13:35:00 Europe/Berlin] [2024-07-22 13:35:00] DEBUG: Received parameters: date=2024-07-22, time_start=13:30:00, time_end=15:30
+[22-Jul-2024 13:35:00 Europe/Berlin] [2024-07-22 13:35:00] DEBUG: Prepared SQL query: 
+        SELECT c.CName, 
+               CASE WHEN b.ID IS NULL THEN 1 ELSE 0 END AS available
+        FROM CLASSROOM c
+        LEFT JOIN BOOKING b ON c.CName = b.Classroom
+            AND b.Booking_Date = :date
+        LEFT JOIN ENTRY e ON e.ID = b.Entry_ID
+        WHERE b.ID IS NULL OR (
+            e.Time_Start < :timeEnd AND e.Time_End > :timeStart
+        )
+    
+[22-Jul-2024 13:35:00 Europe/Berlin] [2024-07-22 13:35:00] DEBUG: Parameters to be bound: {":date":"2024-07-22",":timeStart":"13:30:00",":timeEnd":"15:30"}
+[22-Jul-2024 13:35:00 Europe/Berlin] [2024-07-22 13:35:00] DEBUG: Query executed successfully. Result count: 56
+[22-Jul-2024 13:35:00 Europe/Berlin] [2024-07-22 13:35:00] DEBUG: Script completed
+[22-Jul-2024 13:35:00 Europe/Berlin] [2024-07-22 13:35:00] DEBUG: Script started
+[22-Jul-2024 13:35:00 Europe/Berlin] [2024-07-22 13:35:00] DEBUG: Received parameters: date=2024-07-22, time_start=13:30:00, time_end=15:30
+[22-Jul-2024 13:35:00 Europe/Berlin] [2024-07-22 13:35:00] DEBUG: Prepared SQL query: 
+        SELECT c.CName, 
+               CASE WHEN b.ID IS NULL THEN 1 ELSE 0 END AS available
+        FROM CLASSROOM c
+        LEFT JOIN BOOKING b ON c.CName = b.Classroom
+            AND b.Booking_Date = :date
+        LEFT JOIN ENTRY e ON e.ID = b.Entry_ID
+        WHERE b.ID IS NULL OR (
+            e.Time_Start < :timeEnd AND e.Time_End > :timeStart
+        )
+    
+[22-Jul-2024 13:35:00 Europe/Berlin] [2024-07-22 13:35:00] DEBUG: Parameters to be bound: {":date":"2024-07-22",":timeStart":"13:30:00",":timeEnd":"15:30"}
+[22-Jul-2024 13:35:00 Europe/Berlin] [2024-07-22 13:35:00] DEBUG: Query executed successfully. Result count: 56
+[22-Jul-2024 13:35:00 Europe/Berlin] [2024-07-22 13:35:00] DEBUG: Script completed
+[22-Jul-2024 13:35:01 Europe/Berlin] [2024-07-22 13:35:01] DEBUG: Script started
+[22-Jul-2024 13:35:01 Europe/Berlin] [2024-07-22 13:35:01] DEBUG: Received parameters: date=2024-07-22, time_start=13:30:00, time_end=15:30
+[22-Jul-2024 13:35:01 Europe/Berlin] [2024-07-22 13:35:01] DEBUG: Prepared SQL query: 
+        SELECT c.CName, 
+               CASE WHEN b.ID IS NULL THEN 1 ELSE 0 END AS available
+        FROM CLASSROOM c
+        LEFT JOIN BOOKING b ON c.CName = b.Classroom
+            AND b.Booking_Date = :date
+        LEFT JOIN ENTRY e ON e.ID = b.Entry_ID
+        WHERE b.ID IS NULL OR (
+            e.Time_Start < :timeEnd AND e.Time_End > :timeStart
+        )
+    
+[22-Jul-2024 13:35:01 Europe/Berlin] [2024-07-22 13:35:01] DEBUG: Parameters to be bound: {":date":"2024-07-22",":timeStart":"13:30:00",":timeEnd":"15:30"}
+[22-Jul-2024 13:35:01 Europe/Berlin] [2024-07-22 13:35:01] DEBUG: Query executed successfully. Result count: 56
+[22-Jul-2024 13:35:01 Europe/Berlin] [2024-07-22 13:35:01] DEBUG: Script completed
+[22-Jul-2024 13:35:02 Europe/Berlin] [2024-07-22 13:35:02] DEBUG: Script started
+[22-Jul-2024 13:35:02 Europe/Berlin] [2024-07-22 13:35:02] DEBUG: Received parameters: date=2024-07-22, time_start=13:30:00, time_end=15:30
+[22-Jul-2024 13:35:02 Europe/Berlin] [2024-07-22 13:35:02] DEBUG: Prepared SQL query: 
+        SELECT c.CName, 
+               CASE WHEN b.ID IS NULL THEN 1 ELSE 0 END AS available
+        FROM CLASSROOM c
+        LEFT JOIN BOOKING b ON c.CName = b.Classroom
+            AND b.Booking_Date = :date
+        LEFT JOIN ENTRY e ON e.ID = b.Entry_ID
+        WHERE b.ID IS NULL OR (
+            e.Time_Start < :timeEnd AND e.Time_End > :timeStart
+        )
+    
+[22-Jul-2024 13:35:02 Europe/Berlin] [2024-07-22 13:35:02] DEBUG: Parameters to be bound: {":date":"2024-07-22",":timeStart":"13:30:00",":timeEnd":"15:30"}
+[22-Jul-2024 13:35:02 Europe/Berlin] [2024-07-22 13:35:02] DEBUG: Query executed successfully. Result count: 56
+[22-Jul-2024 13:35:02 Europe/Berlin] [2024-07-22 13:35:02] DEBUG: Script completed
+[22-Jul-2024 13:35:02 Europe/Berlin] [2024-07-22 13:35:02] DEBUG: Script started
+[22-Jul-2024 13:35:02 Europe/Berlin] [2024-07-22 13:35:02] DEBUG: Received parameters: date=2024-07-22, time_start=13:30:00, time_end=15:30
+[22-Jul-2024 13:35:02 Europe/Berlin] [2024-07-22 13:35:02] DEBUG: Prepared SQL query: 
+        SELECT c.CName, 
+               CASE WHEN b.ID IS NULL THEN 1 ELSE 0 END AS available
+        FROM CLASSROOM c
+        LEFT JOIN BOOKING b ON c.CName = b.Classroom
+            AND b.Booking_Date = :date
+        LEFT JOIN ENTRY e ON e.ID = b.Entry_ID
+        WHERE b.ID IS NULL OR (
+            e.Time_Start < :timeEnd AND e.Time_End > :timeStart
+        )
+    
+[22-Jul-2024 13:35:02 Europe/Berlin] [2024-07-22 13:35:02] DEBUG: Parameters to be bound: {":date":"2024-07-22",":timeStart":"13:30:00",":timeEnd":"15:30"}
+[22-Jul-2024 13:35:02 Europe/Berlin] [2024-07-22 13:35:02] DEBUG: Query executed successfully. Result count: 56
+[22-Jul-2024 13:35:02 Europe/Berlin] [2024-07-22 13:35:02] DEBUG: Script completed
+[22-Jul-2024 13:35:03 Europe/Berlin] [2024-07-22 13:35:03] DEBUG: Script started
+[22-Jul-2024 13:35:03 Europe/Berlin] [2024-07-22 13:35:03] DEBUG: Received parameters: date=2024-07-22, time_start=13:30:00, time_end=15:30
+[22-Jul-2024 13:35:03 Europe/Berlin] [2024-07-22 13:35:03] DEBUG: Prepared SQL query: 
+        SELECT c.CName, 
+               CASE WHEN b.ID IS NULL THEN 1 ELSE 0 END AS available
+        FROM CLASSROOM c
+        LEFT JOIN BOOKING b ON c.CName = b.Classroom
+            AND b.Booking_Date = :date
+        LEFT JOIN ENTRY e ON e.ID = b.Entry_ID
+        WHERE b.ID IS NULL OR (
+            e.Time_Start < :timeEnd AND e.Time_End > :timeStart
+        )
+    
+[22-Jul-2024 13:35:03 Europe/Berlin] [2024-07-22 13:35:03] DEBUG: Parameters to be bound: {":date":"2024-07-22",":timeStart":"13:30:00",":timeEnd":"15:30"}
+[22-Jul-2024 13:35:03 Europe/Berlin] [2024-07-22 13:35:03] DEBUG: Query executed successfully. Result count: 56
+[22-Jul-2024 13:35:03 Europe/Berlin] [2024-07-22 13:35:03] DEBUG: Script completed
+[22-Jul-2024 13:35:03 Europe/Berlin] [2024-07-22 13:35:03] DEBUG: Script started
+[22-Jul-2024 13:35:03 Europe/Berlin] [2024-07-22 13:35:03] DEBUG: Received parameters: date=2024-07-22, time_start=13:30:00, time_end=15:30
+[22-Jul-2024 13:35:03 Europe/Berlin] [2024-07-22 13:35:03] DEBUG: Prepared SQL query: 
+        SELECT c.CName, 
+               CASE WHEN b.ID IS NULL THEN 1 ELSE 0 END AS available
+        FROM CLASSROOM c
+        LEFT JOIN BOOKING b ON c.CName = b.Classroom
+            AND b.Booking_Date = :date
+        LEFT JOIN ENTRY e ON e.ID = b.Entry_ID
+        WHERE b.ID IS NULL OR (
+            e.Time_Start < :timeEnd AND e.Time_End > :timeStart
+        )
+    
+[22-Jul-2024 13:35:03 Europe/Berlin] [2024-07-22 13:35:03] DEBUG: Parameters to be bound: {":date":"2024-07-22",":timeStart":"13:30:00",":timeEnd":"15:30"}
+[22-Jul-2024 13:35:03 Europe/Berlin] [2024-07-22 13:35:03] DEBUG: Query executed successfully. Result count: 56
+[22-Jul-2024 13:35:03 Europe/Berlin] [2024-07-22 13:35:03] DEBUG: Script completed
+[22-Jul-2024 13:35:04 Europe/Berlin] [2024-07-22 13:35:04] DEBUG: Script started
+[22-Jul-2024 13:35:04 Europe/Berlin] [2024-07-22 13:35:04] DEBUG: Received parameters: date=2024-07-22, time_start=13:30:00, time_end=15:30
+[22-Jul-2024 13:35:04 Europe/Berlin] [2024-07-22 13:35:04] DEBUG: Prepared SQL query: 
+        SELECT c.CName, 
+               CASE WHEN b.ID IS NULL THEN 1 ELSE 0 END AS available
+        FROM CLASSROOM c
+        LEFT JOIN BOOKING b ON c.CName = b.Classroom
+            AND b.Booking_Date = :date
+        LEFT JOIN ENTRY e ON e.ID = b.Entry_ID
+        WHERE b.ID IS NULL OR (
+            e.Time_Start < :timeEnd AND e.Time_End > :timeStart
+        )
+    
+[22-Jul-2024 13:35:04 Europe/Berlin] [2024-07-22 13:35:04] DEBUG: Parameters to be bound: {":date":"2024-07-22",":timeStart":"13:30:00",":timeEnd":"15:30"}
+[22-Jul-2024 13:35:04 Europe/Berlin] [2024-07-22 13:35:04] DEBUG: Query executed successfully. Result count: 56
+[22-Jul-2024 13:35:04 Europe/Berlin] [2024-07-22 13:35:04] DEBUG: Script completed
+[22-Jul-2024 13:35:04 Europe/Berlin] [2024-07-22 13:35:04] DEBUG: Script started
+[22-Jul-2024 13:35:04 Europe/Berlin] [2024-07-22 13:35:04] DEBUG: Received parameters: date=2024-07-22, time_start=13:30:00, time_end=15:30
+[22-Jul-2024 13:35:04 Europe/Berlin] [2024-07-22 13:35:04] DEBUG: Prepared SQL query: 
+        SELECT c.CName, 
+               CASE WHEN b.ID IS NULL THEN 1 ELSE 0 END AS available
+        FROM CLASSROOM c
+        LEFT JOIN BOOKING b ON c.CName = b.Classroom
+            AND b.Booking_Date = :date
+        LEFT JOIN ENTRY e ON e.ID = b.Entry_ID
+        WHERE b.ID IS NULL OR (
+            e.Time_Start < :timeEnd AND e.Time_End > :timeStart
+        )
+    
+[22-Jul-2024 13:35:04 Europe/Berlin] [2024-07-22 13:35:04] DEBUG: Parameters to be bound: {":date":"2024-07-22",":timeStart":"13:30:00",":timeEnd":"15:30"}
+[22-Jul-2024 13:35:04 Europe/Berlin] [2024-07-22 13:35:04] DEBUG: Query executed successfully. Result count: 56
+[22-Jul-2024 13:35:04 Europe/Berlin] [2024-07-22 13:35:04] DEBUG: Script completed
+[22-Jul-2024 13:35:06 Europe/Berlin] [2024-07-22 13:35:06] DEBUG: Script started
+[22-Jul-2024 13:35:06 Europe/Berlin] [2024-07-22 13:35:06] DEBUG: Received parameters: date=2024-07-22, time_start=13:30:00, time_end=15:30
+[22-Jul-2024 13:35:06 Europe/Berlin] [2024-07-22 13:35:06] DEBUG: Prepared SQL query: 
+        SELECT c.CName, 
+               CASE WHEN b.ID IS NULL THEN 1 ELSE 0 END AS available
+        FROM CLASSROOM c
+        LEFT JOIN BOOKING b ON c.CName = b.Classroom
+            AND b.Booking_Date = :date
+        LEFT JOIN ENTRY e ON e.ID = b.Entry_ID
+        WHERE b.ID IS NULL OR (
+            e.Time_Start < :timeEnd AND e.Time_End > :timeStart
+        )
+    
+[22-Jul-2024 13:35:06 Europe/Berlin] [2024-07-22 13:35:06] DEBUG: Parameters to be bound: {":date":"2024-07-22",":timeStart":"13:30:00",":timeEnd":"15:30"}
+[22-Jul-2024 13:35:06 Europe/Berlin] [2024-07-22 13:35:06] DEBUG: Query executed successfully. Result count: 56
+[22-Jul-2024 13:35:06 Europe/Berlin] [2024-07-22 13:35:06] DEBUG: Script completed
+[22-Jul-2024 13:35:07 Europe/Berlin] [2024-07-22 13:35:07] DEBUG: Script started
+[22-Jul-2024 13:35:07 Europe/Berlin] [2024-07-22 13:35:07] DEBUG: Received parameters: date=2024-07-22, time_start=13:30:00, time_end=15:30
+[22-Jul-2024 13:35:07 Europe/Berlin] [2024-07-22 13:35:07] DEBUG: Prepared SQL query: 
+        SELECT c.CName, 
+               CASE WHEN b.ID IS NULL THEN 1 ELSE 0 END AS available
+        FROM CLASSROOM c
+        LEFT JOIN BOOKING b ON c.CName = b.Classroom
+            AND b.Booking_Date = :date
+        LEFT JOIN ENTRY e ON e.ID = b.Entry_ID
+        WHERE b.ID IS NULL OR (
+            e.Time_Start < :timeEnd AND e.Time_End > :timeStart
+        )
+    
+[22-Jul-2024 13:35:07 Europe/Berlin] [2024-07-22 13:35:07] DEBUG: Parameters to be bound: {":date":"2024-07-22",":timeStart":"13:30:00",":timeEnd":"15:30"}
+[22-Jul-2024 13:35:07 Europe/Berlin] [2024-07-22 13:35:07] DEBUG: Query executed successfully. Result count: 56
+[22-Jul-2024 13:35:07 Europe/Berlin] [2024-07-22 13:35:07] DEBUG: Script completed
+[22-Jul-2024 13:35:07 Europe/Berlin] [2024-07-22 13:35:07] DEBUG: Script started
+[22-Jul-2024 13:35:07 Europe/Berlin] [2024-07-22 13:35:07] DEBUG: Received parameters: date=2024-07-22, time_start=13:30:00, time_end=15:30
+[22-Jul-2024 13:35:07 Europe/Berlin] [2024-07-22 13:35:07] DEBUG: Prepared SQL query: 
+        SELECT c.CName, 
+               CASE WHEN b.ID IS NULL THEN 1 ELSE 0 END AS available
+        FROM CLASSROOM c
+        LEFT JOIN BOOKING b ON c.CName = b.Classroom
+            AND b.Booking_Date = :date
+        LEFT JOIN ENTRY e ON e.ID = b.Entry_ID
+        WHERE b.ID IS NULL OR (
+            e.Time_Start < :timeEnd AND e.Time_End > :timeStart
+        )
+    
+[22-Jul-2024 13:35:07 Europe/Berlin] [2024-07-22 13:35:07] DEBUG: Parameters to be bound: {":date":"2024-07-22",":timeStart":"13:30:00",":timeEnd":"15:30"}
+[22-Jul-2024 13:35:07 Europe/Berlin] [2024-07-22 13:35:07] DEBUG: Query executed successfully. Result count: 56
+[22-Jul-2024 13:35:07 Europe/Berlin] [2024-07-22 13:35:07] DEBUG: Script completed
+[22-Jul-2024 13:35:08 Europe/Berlin] [2024-07-22 13:35:08] DEBUG: Script started
+[22-Jul-2024 13:35:08 Europe/Berlin] [2024-07-22 13:35:08] DEBUG: Received parameters: date=2024-07-22, time_start=13:30:00, time_end=15:30
+[22-Jul-2024 13:35:08 Europe/Berlin] [2024-07-22 13:35:08] DEBUG: Prepared SQL query: 
+        SELECT c.CName, 
+               CASE WHEN b.ID IS NULL THEN 1 ELSE 0 END AS available
+        FROM CLASSROOM c
+        LEFT JOIN BOOKING b ON c.CName = b.Classroom
+            AND b.Booking_Date = :date
+        LEFT JOIN ENTRY e ON e.ID = b.Entry_ID
+        WHERE b.ID IS NULL OR (
+            e.Time_Start < :timeEnd AND e.Time_End > :timeStart
+        )
+    
+[22-Jul-2024 13:35:08 Europe/Berlin] [2024-07-22 13:35:08] DEBUG: Parameters to be bound: {":date":"2024-07-22",":timeStart":"13:30:00",":timeEnd":"15:30"}
+[22-Jul-2024 13:35:08 Europe/Berlin] [2024-07-22 13:35:08] DEBUG: Query executed successfully. Result count: 56
+[22-Jul-2024 13:35:08 Europe/Berlin] [2024-07-22 13:35:08] DEBUG: Script completed
+[22-Jul-2024 13:35:10 Europe/Berlin] [2024-07-22 13:35:10] DEBUG: Script started
+[22-Jul-2024 13:35:10 Europe/Berlin] [2024-07-22 13:35:10] DEBUG: Received parameters: date=2024-07-22, time_start=13:30:00, time_end=15:30
+[22-Jul-2024 13:35:10 Europe/Berlin] [2024-07-22 13:35:10] DEBUG: Prepared SQL query: 
+        SELECT c.CName, 
+               CASE WHEN b.ID IS NULL THEN 1 ELSE 0 END AS available
+        FROM CLASSROOM c
+        LEFT JOIN BOOKING b ON c.CName = b.Classroom
+            AND b.Booking_Date = :date
+        LEFT JOIN ENTRY e ON e.ID = b.Entry_ID
+        WHERE b.ID IS NULL OR (
+            e.Time_Start < :timeEnd AND e.Time_End > :timeStart
+        )
+    
+[22-Jul-2024 13:35:10 Europe/Berlin] [2024-07-22 13:35:10] DEBUG: Parameters to be bound: {":date":"2024-07-22",":timeStart":"13:30:00",":timeEnd":"15:30"}
+[22-Jul-2024 13:35:10 Europe/Berlin] [2024-07-22 13:35:10] DEBUG: Query executed successfully. Result count: 56
+[22-Jul-2024 13:35:10 Europe/Berlin] [2024-07-22 13:35:10] DEBUG: Script completed
+[22-Jul-2024 13:35:10 Europe/Berlin] [2024-07-22 13:35:10] DEBUG: Script started
+[22-Jul-2024 13:35:10 Europe/Berlin] [2024-07-22 13:35:10] DEBUG: Received parameters: date=2024-07-22, time_start=13:30:00, time_end=15:30
+[22-Jul-2024 13:35:10 Europe/Berlin] [2024-07-22 13:35:10] DEBUG: Prepared SQL query: 
+        SELECT c.CName, 
+               CASE WHEN b.ID IS NULL THEN 1 ELSE 0 END AS available
+        FROM CLASSROOM c
+        LEFT JOIN BOOKING b ON c.CName = b.Classroom
+            AND b.Booking_Date = :date
+        LEFT JOIN ENTRY e ON e.ID = b.Entry_ID
+        WHERE b.ID IS NULL OR (
+            e.Time_Start < :timeEnd AND e.Time_End > :timeStart
+        )
+    
+[22-Jul-2024 13:35:10 Europe/Berlin] [2024-07-22 13:35:10] DEBUG: Parameters to be bound: {":date":"2024-07-22",":timeStart":"13:30:00",":timeEnd":"15:30"}
+[22-Jul-2024 13:35:10 Europe/Berlin] [2024-07-22 13:35:10] DEBUG: Query executed successfully. Result count: 56
+[22-Jul-2024 13:35:10 Europe/Berlin] [2024-07-22 13:35:10] DEBUG: Script completed
+[22-Jul-2024 13:35:11 Europe/Berlin] [2024-07-22 13:35:11] DEBUG: Script started
+[22-Jul-2024 13:35:11 Europe/Berlin] [2024-07-22 13:35:11] DEBUG: Received parameters: date=2024-07-22, time_start=00:00:00, time_end=00:00:00
+[22-Jul-2024 13:35:11 Europe/Berlin] [2024-07-22 13:35:11] DEBUG: Prepared SQL query: 
+        SELECT c.CName, 
+               CASE WHEN b.ID IS NULL THEN 1 ELSE 0 END AS available
+        FROM CLASSROOM c
+        LEFT JOIN BOOKING b ON c.CName = b.Classroom
+            AND b.Booking_Date = :date
+        LEFT JOIN ENTRY e ON e.ID = b.Entry_ID
+        WHERE b.ID IS NULL OR (
+            e.Time_Start < :timeEnd AND e.Time_End > :timeStart
+        )
+    
+[22-Jul-2024 13:35:11 Europe/Berlin] [2024-07-22 13:35:11] DEBUG: Parameters to be bound: {":date":"2024-07-22",":timeStart":"00:00:00",":timeEnd":"00:00:00"}
+[22-Jul-2024 13:35:11 Europe/Berlin] [2024-07-22 13:35:11] DEBUG: Query executed successfully. Result count: 56
+[22-Jul-2024 13:35:11 Europe/Berlin] [2024-07-22 13:35:11] DEBUG: Script completed
+[22-Jul-2024 13:36:41 Europe/Berlin] [2024-07-22 13:36:41] DEBUG: Script started
+[22-Jul-2024 13:36:41 Europe/Berlin] [2024-07-22 13:36:41] DEBUG: Received parameters: date=2024-07-22, time_start=00:00:00, time_end=00:00:00
+[22-Jul-2024 13:36:41 Europe/Berlin] [2024-07-22 13:36:41] DEBUG: Prepared SQL query: 
+        SELECT c.CName, 
+               CASE WHEN b.ID IS NULL THEN 1 ELSE 0 END AS available
+        FROM CLASSROOM c
+        LEFT JOIN BOOKING b ON c.CName = b.Classroom
+            AND b.Booking_Date = :date
+        LEFT JOIN ENTRY e ON e.ID = b.Entry_ID
+        WHERE b.ID IS NULL OR (
+            e.Time_Start < :timeEnd AND e.Time_End > :timeStart
+        )
+    
+[22-Jul-2024 13:36:41 Europe/Berlin] [2024-07-22 13:36:41] DEBUG: Parameters to be bound: {":date":"2024-07-22",":timeStart":"00:00:00",":timeEnd":"00:00:00"}
+[22-Jul-2024 13:36:41 Europe/Berlin] [2024-07-22 13:36:41] DEBUG: Query executed successfully. Result count: 56
+[22-Jul-2024 13:36:41 Europe/Berlin] [2024-07-22 13:36:41] DEBUG: Script completed
+[22-Jul-2024 13:36:42 Europe/Berlin] [2024-07-22 13:36:42] DEBUG: Script started
+[22-Jul-2024 13:36:42 Europe/Berlin] [2024-07-22 13:36:42] DEBUG: Received parameters: date=2024-07-22, time_start=00:00:00, time_end=00:00:00
+[22-Jul-2024 13:36:42 Europe/Berlin] [2024-07-22 13:36:42] DEBUG: Prepared SQL query: 
+        SELECT c.CName, 
+               CASE WHEN b.ID IS NULL THEN 1 ELSE 0 END AS available
+        FROM CLASSROOM c
+        LEFT JOIN BOOKING b ON c.CName = b.Classroom
+            AND b.Booking_Date = :date
+        LEFT JOIN ENTRY e ON e.ID = b.Entry_ID
+        WHERE b.ID IS NULL OR (
+            e.Time_Start < :timeEnd AND e.Time_End > :timeStart
+        )
+    
+[22-Jul-2024 13:36:42 Europe/Berlin] [2024-07-22 13:36:42] DEBUG: Parameters to be bound: {":date":"2024-07-22",":timeStart":"00:00:00",":timeEnd":"00:00:00"}
+[22-Jul-2024 13:36:42 Europe/Berlin] [2024-07-22 13:36:42] DEBUG: Query executed successfully. Result count: 56
+[22-Jul-2024 13:36:42 Europe/Berlin] [2024-07-22 13:36:42] DEBUG: Script completed
+[22-Jul-2024 13:36:43 Europe/Berlin] [2024-07-22 13:36:43] DEBUG: Script started
+[22-Jul-2024 13:36:43 Europe/Berlin] [2024-07-22 13:36:43] DEBUG: Received parameters: date=2024-07-22, time_start=00:00:00, time_end=00:00:00
+[22-Jul-2024 13:36:43 Europe/Berlin] [2024-07-22 13:36:43] DEBUG: Prepared SQL query: 
+        SELECT c.CName, 
+               CASE WHEN b.ID IS NULL THEN 1 ELSE 0 END AS available
+        FROM CLASSROOM c
+        LEFT JOIN BOOKING b ON c.CName = b.Classroom
+            AND b.Booking_Date = :date
+        LEFT JOIN ENTRY e ON e.ID = b.Entry_ID
+        WHERE b.ID IS NULL OR (
+            e.Time_Start < :timeEnd AND e.Time_End > :timeStart
+        )
+    
+[22-Jul-2024 13:36:43 Europe/Berlin] [2024-07-22 13:36:43] DEBUG: Parameters to be bound: {":date":"2024-07-22",":timeStart":"00:00:00",":timeEnd":"00:00:00"}
+[22-Jul-2024 13:36:43 Europe/Berlin] [2024-07-22 13:36:43] DEBUG: Query executed successfully. Result count: 56
+[22-Jul-2024 13:36:43 Europe/Berlin] [2024-07-22 13:36:43] DEBUG: Script completed
+[22-Jul-2024 13:36:44 Europe/Berlin] [2024-07-22 13:36:44] DEBUG: Script started
+[22-Jul-2024 13:36:44 Europe/Berlin] [2024-07-22 13:36:44] DEBUG: Received parameters: date=2024-07-22, time_start=00:00:00, time_end=00:00:00
+[22-Jul-2024 13:36:44 Europe/Berlin] [2024-07-22 13:36:44] DEBUG: Prepared SQL query: 
+        SELECT c.CName, 
+               CASE WHEN b.ID IS NULL THEN 1 ELSE 0 END AS available
+        FROM CLASSROOM c
+        LEFT JOIN BOOKING b ON c.CName = b.Classroom
+            AND b.Booking_Date = :date
+        LEFT JOIN ENTRY e ON e.ID = b.Entry_ID
+        WHERE b.ID IS NULL OR (
+            e.Time_Start < :timeEnd AND e.Time_End > :timeStart
+        )
+    
+[22-Jul-2024 13:36:44 Europe/Berlin] [2024-07-22 13:36:44] DEBUG: Parameters to be bound: {":date":"2024-07-22",":timeStart":"00:00:00",":timeEnd":"00:00:00"}
+[22-Jul-2024 13:36:44 Europe/Berlin] [2024-07-22 13:36:44] DEBUG: Query executed successfully. Result count: 56
+[22-Jul-2024 13:36:44 Europe/Berlin] [2024-07-22 13:36:44] DEBUG: Script completed
+[22-Jul-2024 13:36:53 Europe/Berlin] [2024-07-22 13:36:53] DEBUG: Script started
+[22-Jul-2024 13:36:53 Europe/Berlin] [2024-07-22 13:36:53] DEBUG: Received parameters: date=2024-07-22, time_start=00:00:00, time_end=00:00:00
+[22-Jul-2024 13:36:53 Europe/Berlin] [2024-07-22 13:36:53] DEBUG: Prepared SQL query: 
+        SELECT c.CName, 
+               CASE WHEN b.ID IS NULL THEN 1 ELSE 0 END AS available
+        FROM CLASSROOM c
+        LEFT JOIN BOOKING b ON c.CName = b.Classroom
+            AND b.Booking_Date = :date
+        LEFT JOIN ENTRY e ON e.ID = b.Entry_ID
+        WHERE b.ID IS NULL OR (
+            e.Time_Start < :timeEnd AND e.Time_End > :timeStart
+        )
+    
+[22-Jul-2024 13:36:53 Europe/Berlin] [2024-07-22 13:36:53] DEBUG: Parameters to be bound: {":date":"2024-07-22",":timeStart":"00:00:00",":timeEnd":"00:00:00"}
+[22-Jul-2024 13:36:53 Europe/Berlin] [2024-07-22 13:36:53] DEBUG: Query executed successfully. Result count: 56
+[22-Jul-2024 13:36:53 Europe/Berlin] [2024-07-22 13:36:53] DEBUG: Script completed
+[22-Jul-2024 15:12:30 Europe/Berlin] [2024-07-22 15:12:30] DEBUG: Script started
+[22-Jul-2024 15:12:30 Europe/Berlin] [2024-07-22 15:12:30] DEBUG: Received parameters: date=2024-07-22, time_start=00:00:00, time_end=00:00:00
+[22-Jul-2024 15:12:30 Europe/Berlin] [2024-07-22 15:12:30] DEBUG: Prepared SQL query: 
+        SELECT c.CName, 
+               CASE WHEN b.ID IS NULL THEN 1 ELSE 0 END AS available
+        FROM CLASSROOM c
+        LEFT JOIN BOOKING b ON c.CName = b.Classroom
+            AND b.Booking_Date = :date
+        LEFT JOIN ENTRY e ON e.ID = b.Entry_ID
+        WHERE b.ID IS NULL OR (
+            e.Time_Start < :timeEnd AND e.Time_End > :timeStart
+        )
+    
+[22-Jul-2024 15:12:30 Europe/Berlin] [2024-07-22 15:12:30] DEBUG: Parameters to be bound: {":date":"2024-07-22",":timeStart":"00:00:00",":timeEnd":"00:00:00"}
+[22-Jul-2024 15:12:30 Europe/Berlin] [2024-07-22 15:12:30] DEBUG: Query executed successfully. Result count: 56
+[22-Jul-2024 15:12:30 Europe/Berlin] [2024-07-22 15:12:30] DEBUG: Script completed

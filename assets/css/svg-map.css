@@ -1,0 +1,35 @@
+/* available */
+#X1 rect {
+    stroke: rgba(69, 218, 34, 1.0);
+    fill: rgba(69, 218, 34, 0.3);
+}
+#X1 tspan {
+    user-select: none;
+    fill: rgba(49, 136, 28, 1.0);
+}
+#X1:hover rect {
+    stroke: rgba(69, 218, 34, 0.7);
+    fill: rgba(69, 218, 34, 0.2);
+    tspan {
+        fill: rgba(49, 136, 28, 0.8);
+    }
+    cursor: pointer;
+}
+
+/* unavailable */
+#X2 rect{
+    stroke: rgba(218, 34, 34, 0.8);
+    fill: rgba(244, 196, 196, 0.3);
+}
+#X2 tspan {
+    user-select: none;
+    fill: rgba(136, 28, 28, 1.0);
+}
+#X2:hover rect {
+    stroke: rgba(218, 34, 34, 0.5);
+    fill: rgba(244, 196, 196, 0.2);
+    tspan {
+        fill: rgba(136, 28, 28, 0.8);
+}
+    cursor: pointer;
+}

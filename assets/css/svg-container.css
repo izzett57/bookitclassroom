@@ -1,0 +1,10 @@
+.svg-container {
+    width: 100%; /* Adjust based on your layout needs */
+    height: 70vh; /* Maximum size of the container */
+    margin: auto; /* Center the container */
+    border-radius: 8px;
+    overflow: hidden; /* Ensures no overflow of the SVG content */
+}
+.svg-container:active {
+    cursor: grabbing;
+}
