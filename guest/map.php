@@ -87,7 +87,7 @@ $is_logged_in = isset($_SESSION['ID']);
     </head>
     
     <body>
-        <?php include('../assets/navbar-user-back.php'); ?>
+        <?php include('../assets/navbar-guest-back.php'); ?>
 
         <form id="classroomForm" action="classroom-schedule.php" method="GET" class="container main-content bg-white rounded-3 d-flex flex-column justify-content-center py-3">
             <div class="container">

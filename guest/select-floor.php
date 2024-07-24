@@ -29,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     </head>
     
     <body>
-        <?php include('../assets/navbar-user-back.php'); ?>
+        <?php include('../assets/navbar-guest-back.php'); ?>
         
         <div class="container main-content bg-white rounded-3 d-flex flex-column justify-content-center">
             <div class="container">
