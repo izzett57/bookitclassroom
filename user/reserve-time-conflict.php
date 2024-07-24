@@ -39,7 +39,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $choice = $_POST['choice'];
     if ($choice === 'new') {
         // User chose to use the new time
-        // No need to change $reserve_data as it already contains the new time
+        // Update the database with the new time
+        $stmt = $pdo->prepare("UPDATE ENTRY SET Time_Start = ?, Time_End = ? WHERE ID = ?");
+        $stmt->execute([$reserve_data['time_start'], $reserve_data['time_end'], $entry_id]);
     } else {
         // User chose to keep the original time
         $reserve_data['time_start'] = $entry['Time_Start'];
