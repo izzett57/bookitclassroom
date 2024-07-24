@@ -105,13 +105,13 @@ function formatTime($time) {
                                 <td><?php echo htmlspecialchars($booking['FName'] . ' ' . $booking['LName']); ?></td>
                                 <td>
                                 <?php if ($booking['User_ID'] == $_SESSION['ID'] || $is_admin): ?>
-                                    <button type="button" class="btn btn-warning btn-sm" onclick="window.location.href='unreserve.php?id=<?php echo $booking['BookingID']; ?>'">
+                                    <button type="button" class="custom-btn-inline" style="background: none; border: none; cursor: pointer; text-decoration: none;" onclick="window.location.href='unreserve.php?id=<?php echo $booking['BookingID']; ?>'">
                                         Unreserve
                                         <i class="bi bi-bookmark-dash-fill"></i>
                                     </button>
                                 <?php endif; ?>
                                 <?php if ($is_admin): ?>
-                                    <button type="button" class="btn btn-danger btn-sm ms-2" onclick="if(confirm('Are you sure you want to delete this booking?')) window.location.href='delete-booking.php?id=<?php echo $booking['BookingID']; ?>'">
+                                    <button type="button" class="custom-btn-inline" style="background: none; border: none; cursor: pointer; text-decoration: none;" onclick="if(confirm('Are you sure you want to delete this booking?')) window.location.href='delete-booking.php?id=<?php echo $booking['BookingID']; ?>'">
                                         Delete
                                         <i class="bi bi-trash-fill"></i>
                                     </button>
