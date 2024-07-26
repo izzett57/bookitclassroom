@@ -1,3 +1,6 @@
+# this is so that the credentials set don't get pushed to main
+mailer.php
+
 # Compiled source #
 ###################
 *.com
