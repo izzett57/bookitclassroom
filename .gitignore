@@ -1,5 +1,5 @@
 # this is so that the credentials set don't get pushed to main
-mailer.php
+guest/mailer.php
 
 # Compiled source #
 ###################
